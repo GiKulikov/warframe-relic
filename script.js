@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <td>${relic.name}</td>
         
         <td>
-          <a href="https://warframe.market/items/${relic.slug}/dropsources" target="_blank">
+          <a href="https://warframe.market/ru/items/${relic.slug}/dropsources" target="_blank">
             <button>Открыть</button>
           </a>
         </td>
