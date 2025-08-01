@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Реликвии Warframe — Актуальные</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Шапка -->
+  <header>
+    <h1>Актуальные реликвии Warframe</h1>
+    <p id="date">Загрузка даты...</p>
+  </header>
+
+  <!-- Фильтр по типу -->
+  <section id="filters">
+    <label for="typeFilter">Тип реликвии:</label>
+    <select id="typeFilter">
+      <option value="all">Все</option>
+      <option value="Lith">Lith</option>
+      <option value="Meso">Meso</option>
+      <option value="Neo">Neo</option>
+      <option value="Axi">Axi</option>
+    </select>
+  </section>
+
+  <!-- Таблица реликвий -->
+  <main>
+    <table id="relicTable">
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Warframe Market</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Строки добавляются через script.js -->
+      </tbody>
+    </table>
+  </main>
+
+  <!-- Подключаем JS -->
+  <script src="script.js"></script>
+  
+</body>
+ <footer>
+ <p class="footer">Источники данных: 
+      <a href="https://warframe.market" target="_blank" style="color: #3498db;">Warframe Market API</a>, 
+      <a href="https://kusobako.github.io/warframe/available-relics" target="_blank" style="color: #3498db;">Kusobako's Relic List</a>
+    </p>
+    <p>© 2023 Warframe Relic</p>
+ </footer>
+</html>
