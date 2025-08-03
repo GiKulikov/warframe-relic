@@ -1,10 +1,10 @@
 body {
   font-family: sans-serif;
-  background-color: #d1c3d9;
+  background-color: #beb7c2;
   margin: 0;
 }
 main {
-  padding-bottom: 4 0px; /* Добавь отступ снизу */
+  padding-bottom: 40px; 
 }
 header {
   position: sticky;
@@ -12,11 +12,11 @@ header {
   left: 0;
   right: 0;
   text-align: center;
-  background: rgba(215, 202, 228, 0.956); /* Semi-transparent background */
-  backdrop-filter: blur(10px); /* Blur effect */
-  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(10px); 
   z-index: 1000;
-  padding: 60px 0 10px 0;
+  padding: 40px 0 1px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
 }
@@ -63,13 +63,13 @@ h1 {
 
 /* Карточка */
 .relic-card {
-  background-color: #ede3f8eb;
+  background-color: #d5cfd9;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.093);
   padding: 15px 20px;
   display: flex;
-  backdrop-filter: blur(20px); /* Blur effect */
-  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(10px); 
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.2s ease;
@@ -100,11 +100,7 @@ h1 {
   margin-top: auto;
   text-align: right;
 }
-footer {
-  margin-top: 0;
-  padding-top: 40px; /* Вместо margin-top */
-  background-color: #d1c3d9; /* Совпадает с фоном body */
-}
+
 a.market-link {
   background-color: #413e4a;
   color: white;

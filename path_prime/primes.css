@@ -1,6 +1,6 @@
 body {
   font-family: sans-serif;
-  background-color: #d1c3d9;
+  background-color: #beb7c2;
   margin: 0;
   
 }
@@ -11,11 +11,11 @@ header {
   left: 0;
   right: 0;
   text-align: center;
-  background: rgba(215, 202, 228, 0.956); /* Semi-transparent background */
-  backdrop-filter: blur(10px); /* Blur effect */
-  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(10px); 
   z-index: 1000;
-  padding: 60px 0 10px 0;
+  padding: 40px 0px 1px 0px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
 }
@@ -37,7 +37,7 @@ h1 {
 }
 
 .prime-card {
-  background: #ede3f8eb;
+  background: #d5cfd9;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
