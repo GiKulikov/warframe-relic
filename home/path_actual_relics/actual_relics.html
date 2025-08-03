@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Реликвии Warframe — Актуальные</title>
+  <link rel="stylesheet" href="actual_relics.css" />
+</head>
+<body>
+  <!-- Шапка -->
+  <header>
+    <h1>Актуальные реликвии Warframe</h1>
+    <p id="date">Загрузка даты...</p>
+  </header>
+
+  <!-- Фильтр по типу -->
+  <section id="filters">
+    <label for="typeFilter">Тип реликвии:</label>
+    <select id="typeFilter">
+      <option value="all">Все</option>
+      <option value="Lith">Lith</option>
+      <option value="Meso">Meso</option>
+      <option value="Neo">Neo</option>
+      <option value="Axi">Axi</option>
+    </select>
+  </section>
+
+  <!-- Таблица реликвий -->
+  <main>
+  <div id="relicGrid"></div>
+</main>
+
+  <!-- Подключаем JS -->
+  <script src="/home/script.js"></script>
+  
+</body>
+ 
+</html>

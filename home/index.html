@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Warframe</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="header" class="navbar">
+    <div class="logo">Warframe</div>
+    <nav class="nav-links">
+      <a href="#">Главная</a>
+      <a href="#" onclick="loadIframe('path_actual_relics/actual_relics.html')">Доступные реликвии</a>
+      <a href="#" onclick="loadIframe('path_prime/primes.html')">Доступные прайм детали</a>
+    </nav>
+  </header>
+
+  <div class="content">
+    <iframe id="pageFrame" frameborder="0"></iframe>
+  </div>
+
+  <script src="script.js"></script>
+ <footer>
+ <p class="footer">Источники данных: 
+      <a href="https://warframe.market" target="_blank" style="color: #3498db;">Warframe Market API</a>, 
+      <a href="https://kusobako.github.io/warframe/available-relics" target="_blank" style="color: #3498db;">Kusobako's Relic List</a>,
+      <a href="https://warframe-web-assets.nyc3.cdn.digitaloceanspaces.com/uploads/cms/hnfvc0o3jnfvc873njb03enrf56.html" target="_blank" style="color: #3498db;">warframe-web-assets</a>.
+    </p>
+    <p>© 2023 Warframe Relic</p>
+ </footer>
+</body>
+
+</html>

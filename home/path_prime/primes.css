@@ -1,0 +1,66 @@
+body {
+  font-family: sans-serif;
+  background-color: #d1c3d9;
+  margin: 0;
+  
+}
+
+header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  background: rgba(215, 202, 228, 0.956); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Blur effect */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  z-index: 1000;
+  padding: 60px 0 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+h1 {
+  margin: 0 0 10px;
+  font-size: 28px;
+  color: #413e4a;
+}
+#date {
+  font-size: 14px;
+  color: #777;
+}
+#primesContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 10px 20px;
+  justify-items: center;
+}
+
+.prime-card {
+  background: #ede3f8eb;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+    backdrop-filter: blur(20px); /* Blur effect */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  max-width: 300px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.prime-card:hover {
+  transform: translateY(-5px);
+  color: #44376e;
+  transition: color 0.2s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.prime-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+

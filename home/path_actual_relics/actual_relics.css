@@ -1,0 +1,132 @@
+body {
+  font-family: sans-serif;
+  background-color: #d1c3d9;
+  margin: 0;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  background: rgba(215, 202, 228, 0.956); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Blur effect */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  z-index: 1000;
+  padding: 60px 0 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 28px;
+  color: #413e4a;
+}
+
+#date {
+  font-size: 14px;
+  color: #777;
+}
+
+#filters {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin: 20px 0 20px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+#typeFilter {
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #ffffff;
+
+  background-color: #413e4a;
+  border: 2px solid #d1c3d9;
+  font-size: 13px;
+}
+
+/* Сетка карточек */
+#relicGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 5px;
+}
+
+/* Карточка */
+.relic-card {
+  background-color: #ede3f8eb;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.093);
+  padding: 15px 20px;
+  display: flex;
+  backdrop-filter: blur(20px); /* Blur effect */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+}
+
+.relic-card:hover {
+  transform: scale(1.03);
+}
+
+.relic-card:hover .relic-title {
+  color: #44376e;
+}
+
+.relic-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #413e4a;
+  margin-bottom: 10px;
+  transition: color 0.3s ease; /* Добавляем плавный переход */
+}
+.relic-tier {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.relic-link {
+  margin-top: auto;
+  text-align: right;
+}
+
+a.market-link {
+  background-color: #413e4a;
+  color: white;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 13px;
+  transition: background-color 0.2s;
+}
+
+a.market-link:hover {
+  background-color: #5d46a7;
+}
+
+footer {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+
+.footer a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
