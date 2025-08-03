@@ -47,7 +47,11 @@ h1 {
   transform: translateY(-5px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
-
+footer{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
 .part-card button {
   margin: 5px 10px;
   padding: 8px 12px;

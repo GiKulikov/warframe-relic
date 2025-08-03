@@ -49,6 +49,11 @@ h1 {
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
+footer{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
 
 .prime-card:hover {
   transform: translateY(-5px);

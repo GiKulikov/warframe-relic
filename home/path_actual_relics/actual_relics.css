@@ -3,7 +3,9 @@ body {
   background-color: #d1c3d9;
   margin: 0;
 }
-
+main {
+  padding-bottom: 4 0px; /* Добавь отступ снизу */
+}
 header {
   position: sticky;
   top: 0;
@@ -53,8 +55,8 @@ h1 {
 #relicGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  max-width: 100%;
+  gap: 50px;
+  max-width: 95%;
   margin: 0 auto;
   padding: 5px;
 }
@@ -82,14 +84,14 @@ h1 {
 }
 
 .relic-title {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: bold;
   color: #413e4a;
   margin-bottom: 10px;
   transition: color 0.3s ease; /* Добавляем плавный переход */
 }
 .relic-tier {
-  font-size: 13px;
+  font-size: 14px;
   color: #888;
   margin-bottom: 12px;
 }
@@ -98,7 +100,11 @@ h1 {
   margin-top: auto;
   text-align: right;
 }
-
+footer {
+  margin-top: 0;
+  padding-top: 40px; /* Вместо margin-top */
+  background-color: #d1c3d9; /* Совпадает с фоном body */
+}
 a.market-link {
   background-color: #413e4a;
   color: white;
