@@ -99,7 +99,7 @@ async function main() {
     });
   });
 
-  const outputDir = './public'; // или './data' — смотри где у тебя JSON-файлы
+  const outputDir = '/warframeInfo'; 
   if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir);
 
   fs.writeFileSync(`${outputDir}/relics.json`, JSON.stringify(relics, null, 2));
