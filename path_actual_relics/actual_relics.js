@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
  
   
 
-  const res = await fetch('/relics.json');
+  const res = await fetch('relics.json');
   const relics = await res.json();
 
   render(relics);
