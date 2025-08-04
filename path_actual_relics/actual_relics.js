@@ -5,9 +5,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Установка даты
   document.getElementById('date').textContent = `Дата обновления: ${new Date().toLocaleDateString()}`;
 
-  const relics = await fetchRelics();
+  const res = await fetch('/public/relics.json');
+  const relics = await res.json();
 
-  // Обработчик фильтрации
+  render(relics);
+
   filterSelect.addEventListener('change', () => render(relics));
 
   function render(data) {
@@ -24,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="relic-title">${relic.name}</div>
         <div class="relic-tier">${relic.tier} Relic</div>
         <div class="relic-link">
-          <a class="market-link" href="https://warframe.market/ru/items/${relic.slug}/dropsources" target="_blank">
+          <a class="market-link" href="https://warframe.market/items/${relic.slug}/dropsources" target="_blank">
             Открыть
           </a>
         </div>
@@ -32,29 +34,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       relicGrid.appendChild(card);
     });
-  }
-
-  async function fetchRelics() {
-    const res = await fetch('https://corsproxy.io/?https://kusobako.github.io/warframe/available-relics');
-    const text = await res.text();
-    const dom = new DOMParser().parseFromString(text, 'text/html');
-    const sections = dom.querySelectorAll('section.relics__list');
-
-    const relics = [];
-
-    sections.forEach(section => {
-      const tier = section.querySelector('h2')?.textContent.trim();
-      section.querySelectorAll('p').forEach(p => {
-        const name = p.textContent.trim();
-        relics.push({
-          name,
-          tier,
-          slug: name.toLowerCase().replace(/\s+/g, '_') + '_relic'
-        });
-      });
-    });
-
-    render(relics);
-    return relics;
   }
 });
