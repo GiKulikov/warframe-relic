@@ -25,6 +25,28 @@ async function fetchDOM(url) {
   const text = await res.text();
   return new JSDOM(text).window.document;
 }
+async function fetchUpdateDate() {
+  const res = await fetch(RELICS_URL);
+  const text = await res.text();
+
+  // Надёжная регулярка, чтобы не захватить HTML после даты
+  const match = text.match(/Last Updated:\s*([\d\w: ]+)/);
+  if (!match) {
+    console.error('Дата обновления не найдена');
+    return null;
+  }
+
+  const dateStr = match[1].trim();
+  const date = new Date(dateStr);
+
+  if (isNaN(date.getTime())) {
+    console.error('Ошибка парсинга даты:', dateStr);
+    return null;
+  }
+
+  return date.toISOString();
+}
+
 
 async function main() {
   console.log('⏳ Загружаем данные...');
@@ -82,6 +104,15 @@ async function main() {
 
   fs.writeFileSync(`${outputDir}/relics.json`, JSON.stringify(relics, null, 2));
   fs.writeFileSync(`${outputDir}/primes.json`, JSON.stringify(primes, null, 2));
+
+   const updateDateISO = await fetchUpdateDate();
+  if (updateDateISO) {
+    const date = new Date(updateDateISO);
+    const formatted = date.toLocaleDateString('ru-RU').replace(/\//g, '.'); // формат ДД.ММ.ГГГГ
+    fs.writeFileSync(`${outputDir}/last_update.json`, JSON.stringify({ date: formatted }));
+
+    console.log(`🕒 Дата обновления сохранена: ${formatted}`);
+  }
 
   console.log(`✅ Сохранено: relics.json (${relics.length}), primes.json (${Object.keys(primes).length} кадров)`);
 }

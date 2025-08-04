@@ -20,3 +20,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     container.appendChild(card);
   });
 });
+ // Установка даты
+document.addEventListener('DOMContentLoaded', async () => {
+  const dateElem = document.getElementById('date');
+
+  try {
+    const res = await fetch('/public/last_update.json');
+    if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
+
+    const data = await res.json();
+    dateElem.textContent = `Дата обновления: ${data.date}`;
+  } catch (err) {
+    console.error('❌ Ошибка при получении даты:', err);
+    dateElem.textContent = 'Дата обновления: неизвестна';
+  }
+});

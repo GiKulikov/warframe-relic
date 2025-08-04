@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const relicGrid = document.getElementById('relicGrid');
   const filterSelect = document.getElementById('typeFilter');
 
-  // Установка даты
-  document.getElementById('date').textContent = `Дата обновления: ${new Date().toLocaleDateString()}`;
+ 
+  
 
   const res = await fetch('/public/relics.json');
   const relics = await res.json();
@@ -34,5 +34,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       relicGrid.appendChild(card);
     });
+  }
+});
+ // Установка даты
+document.addEventListener('DOMContentLoaded', async () => {
+  const dateElem = document.getElementById('date');
+
+  try {
+    const res = await fetch('/public/last_update.json');
+    if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
+
+    const data = await res.json();
+    dateElem.textContent = `Дата обновления: ${data.date}`;
+  } catch (err) {
+    console.error('❌ Ошибка при получении даты:', err);
+    dateElem.textContent = 'Дата обновления: неизвестна';
   }
 });
