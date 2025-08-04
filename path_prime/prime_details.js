@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const frameName = new URLSearchParams(window.location.search).get('name');
   document.getElementById('frameTitle').innerText = frameName || 'Прайм персонаж';
 
-  const res = await fetch('/public/primes.json');
+  const res = await fetch('/primes.json');
   const primes = await res.json();
 
   const parts = primes[frameName] || [];
