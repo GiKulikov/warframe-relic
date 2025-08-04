@@ -5,11 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
  
   
 
-<<<<<<< HEAD
-  const res = await fetch('relics.json');
-=======
   const res = await fetch('../public/relics.json');
->>>>>>> 4703ab5 (Update)
   const relics = await res.json();
 
   render(relics);
