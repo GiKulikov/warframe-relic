@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const container = document.getElementById('primesContainer');
   container.innerText = 'Загрузка данных...';
 
-  const res = await fetch('/public/primes.json');
+  const res = await fetch('/primes.json');
   const primes = await res.json();
 
   container.innerHTML = '';
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const dateElem = document.getElementById('date');
 
   try {
-    const res = await fetch('/public/last_update.json');
+    const res = await fetch('/last_update.json');
     if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
 
     const data = await res.json();
