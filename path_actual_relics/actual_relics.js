@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
  
   
 
-  const res = await fetch('/public/relics.json');
+  const res = await fetch('/relics.json');
   const relics = await res.json();
 
   render(relics);
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const dateElem = document.getElementById('date');
 
   try {
-    const res = await fetch('/public/last_update.json');
+    const res = await fetch('/last_update.json');
     if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
 
     const data = await res.json();
