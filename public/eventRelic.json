@@ -1,0 +1,80 @@
+{
+  "Fang Prime": [
+    {
+      "item": "Fang Prime Blueprint",
+      "relic": "Lith N13"
+    }
+  ],
+  "Wukong Prime": [
+    {
+      "item": "Wukong Prime Chassis Blueprint",
+      "relic": "Lith N13"
+    },
+    {
+      "item": "Wukong Prime Neuroptics Blueprint",
+      "relic": "Lith S13"
+    },
+    {
+      "item": "Wukong Prime Blueprint",
+      "relic": "Meso W2"
+    },
+    {
+      "item": "Wukong Prime Systems Blueprint",
+      "relic": "Neo Z9"
+    }
+  ],
+  "Equinox Prime": [
+    {
+      "item": "Equinox Prime Blueprint",
+      "relic": "Lith S13"
+    },
+    {
+      "item": "Equinox Prime Systems Blueprint",
+      "relic": "Neo E3"
+    },
+    {
+      "item": "Equinox Prime Chassis Blueprint",
+      "relic": "Neo Z9"
+    },
+    {
+      "item": "Equinox Prime Neuroptics Blueprint",
+      "relic": "Axi T9"
+    }
+  ],
+  "Stradavar Prime": [
+    {
+      "item": "Stradavar Prime Blueprint",
+      "relic": "Lith S13"
+    }
+  ],
+  "Tipedo Prime": [
+    {
+      "item": "Tipedo Prime Blueprint",
+      "relic": "Meso W2"
+    }
+  ],
+  "Lex Prime": [
+    {
+      "item": "Lex Prime Blueprint",
+      "relic": "Neo E3"
+    }
+  ],
+  "Burston Prime": [
+    {
+      "item": "Burston Prime Blueprint",
+      "relic": "Neo Z9"
+    }
+  ],
+  "Ninkondi Prime": [
+    {
+      "item": "Ninkondi Prime Blueprint",
+      "relic": "Axi T9"
+    }
+  ],
+  "Zhuge Prime": [
+    {
+      "item": "Zhuge Prime Blueprint",
+      "relic": "Axi T9"
+    }
+  ]
+}
