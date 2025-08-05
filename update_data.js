@@ -1,122 +1,158 @@
 const fs = require('fs');
+const fsp = require('fs').promises;
 const fetch = require('node-fetch');
+const axios = require('axios');
 const { JSDOM } = require('jsdom');
+const cheerio = require('cheerio');
+const path = require('path');
 
-const RELICS_URL = 'https://kusobako.github.io/warframe/available-relics';
-const DROPTABLE_URL = 'https://warframe-web-assets.nyc3.cdn.digitaloceanspaces.com/uploads/cms/hnfvc0o3jnfvc873njb03enrf56.html';
+const BASE = 'https://wiki.warframe.com';
+const VOID_RELIC = `${BASE}/w/Void_Relic`;
+const VARZIA = `${BASE}/w/Varzia`;
 
-function toSlug(text) {
-  return text.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '') + '_relic';
+function toSlug(txt) {
+  return txt.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '') + '_relic';
 }
 
-function extractFrameName(partName) {
-  const primeParts = ['Systems', 'Blueprint', 'Chassis', 'Neuroptics'];
-  for (const part of primeParts) {
-    const idx = partName.indexOf(` Prime ${part}`);
-    if (idx > 0) {
-      return partName.slice(0, idx + 6);
-    }
+function extractPrime(item) {
+  const parts = ['Systems', 'Blueprint', 'Chassis', 'Neuroptics'];
+  for (const p of parts) {
+    const idx = item.indexOf(` Prime ${p}`);
+    if (idx > 0) return item.slice(0, idx + 6);
   }
   return null;
 }
 
-async function fetchDOM(url) {
-  const res = await fetch(url);
-  const text = await res.text();
-  return new JSDOM(text).window.document;
-}
-async function fetchUpdateDate() {
-  const res = await fetch(RELICS_URL);
-  const text = await res.text();
-
-  // Надёжная регулярка, чтобы не захватить HTML после даты
-  const match = text.match(/Last Updated:\s*([\d\w: ]+)/);
-  if (!match) {
-    console.error('Дата обновления не найдена');
-    return null;
-  }
-
-  const dateStr = match[1].trim();
-  const date = new Date(dateStr);
-
-  if (isNaN(date.getTime())) {
-    console.error('Ошибка парсинга даты:', dateStr);
-    return null;
-  }
-
-  return date.toISOString();
+async function fetchDoc(url) {
+  const html = await (await fetch(url)).text();
+  return new JSDOM(html).window.document;
 }
 
+async function fetchHTML(url) {
+  const { data } = await axios.get(url);
+  return cheerio.load(data);
+}
 
-async function main() {
-  console.log('⏳ Загружаем данные...');
-
-  const relicsDom = await fetchDOM(RELICS_URL);
-  const dropDom = await fetchDOM(DROPTABLE_URL);
-
-  const sections = relicsDom.querySelectorAll('section.relics__list');
+// Обычные (Unvaulted) реликвии
+async function getAllRelics() {
+  const doc = await fetchDoc(VOID_RELIC);
+  const cap = Array.from(doc.querySelectorAll('caption'))
+    .find(c => c.textContent.includes('Unvaulted/Available Relics'));
+  const table = cap?.closest('table');
   const relics = [];
-  const relicNames = [];
 
-  sections.forEach(section => {
-    const tier = section.querySelector('h2')?.textContent.trim();
-    section.querySelectorAll('p').forEach(p => {
-      const name = p.textContent.trim();
+  table.querySelectorAll('td').forEach((td, i) => {
+    if (i % 5 === 4) return; // Пропустить Requiem колонку
+    td.querySelectorAll('li a').forEach(a => {
+      const name = a.textContent.trim();
+      const tier = name.trim().split(/\s+/)[0];
       relics.push({
         name,
         tier,
-        slug: toSlug(name)
+        slug: toSlug(name),
+        url: BASE + a.getAttribute('href')
       });
-      relicNames.push(name);
     });
   });
 
-  console.log(`✅ Найдено ${relics.length} реликвий`);
+  return relics;
+}
 
-  const tables = Array.from(dropDom.querySelectorAll('table'));
-  const primes = {}; // { frameName: [ { item, relic } ] }
 
-  tables.forEach(table => {
-    let currentRelic = null;
-
-    table.querySelectorAll('tr').forEach(row => {
-      const th = row.querySelector('th[colspan]');
-      const td = row.querySelectorAll('td');
-
-      if (th) {
-        const relicTitle = th.textContent.trim();
-        const match = relicTitle.match(/^([A-Za-z]+ \w+) Relic/);
-        currentRelic = match ? match[1] : null;
-      } else if (td.length === 2 && currentRelic && relicNames.includes(currentRelic)) {
-        const itemName = td[0].textContent.trim();
-        const frameName = extractFrameName(itemName);
-        if (frameName) {
-          if (!primes[frameName]) primes[frameName] = [];
-          const exists = primes[frameName].some(entry => entry.item === itemName && entry.relic === currentRelic);
-          if (!exists) primes[frameName].push({ item: itemName, relic: currentRelic });
+async function parseDrops(relics) {
+  const primes = {};
+  for (const r of relics) {
+    const doc = await fetchDoc(r.url);
+    doc.querySelectorAll('table tbody tr').forEach(tr => {
+      const item = tr.querySelector('td')?.textContent.trim();
+      const frame = item && extractPrime(item);
+      if (frame) {
+        primes[frame] = primes[frame] || [];
+        if (!primes[frame].some(e => e.item === item && e.relic === r.name)) {
+          primes[frame].push({ item, relic: r.name });
         }
       }
     });
-  });
-
-  const outputDir = '/warframeInfo'; 
-  if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir);
-
-  fs.writeFileSync(`${outputDir}/relics.json`, JSON.stringify(relics, null, 2));
-  fs.writeFileSync(`${outputDir}/primes.json`, JSON.stringify(primes, null, 2));
-
-   const updateDateISO = await fetchUpdateDate();
-  if (updateDateISO) {
-    const date = new Date(updateDateISO);
-    const formatted = date.toLocaleDateString('ru-RU').replace(/\//g, '.'); // формат ДД.ММ.ГГГГ
-    fs.writeFileSync(`${outputDir}/last_update.json`, JSON.stringify({ date: formatted }));
-
-    console.log(`🕒 Дата обновления сохранена: ${formatted}`);
+    await new Promise(r => setTimeout(r, 200)); // задержка
   }
-
-  console.log(`✅ Сохранено: relics.json (${relics.length}), primes.json (${Object.keys(primes).length} кадров)`);
+  return primes;
 }
 
-main().catch(err => {
-  console.error('❌ Ошибка:', err);
-});
+// Варзия — ивент-реликвии
+async function parseEventRelics() {
+  const $ = await fetchHTML(VARZIA);
+  const relics = [];
+
+  $('table tbody tr').each((_, row) => {
+    const $row = $(row);
+    const relicCell = $row.find('td').eq(0);
+    const statusCell = $row.find('td').eq(1);
+
+    if (statusCell.text().includes('☑')) {
+      const relicName = relicCell.text().trim();
+      const href = relicCell.find('a').attr('href');
+      if (href) {
+        relics.push({
+          name: relicName,
+          url: BASE + href,
+          tier: relicName.split(' ')[0],
+          slug: toSlug(relicName)
+        });
+      }
+    }
+  });
+
+  const relicMap = {};
+  for (const relic of relics) {
+    try {
+      const $rel = await fetchHTML(relic.url);
+      $rel('table tbody tr').each((_, row) => {
+        const itemName = $rel(row).find('td').first().text().trim();
+        const primeName = extractPrime(itemName);
+        if (primeName) {
+          if (!relicMap[primeName]) relicMap[primeName] = [];
+          relicMap[primeName].push({ item: itemName, relic: relic.name });
+        }
+      });
+    } catch (e) {
+      console.error(`Ошибка при обработке ${relic.name}: ${e.message}`);
+    }
+    await new Promise(r => setTimeout(r, 200)); // задержка
+  }
+
+  return relicMap;
+}
+
+async function main() {
+  const relics = await getAllRelics();
+  fs.mkdirSync('./public', { recursive: true });
+
+  // relics.json
+  fs.writeFileSync('public/relics.json', JSON.stringify(
+    relics.map(r => ({ name: r.name, tier: r.tier, slug: r.slug })), null, 2));
+
+  // primes.json
+  const primes = await parseDrops(relics);
+  fs.writeFileSync('public/primes.json', JSON.stringify(primes, null, 2));
+
+  // eventRelic.json
+  const eventPr = await parseEventRelics();
+  fs.writeFileSync('public/eventRelic.json', JSON.stringify(eventPr, null, 2));
+  const filePath = path.join(__dirname, 'public', 'last_update.json');
+  
+  function saveCurrentDate() {
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0, 10); // Формат YYYY-MM-DD
+    const data = { date: dateStr };
+  
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    console.log('Дата обновления записана:', dateStr);
+  }
+  
+  saveCurrentDate();
+
+  console.log('✅ Всё готово!');
+}
+
+main().catch(console.error);
