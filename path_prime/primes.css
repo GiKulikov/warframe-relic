@@ -28,32 +28,67 @@ h1 {
   font-size: 14px;
   color: #777;
 }
+#searchSection {
+  display: flex;
+  justify-content: left;
+  font-weight: bolder;
+  font-size: 19px;
+  align-items: center;
+  margin: 20px 5px 20px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+#searchInput {
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #ffffff;
+  
+  background-color: #413e4a;
+  border: 2px solid #d1c3d9;
+  font-size: 13px;
+}
 #primesContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  padding: 10px 20px;
-  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  max-width: 95%;
+  margin: 0 auto;
+  
 }
 
 .prime-card {
-  background: #d5cfd9;
+   background-color: #d5cfd9;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 100%;
-    backdrop-filter: blur(20px); /* Blur effect */
-  -webkit-backdrop-filter: blur(10px); /* For Safari */
-  max-width: 300px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.093);
+  padding: 15px 20px;
+  display: flex;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(10px); 
+  flex-direction: column;
+  width: 280px;
+  margin: 20px 20px 0px ;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+}
+footer {
   text-align: center;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  font-size: 14px;
+  color: #666;
+  margin-top: 40px;
+  
+  
 }
-footer{
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
+
+.footer a {
+  color: #3498db;
+  text-decoration: none;
 }
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
 
 .prime-card:hover {
   transform: translateY(-5px);

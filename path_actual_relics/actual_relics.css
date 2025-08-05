@@ -35,8 +35,10 @@ h1 {
 #filters {
   display: flex;
   justify-content: left;
+  font-weight: bolder;
+  font-size: 19px;
   align-items: center;
-  margin: 20px 0 20px;
+  margin: 20px 5px 20px;
   gap: 10px;
   flex-wrap: wrap;
 }
@@ -54,11 +56,11 @@ h1 {
 /* Сетка карточек */
 #relicGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
   max-width: 95%;
   margin: 0 auto;
-  padding: 5px;
+  
 }
 
 /* Карточка */
@@ -71,6 +73,8 @@ h1 {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(10px); 
   flex-direction: column;
+  margin: 20px 20px 0px ;
+  width: 250px;
   justify-content: space-between;
   transition: transform 0.2s ease;
 }
@@ -120,8 +124,8 @@ footer {
   font-size: 14px;
   color: #666;
   margin-top: 40px;
-  border-top: 1px solid #ddd;
-  padding-top: 20px;
+  
+  
 }
 
 .footer a {
