@@ -1,0 +1,229 @@
+/* home.css */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: IBM Plex Mono, monospace;
+    
+    background-color: #000000e8;
+    color: white;
+}
+
+header {
+    background-color: #413e4a;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+     top: 0;
+  left: 0;
+  right: 0;
+    z-index: 1000;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+header .logo {
+    font-size: 38px;
+    font-weight: bold;
+    font-family: Crimson Text, serif;
+}
+
+header nav {
+    position: relative;
+}
+
+nav a, .info-link {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 20px;
+    display: inline-block;
+}
+
+.info-link:hover,
+nav a:hover {
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 4px;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #413e4a;
+    border-radius: 4px;
+    flex-direction: column;
+    min-width: 220px;
+    z-index: 1000;
+    padding: 10px 0;
+}
+
+.dropdown a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+}
+
+.dropdown a:hover {
+    background-color: #57545f;
+}
+
+.top-banner {
+    background-color: #262529;
+    display: flex;
+    font-weight: lighter;
+    justify-content: center;
+    padding: 15px 30px;
+    font-family: IBM Plex Mono, monospace;
+    font-size: 14px;
+    color: #777;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+main {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 15px;
+}
+
+.columinfo {
+    flex: 1;
+    background-color: transparent;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+
+
+.columinfo-header {
+    background-color: #2d2c33;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: lighter;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: IBM Plex Mono, monospace;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+
+}
+
+.columinfo-content_relic {
+    padding: 10px;
+    flex: 1;
+}
+.columinfo-content_prime{
+  padding: 10px;
+    flex: 1;
+}
+.columinfo-content_varzia{
+  padding: 10px;
+    flex: 1;
+}
+
+/* === CSS Grid Layout === */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-auto-rows: 1px;
+    grid-gap: 10px;
+}
+
+.grid-item {
+  border-radius: 16px;
+  border:  #ffffff19 1px solid;
+  padding: 0; 
+  background: none; 
+  grid-row-end: span var(--span, 20);
+  display: flex;
+  overflow: hidden;
+  position: relative;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.411);
+
+  
+}
+
+.grid-background {
+  flex: 1;
+  width: 100%;
+   background-color: rgba(0, 0, 0, 0.388);
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+ 
+}
+
+/* Квадратный оверлей с блюром */
+.blur-overlay {
+  position: absolute;
+  inset: 0; 
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.558);
+ flex-direction: column;
+ text-align: center;
+ justify-content: center;
+   text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+
+ padding: 20px;
+  color: #fff;
+}
+
+.grid-item:hover{
+  transform: translateY(5px);
+  transition: transform 0.2s ease;
+}
+.blur-overlay:hover  {    
+  background: rgba(0, 0, 0, 0.179);
+  transition: background  0.5s ease;
+  
+}
+.grid-background:hover .relic-tier{
+    visibility: collapse;
+
+}
+
+
+/* разные высоты блоков через nth-child для демонстрации */
+.grid-item:nth-child(3n) {
+    --span: 20;
+}
+
+.grid-item:nth-child(5n) {
+    --span: 25;
+}
+
+.relic-title {
+    font-size: 16px;
+    ;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.relic-tier {
+    font-size: 14px;
+    color: #d6d3e0;
+}
+
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+    main {
+        flex-direction: column;
+    }
+}

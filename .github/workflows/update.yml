@@ -5,7 +5,7 @@ permissions:
 
 on:
   schedule:
-    - cron: '0 0 */23 * *' 
+    - cron: '0 0 */20 * *' 
   workflow_dispatch:        
 
 jobs:
@@ -24,12 +24,18 @@ jobs:
         run: npm install || true
 
       - name: Run update_data.js
-        run: node update_data.js
+        run: node updating_img/update_data.js
+
+      - name: Run prime_img_frame.js
+        run: node updating_img/prime_img_frame.js
+
+      - name: Run prime_img_weapon.js
+        run: node updating_img/prime_img_weapon.js
 
       - name: Commit and push updated files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/*
-          git commit -m "auto: update relics" || echo "No changes"
+          git add public/* img/*
+          git commit -m "auto: update relics & images" || echo "No changes"
           git push

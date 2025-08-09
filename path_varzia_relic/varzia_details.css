@@ -1,25 +1,26 @@
 body {
-  font-family: sans-serif;
-  background-color: #beb7c2;
+  font-family: 'IBM Plex Mono', monospace;
+  background-color: #000000e8;
   margin: 50px 0 0; /* Adjusted for fixed navbar */
+  color: #f0f0f0;
 }
 
 h1 {
   text-align: center;
   margin-bottom: 30px;
-  color: #413e4a;
+  color: #ffffff;
 }
 
 .back-link {
   position: relative;
-  color: #413e4a;
+  color: #d1c3e0;
   margin-left: 20px;
   text-decoration: none;
-  font-size: 16px
+  font-size: 16px;
 }
 
 .back-link:hover {
-  color: #44376e;
+  color: #c9b3ff;
   text-decoration: none;
 }
 
@@ -32,12 +33,12 @@ h1 {
 }
 
 .part-card {
-  background-color: #d5cfd9;
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 18px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.093);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   padding: 15px 20px;
-  backdrop-filter: blur(20px); /* Blur effect */
-  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -47,26 +48,30 @@ h1 {
 
 .part-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
 }
-footer{
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-}
+
 .part-card button {
   margin: 5px 10px;
   padding: 8px 12px;
-  background-color: #413e4a;
+  background-color: #2f2b38;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-family: inherit;
   transition: background-color 0.3s ease;
 }
 
 .part-card button:hover {
-  background-color: #44376e;
+  background-color: #514a6d;
+}
+
+footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #888;
 }
 
 /* Подсвечиваемые элементы */
@@ -74,4 +79,3 @@ footer{
 .relic-name {
   transition: color 0.2s ease;
 }
-

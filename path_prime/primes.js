@@ -1,66 +1,115 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const container = document.getElementById('primesContainer');
-    const searchInput = document.getElementById('searchInput');
-    const dateElem = document.getElementById('date');
+  const container = document.getElementById('primesContainer');
+  const searchInput = document.getElementById('searchInput');
+  const dateElem = document.getElementById('date');
 
-    container.innerText = 'Загрузка данных...';
+  container.innerText = 'Загрузка данных...';
 
-    let primes = {};
+  let primes = {};
+  try {
+    const res = await fetch('../public/primes.json');
+    if (!res.ok) throw new Error(`Ошибка HTTP: ${res.status}`);
+    primes = await res.json();
+  } catch (err) {
+    container.innerText = 'Ошибка загрузки данных.';
+    console.error(err);
+    return;
+  }
 
-    try {
-      const res = await fetch('../public/primes.json');
-      primes = await res.json();
-    } catch (err) {
-      container.innerText = 'Ошибка загрузки данных.';
-      console.error(err);
+  function resolveImage(primaryUrl, fallbackUrl) {
+    return new Promise((resolve) => {
+      const testImg = new Image();
+      testImg.onload = () => resolve(primaryUrl);
+      testImg.onerror = () => {
+        if (!fallbackUrl) {
+          resolve('');
+          return;
+        }
+        const fallbackImg = new Image();
+        fallbackImg.onload = () => resolve(fallbackUrl);
+        fallbackImg.onerror = () => resolve('');
+        fallbackImg.src = fallbackUrl;
+      };
+      testImg.src = primaryUrl;
+    });
+  }
+
+  const placeholder = '../img/placeholder.png';
+
+  const renderPrimes = async (filter = '') => {
+    container.innerHTML = '';
+
+    const entries = Object.entries(primes).filter(([name]) =>
+      name.toLowerCase().includes(filter.toLowerCase())
+    );
+
+    if (entries.length === 0) {
+      container.innerHTML = '<p>Ничего не найдено.</p>';
       return;
     }
 
-    // Показываем все карточки
-    const renderPrimes = (filter = '') => {
-      container.innerHTML = '';
-      const entries = Object.entries(primes).filter(([name]) =>
-        name.toLowerCase().includes(filter.toLowerCase())
-      );
+    for (const [name, parts] of entries) {
+      const card = document.createElement('div');
+      card.className = 'prime-card';
 
-      if (entries.length === 0) {
-        container.innerHTML = '<p>Ничего не найдено.</p>';
-        return;
-      }
+      // Фоновое изображение
+      const bgDiv = document.createElement('div');
+      bgDiv.className = 'grid-background';
+      bgDiv.style.backgroundImage = `url('${placeholder}')`;
+      bgDiv.style.backgroundPosition = 'top center';
+      bgDiv.style.backgroundSize = 'contain';
+      bgDiv.style.backgroundRepeat = 'no-repeat';
 
-      entries.forEach(([name, parts]) => {
-        const card = document.createElement('div');
-        card.className = 'prime-card';
-        card.innerHTML = `
-          <h2>${name}</h2>
-          <p>${parts.length} частей в актуальных реликвиях</p>
-        `;
-        card.onclick = () => {
-          const encoded = encodeURIComponent(name);
-          window.location.href = `prime_details.html?name=${encoded}`;
-        };
-        container.appendChild(card);
-      });
-    };
+      // Оверлей с текстом
+      const overlay = document.createElement('div');
+      overlay.className = 'blur-overlay';
+      overlay.innerHTML = `
+        <div class="prime-title">${name}</div>
+        <div class="prime-details">${parts.length} частей в актуальных реликвиях</div>
+      `;
 
-    // Изначальный рендер
-    renderPrimes();
+      bgDiv.appendChild(overlay);
+      card.appendChild(bgDiv);
 
-    // Обработчик поиска
-    searchInput.addEventListener('input', () => {
-      const query = searchInput.value;
-      renderPrimes(query);
-    });
+      card.onclick = () => {
+        const encoded = encodeURIComponent(name);
+        window.location.href = `prime_details.html?name=${encoded}`;
+      };
 
-    // Загрузка даты обновления
-    try {
-      const res = await fetch('../public/last_update.json');
-      if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
+      container.appendChild(card);
 
-      const data = await res.json();
+      // Пути к картинкам
+      const framePath = `../img/frame/${name}.png`;
+      const weaponPath = `../img/weapon/${name}.png`;
+
+      // Ждем доступное изображение
+      const imgPath = await resolveImage(framePath, weaponPath);
+
+      // Устанавливаем фон в bgDiv
+      bgDiv.style.backgroundImage = `url('${imgPath || placeholder}')`;
+    }
+  };
+
+  await renderPrimes();
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim();
+    renderPrimes(q);
+  });
+
+  // Загрузка даты обновления
+  try {
+    const res = await fetch('../public/last_update.json');
+    if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
+
+    const data = await res.json();
+    if (dateElem) {
       dateElem.textContent = `Дата обновления: ${data.date}`;
-    } catch (err) {
-      console.error('Ошибка при получении даты:', err);
+    }
+  } catch (err) {
+    console.error('Ошибка при получении даты:', err);
+    if (dateElem) {
       dateElem.textContent = 'Дата обновления: неизвестна';
     }
-  });
+  }
+});

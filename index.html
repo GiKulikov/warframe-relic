@@ -7,13 +7,24 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header id="header" class="navbar">
+ <header>
     <div class="logo">Warframe</div>
-    <nav class="nav-links">
-      <a  href="#" onclick="loadIframe('path_varzia_relic/varzia_relics.html')">Варзия</a>
-      <a href="#" onclick="loadIframe('path_actual_relics/actual_relics.html')">Доступные реликвии</a>
-      <a href="#" onclick="loadIframe('path_prime/primes.html')">Доступные прайм детали</a>
-    </nav>
+    <nav>
+  <a href="#" onclick="loadIframe('home/home.html')">Главная</a>
+
+  <div class="combobox">
+    <button type="button" class="combobox-toggle">
+      Информация о <span class="arrow">▼</span>
+    </button>
+
+    <div class="dropdown">
+      <a href="#" onclick="loadIframe('path_actual_relics/actual_relics.html')">Актуальные реликвии</a>
+      <a href="#" onclick="loadIframe('path_prime/primes.html')">Актуальные прайм части</a>
+      <a href="#" onclick="loadIframe('path_varzia_relic/varzia_relics.html')">Реликвии у Вазарии</a>
+    </div>
+  </div>
+</nav>
+
   </header>
 
   <div class="content">

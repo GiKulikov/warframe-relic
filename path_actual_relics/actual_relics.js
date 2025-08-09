@@ -13,28 +13,41 @@ document.addEventListener('DOMContentLoaded', async () => {
   filterSelect.addEventListener('change', () => render(relics));
 
   function render(data) {
-    const filter = filterSelect.value;
-    relicGrid.innerHTML = ''; // очищаем
+  const filter = filterSelect.value;
+  relicGrid.innerHTML = ''; // очищаем
 
-    data.forEach(relic => {
-      if (filter !== 'all' && relic.tier !== filter) return;
+  data.forEach(relic => {
+    if (filter !== 'all' && relic.tier !== filter) return;
 
-      const card = document.createElement('div');
-      card.className = 'relic-card';
+    const card = document.createElement('div');
+    card.className = 'relic-card';
 
-      card.innerHTML = `
-        <div class="relic-title">${relic.name}</div>
-        <div class="relic-tier">${relic.tier} Relic</div>
-        <div class="relic-link">
-          <a class="market-link" href="https://warframe.market/items/${relic.slug}/dropsources" target="_blank">
-            Открыть
-          </a>
-        </div>
-      `;
+    // Фоновый блок
+    const bg = document.createElement('div');
+    bg.className = 'grid-background';
+    bg.style.backgroundImage = `url('../img/relic/${relic.tier}.png')`;
+    bg.style.backgroundPosition = '100px'; 
+    bg.style.backgroundRepeat = 'no-repeat';
 
-      relicGrid.appendChild(card);
-    });
-  }
+    // Оверлей с текстом
+    const overlay = document.createElement('div');
+    overlay.className = 'blur-overlay';
+    overlay.innerHTML = `
+      <div class="relic-title">${relic.name}</div>
+      <div class="relic-tier">${relic.tier} Relic</div>
+      <div class="relic-link">
+        <a class="market-link" href="https://warframe.market/items/${relic.slug}/dropsources" target="_blank">
+          Открыть
+        </a>
+      </div>
+    `;
+
+    bg.appendChild(overlay);
+    card.appendChild(bg);
+    relicGrid.appendChild(card);
+  });
+}
+
 });
  // Установка даты
 document.addEventListener('DOMContentLoaded', async () => {

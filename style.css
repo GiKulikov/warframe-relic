@@ -6,56 +6,132 @@
 
 body {
   font-family: sans-serif;
-  background-color:#beb7c2;
-  
+  background-color: #beb7c2;
 }
 
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 80px;
-  background: #413e4a;
+header {
+  background-color: #2d2c33;
+  height: 60px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 40px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
-.logo {
-  font-size: 38px;
-  font-weight: bold;
-  color: #ffffff;
-}
-
-.nav-links a {
-  margin-left: 30px;
-  text-decoration: none;
-  color: #e6e1eb;
-  font-size: 16px;
-  font-weight: lighter;
-  transition: color 0.3s ease;
-}
-
-.nav-links a:hover {
-  color: #8b869b;
-}
-
-.content {
-
-  position: absolute;
-  top: 60px; /* Высота шапки */
+  position: sticky;
+  top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  z-index: 1000;
+  justify-content: space-between;
+  padding: 0 30px;
 }
 
-
-footer{
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
+header .logo {
+  font-size: 38px;
+  font-weight: bold;
+  font-family: Crimson Text, serif;
+  color: white;
 }
 
+header nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline-block;
+  user-select: none;
+}
+
+/* Combobox container */
+.combobox {
+  position: relative;
+  display: inline-block;
+  font-size: 16px;
+  user-select: none;
+}
+
+/* Кнопка combobox */
+.combobox-toggle {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: inherit;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.combobox-toggle:hover,
+.combobox-toggle.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Стрелочка */
+.arrow {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+  display: inline-block;
+  line-height: 1;
+  user-select: none;
+}
+
+/* Поворот стрелочки при открытом меню */
+.combobox-toggle.active .arrow {
+  transform: rotate(180deg);
+}
+
+/* Выпадающий список */
+.dropdown {
+  position: absolute;
+  top: 100%;
+    right: 0;
+  background-color: #2d2c33;
+  border-radius: 4px;
+  min-width: 220px;
+  padding: 10px 0;
+  z-index: 1000;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Активный/открытый dropdown */
+.combobox.open .dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Ссылки в списке */
+.dropdown a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dropdown a:hover {
+  background-color: #57545f;
+}
+
+footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
