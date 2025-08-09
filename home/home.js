@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Контейнер с фоном
   const bg = document.createElement('div');
   bg.className = 'grid-background';
-   bg.style.backgroundImage = `url('../img/relic/${relic.tier}.png')`; // или dynamic: relic.image
+   bg.style.backgroundImage = `url('../img/relic/${relic.tier}.png')`; 
   
   // Оверлей
   const overlay = document.createElement('div');
@@ -106,15 +106,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const span = (i % 3 === 0) ? 25 : 20;
     item.style.setProperty('--span', span);
 
-    // Создаём фон (можно заменить на динамическое изображение)
+    // Создаём фон 
     const bg = document.createElement('div');
     bg.className = 'grid-background';
-
-    // Если есть изображение для прайма, можно подставить здесь:
-    bg.style.backgroundImage = `url('../img/frame/${name.toLowerCase()}.png')`;
-
-    // Пока поставим нейтральный фон или оставим без картинки
-
+    bg.style.backgroundImage = `url('../img/frame/${name}.png')`;
     bg.style.backgroundPosition = 'top center';
       bg.style.backgroundSize = 'contain';
       bg.style.backgroundRepeat = 'no-repeat';
@@ -173,10 +168,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     bg.style.backgroundRepeat = 'no-repeat';
   
 
-    // Определяем путь к изображению с fallback
-    const lowerName = name.toLowerCase();
-    const framePath = `../img/frame/${lowerName}.png`;
-    const weaponPath = `../img/weapon/${lowerName}.png`;
+    //  путь к изображению с fallback
+    const framePath = `../img/frame/${name}.png`;
+    const weaponPath = `../img/weapon/${name}.png`;
 
     const imageUrl = await resolveImage(framePath, weaponPath);
     bg.style.backgroundImage = `url('${imageUrl}')`;
@@ -202,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     varziaGrid.appendChild(item);
   }
 
-  // 🔍 Проверка, какой путь существует — возвращает первый доступный URL
+  // Функция для проверки доступности изображения
   function resolveImage(primaryUrl, fallbackUrl) {
     return new Promise((resolve) => {
       const testImg = new Image();
@@ -210,7 +204,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       testImg.onerror = () => {
         const fallbackImg = new Image();
         fallbackImg.onload = () => resolve(fallbackUrl);
-        fallbackImg.onerror = () => resolve(''); // Фон не задан
+        fallbackImg.onerror = () => resolve(''); 
         fallbackImg.src = fallbackUrl;
       };
       testImg.src = primaryUrl;
@@ -242,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (parts.length !== 3) throw new Error('Неверный формат даты');
 
       const year = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1; // месяцы с 0
+      const month = parseInt(parts[1], 10) - 1; 
       const day = parseInt(parts[2], 10);
 
       const lastUpdateDate = new Date(year, month, day);
