@@ -22,6 +22,10 @@ dropdown.querySelectorAll('a').forEach(link => {
     
   });
 });
+function resetCombobox() {
+  const toggleBtn = document.querySelector('.combobox-toggle');
+  toggleBtn.innerHTML = `Информация о <span class="arrow">▼</span>`;
+}
 
 // Закрыть combobox, 
 
