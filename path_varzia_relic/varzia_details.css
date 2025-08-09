@@ -1,8 +1,7 @@
 body {
   font-family: 'IBM Plex Mono', monospace;
   background-color: #000000e8;
-  margin: 50px 0 0; /* Adjusted for fixed navbar */
-  color: #f0f0f0;
+  margin: 50px 0 0; 
 }
 
 h1 {
