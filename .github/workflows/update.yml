@@ -5,7 +5,7 @@ permissions:
 
 on:
   schedule:
-    - cron: '0 0 */19 * *' 
+    - cron: '0 0 * * *' # Runs every day at midnight
   workflow_dispatch:        
 
 jobs:
@@ -23,16 +23,41 @@ jobs:
       - name: Install dependencies
         run: npm install || true
 
+      - name: Check last update date
+        id: check_date
+        run: |
+          FILE="public/last_update.json"
+          if [ ! -f "$FILE" ]; then
+            echo "last_update.json not found, proceeding with update"
+            echo "::set-output name=run_update::true"
+          else
+            LAST_DATE=$(jq -r '.date' "$FILE")
+            LAST_TS=$(date -d "$LAST_DATE" +%s)
+            NOW_TS=$(date +%s)
+            DIFF_DAYS=$(( (NOW_TS - LAST_TS) / 86400 ))
+            echo "Last update was $DIFF_DAYS days ago"
+            if [ "$DIFF_DAYS" -ge 30 ]; then
+              echo "::set-output name=run_update::true"
+            else
+              echo "::set-output name=run_update::false"
+            fi
+          fi
+        shell: bash
+
       - name: Run update_data.js
+        if: steps.check_date.outputs.run_update == 'true'
         run: node updating_img/update_data.js
 
       - name: Run prime_img_frame.js
+        if: steps.check_date.outputs.run_update == 'true'
         run: node updating_img/prime_img_frame.js
 
       - name: Run prime_img_weapon.js
+        if: steps.check_date.outputs.run_update == 'true'
         run: node updating_img/prime_img_weapon.js
 
       - name: Commit and push updated files
+        if: steps.check_date.outputs.run_update == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

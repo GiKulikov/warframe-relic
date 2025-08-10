@@ -124,6 +124,7 @@ async function parseEventRelics() {
 }
 
 async function main() {
+  
   const relics = await getAllRelics();
   fs.mkdirSync('./public', { recursive: true });
 
@@ -138,7 +139,7 @@ async function main() {
   // eventRelic.json
   const eventPr = await parseEventRelics();
   fs.writeFileSync('public/eventRelic.json', JSON.stringify(eventPr, null, 2));
-  const filePath = path.join(__dirname, 'public', 'last_update.json');
+  const filePath = path.join(__dirname,'..', 'public', 'last_update.json');
   
   function saveCurrentDate() {
     const now = new Date();
