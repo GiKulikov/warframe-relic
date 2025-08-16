@@ -120,11 +120,11 @@ h1 {
 
 .relic-card:hover .relic-tier {
   color: transparent;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 .relic-card:hover .relic-link{
  opacity: 1;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.7s ease;
 }
 /*text */
 .relic-title {

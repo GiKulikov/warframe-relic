@@ -41,6 +41,7 @@ font-size: 14px;
 }
 
 #searchInput {
+   margin-left: 25px;
   padding: 8px 12px;
   border-radius: 6px;
   color: #ffffff;
@@ -108,7 +109,7 @@ font-size: 14px;
 
 .prime-card:hover .blur-overlay {
   background: rgba(0, 0, 0, 0.179);
-  transition: background  0.5s ease;;
+  transition: background  0.2s ease;;
 }
 
 .prime-title {
