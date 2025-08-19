@@ -1,6 +1,60 @@
-// for relics
+/* ========= Общие хелперы для ленивой загрузки ========= */
+
+// Пытаемся загрузить первый доступный URL из списка (последовательно)
+function loadFirstAvailable(urls) {
+  return new Promise((resolve) => {
+    let i = 0;
+    const tryNext = () => {
+      if (i >= urls.length) return resolve('');
+      const testImg = new Image();
+      const url = urls[i++];
+      testImg.onload = () => resolve(url);
+      testImg.onerror = tryNext;
+      testImg.src = url;
+    };
+    tryNext();
+  });
+}
+
+// Один IntersectionObserver на весь файл
+const __lazyCards = new WeakMap(); // card -> { urls, placeholder }
+const __io = new IntersectionObserver(async (entries) => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+
+    const card = entry.target;
+    const cfg = __lazyCards.get(card);
+    if (!cfg) { __io.unobserve(card); continue; }
+
+    const bg = card.querySelector('.grid-background');
+    const url = await loadFirstAvailable(cfg.urls);
+    bg.style.backgroundImage = `url('${url || cfg.placeholder}')`;
+
+    __lazyCards.delete(card);
+    __io.unobserve(card);
+  }
+}, { rootMargin: '200px 0px', threshold: 0.1 });
+
+// Регистрируем карточку на ленивую подгрузку
+function registerLazyCard(card, urls, placeholder) {
+  const bg = card.querySelector('.grid-background');
+  bg.style.backgroundImage = `url('${placeholder}')`;
+  // Универсальные настройки фона (как у тебя)
+  bg.style.backgroundPosition = 'top center';
+  bg.style.backgroundSize = 'contain';
+  bg.style.backgroundRepeat = 'no-repeat';
+
+  __lazyCards.set(card, { urls, placeholder });
+  __io.observe(card);
+}
+
+// Общий плейсхолдер
+const PLACEHOLDER = '../img/placeholder.png';
+
+
+/* ========= // for relics ========= */
 document.addEventListener('DOMContentLoaded', async () => {
-  // Выпадающее меню (оставляем без изменений)
+  // Выпадающее меню (оставлено без изменений)
   const infoLink = document.querySelector('.info-link');
   const dropdown = document.querySelector('.dropdown');
   if (infoLink && dropdown) {
@@ -31,13 +85,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const desiredTiers = ['Lith','Meso','Neo','Axi'];
   const selected = [];
   desiredTiers.forEach(tier => {
-    const list = byTier[tier] || [];
-    // тасуем
+    const list = (byTier[tier] || []).slice();
     for (let i = list.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [list[i], list[j]] = [list[j], list[i]];
     }
-    // добавляем первые два
     selected.push(...list.slice(0,2));
   });
 
@@ -47,40 +99,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     [selected[i], selected[j]] = [selected[j], selected[i]];
   }
 
-  // Рендерим
+  // Рендерим (ленивая загрузка фона по tier)
   selected.forEach((relic, i) => {
-  const item = document.createElement('div');
-  item.className = 'grid-item';
-  const span = (i % 3 === 0) ? 25 : 20;
-  item.style.setProperty('--span', span);
+    const item = document.createElement('div');
+    item.className = 'grid-item';
+    const span = (i % 3 === 0) ? 25 : 20;
+    item.style.setProperty('--span', span);
 
-  // Контейнер с фоном
-  const bg = document.createElement('div');
-  bg.className = 'grid-background';
-   bg.style.backgroundImage = `url('../img/relic/${relic.tier}.png')`; 
-  
-  // Оверлей
-  const overlay = document.createElement('div');
-  overlay.className = 'blur-overlay';
-  overlay.innerHTML = `
-    <div class="relic-title">${relic.name}</div>
-    <div class="relic-tier">${relic.tier} Relic</div>
-  `;
+    const bg = document.createElement('div');
+    bg.className = 'grid-background';
 
-  bg.appendChild(overlay);
-  item.appendChild(bg);
+    const overlay = document.createElement('div');
+    overlay.className = 'blur-overlay';
+    overlay.innerHTML = `
+      <div class="relic-title">${relic.name}</div>
+      <div class="relic-tier">${relic.tier} Relic</div>
+    `;
 
-  item.addEventListener('click', () => {
-    window.open(`https://warframe.market/items/${relic.slug}/dropsources`, '_blank');
+    bg.appendChild(overlay);
+    item.appendChild(bg);
+
+    item.addEventListener('click', () => {
+      window.open(`https://warframe.market/items/${relic.slug}/dropsources`, '_blank');
+    });
+
+    relicGrid.appendChild(item);
+
+    // Ленивая загрузка: один URL — картинка тира
+    registerLazyCard(item, [
+      `../img/relic/${relic.tier}.png`
+    ], PLACEHOLDER);
   });
-
-  relicGrid.appendChild(item);
 });
-});
-// for prime/////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+/* ========= // for prime ========= */
 document.addEventListener('DOMContentLoaded', async () => {
   const primeGrid = document.getElementById('relicGrid2');
+  if (!primeGrid) return;
+
   primeGrid.innerText = 'Загрузка прайм частей...';
 
   let primes;
@@ -103,18 +160,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   top8.forEach(([name, parts], i) => {
     const item = document.createElement('div');
     item.className = 'grid-item';
-    const span = (i % 3 === 0) ? 25 : 20;
-    item.style.setProperty('--span', span);
+    item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
 
-    // Создаём фон 
     const bg = document.createElement('div');
     bg.className = 'grid-background';
-    bg.style.backgroundImage = `url('../img/frame/${name}.png')`;
-    bg.style.backgroundPosition = 'top center';
-      bg.style.backgroundSize = 'contain';
-      bg.style.backgroundRepeat = 'no-repeat';
-
-
 
     const overlay = document.createElement('div');
     overlay.className = 'blur-overlay';
@@ -132,11 +181,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     primeGrid.appendChild(item);
+
+    // Ленивая загрузка: сначала пробуем frame, затем weapon
+    registerLazyCard(item, [
+      `../img/frame/${name}.png`,
+      `../img/weapon/${name}.png`
+    ], PLACEHOLDER);
   });
 });
-// varzia relics///////////////////////////////////////////////////////////////////////////////////////////
+
+
+/* ========= // varzia relics ========= */
 document.addEventListener('DOMContentLoaded', async () => {
   const varziaGrid = document.getElementById('relicGrid3');
+  if (!varziaGrid) return;
+
   varziaGrid.innerText = 'Загрузка данных Вазарии...';
 
   let events;
@@ -156,27 +215,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     .sort(([, a], [, b]) => b.length - a.length)
     .slice(0, 8);
 
- for (const [i, [name, parts]] of top8.entries()) {
-  const item = document.createElement('div');
-  item.className = 'grid-item';
-  const span = (i % 3 === 0) ? 25 : 20;
-  item.style.setProperty('--span', span);
+  for (const [i, [name, parts]] of top8.entries()) {
+    const item = document.createElement('div');
+    item.className = 'grid-item';
+    item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
 
     const bg = document.createElement('div');
     bg.className = 'grid-background';
-    bg.style.backgroundPosition = 'center 20px';
-    bg.style.backgroundRepeat = 'no-repeat';
-  
-
-    //  путь к изображению с fallback
-    const framePath = `../img/frame/${name}.png`;
-    const weaponPath = `../img/weapon/${name}.png`;
-
-    const imageUrl = await resolveImage(framePath, weaponPath);
-    bg.style.backgroundImage = `url('${imageUrl}')`;
-     bg.style.backgroundPosition = 'top center';
-      bg.style.backgroundSize = 'contain';
-      bg.style.backgroundRepeat = 'no-repeat';
 
     const overlay = document.createElement('div');
     overlay.className = 'blur-overlay';
@@ -194,65 +239,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     varziaGrid.appendChild(item);
-  }
 
-  // Функция для проверки доступности изображения
-  function resolveImage(primaryUrl, fallbackUrl) {
-    return new Promise((resolve) => {
-      const testImg = new Image();
-      testImg.onload = () => resolve(primaryUrl);
-      testImg.onerror = () => {
-        const fallbackImg = new Image();
-        fallbackImg.onload = () => resolve(fallbackUrl);
-        fallbackImg.onerror = () => resolve(''); 
-        fallbackImg.src = fallbackUrl;
-      };
-      testImg.src = primaryUrl;
-    });
-
-    
+    // Ленивая загрузка: frame → weapon
+    registerLazyCard(item, [
+      `../img/frame/${name}.png`,
+      `../img/weapon/${name}.png`
+    ], PLACEHOLDER);
   }
-  
-   
 });
-//Vazar timer/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/* ========= // Vazar timer ========= */
 document.addEventListener('DOMContentLoaded', () => {
   const timerElem = document.getElementById('columinfo-content_varzia');
-  console.log('timerElem:', timerElem);
-
-
-
   const DURATION_DAYS = 30;
 
   async function startTimer() {
     try {
-      console.log('Запрос last_update.json');
-      const response = await fetch('../public/last_update.json'); 
+      const response = await fetch('../public/last_update.json');
       const data = await response.json();
 
-     
-      const dateStr = data.date.trim();
+      const dateStr = (data.date || '').trim();
       const parts = dateStr.split('-');
       if (parts.length !== 3) throw new Error('Неверный формат даты');
 
       const year = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1; 
+      const month = parseInt(parts[1], 10) - 1;
       const day = parseInt(parts[2], 10);
 
       const lastUpdateDate = new Date(year, month, day);
-      if (isNaN(lastUpdateDate)) {
-        throw new Error('Дата некорректна');
-      }
+      if (isNaN(lastUpdateDate)) throw new Error('Дата некорректна');
 
       const endDate = new Date(lastUpdateDate.getTime() + DURATION_DAYS * 24 * 60 * 60 * 1000);
 
       function updateTimer() {
         const now = new Date();
         const diffMs = endDate - now;
-        
 
         if (diffMs <= 0) {
-          timerElem.textContent = "Вазария — срок 30 дней истёк";
+          timerElem.textContent = 'Вазария — срок 30 дней истёк';
           clearInterval(intervalId);
           return;
         }
@@ -268,13 +293,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const intervalId = setInterval(updateTimer, 60000);
     } catch (e) {
       console.error(e);
-      timerElem.textContent = "Ошибка загрузки даты";
+      if (timerElem) timerElem.textContent = 'Ошибка загрузки даты';
     }
   }
 
-  startTimer();
+  if (timerElem) startTimer();
 });
-// Установка даты
+
+
+/* ========= // Установка даты ========= */
 document.addEventListener('DOMContentLoaded', async () => {
   const dateElem = document.getElementById('date');
 
@@ -283,12 +310,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
 
     const data = await res.json();
-    dateElem.textContent = `Дата обновления: ${data.date}`;
+    if (dateElem) dateElem.textContent = `Дата обновления: ${data.date}`;
   } catch (err) {
     console.error('❌ Ошибка при получении даты:', err);
-    dateElem.textContent = 'Дата обновления: неизвестна';
+    if (dateElem) dateElem.textContent = 'Дата обновления: неизвестна';
   }
 });
-
-
-

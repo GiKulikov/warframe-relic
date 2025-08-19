@@ -16,26 +16,42 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  const placeholder = '../img/placeholder.png';
+  const placeholder = '../img/placeholder.jpg';
 
   // Проверка доступности изображения
-  function resolveImage(primaryUrl, fallbackUrl) {
-    return new Promise((resolve) => {
-      const testImg = new Image();
-      testImg.onload = () => resolve(primaryUrl);
-      testImg.onerror = () => {
-        if (!fallbackUrl) {
-          resolve('');
-          return;
-        }
-        const fallbackImg = new Image();
-        fallbackImg.onload = () => resolve(fallbackUrl);
-        fallbackImg.onerror = () => resolve('');
-        fallbackImg.src = fallbackUrl;
+const imageCache = {};
+
+async function resolveImage(primaryUrl, fallbackUrl) {
+  const cacheKey = primaryUrl + '|' + fallbackUrl;
+  if (imageCache[cacheKey]) return imageCache[cacheKey]; // возвращаем из кэша
+
+  return new Promise((resolve) => {
+    const testImg = new Image();
+    testImg.onload = () => {
+      imageCache[cacheKey] = primaryUrl;
+      resolve(primaryUrl);
+    };
+    testImg.onerror = () => {
+      if (!fallbackUrl) {
+        imageCache[cacheKey] = '';
+        resolve('');
+        return;
+      }
+      const fallbackImg = new Image();
+      fallbackImg.onload = () => {
+        imageCache[cacheKey] = fallbackUrl;
+        resolve(fallbackUrl);
       };
-      testImg.src = primaryUrl;
-    });
-  }
+      fallbackImg.onerror = () => {
+        imageCache[cacheKey] = '';
+        resolve('');
+      };
+      fallbackImg.src = fallbackUrl;
+    };
+    testImg.src = primaryUrl;
+  });
+}
+
 
   // Наблюдатель для ленивой загрузки
   const observer = new IntersectionObserver((entries) => {
