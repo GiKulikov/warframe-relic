@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
+  const placeholder = '../img/placeholder.png';
+
+  // Проверка доступности изображения
   function resolveImage(primaryUrl, fallbackUrl) {
     return new Promise((resolve) => {
       const testImg = new Image();
@@ -34,9 +37,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  const placeholder = '../img/placeholder.png';
+  // Наблюдатель для ленивой загрузки
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(async (entry) => {
+      if (entry.isIntersecting) {
+        const card = entry.target;
+        const name = card.dataset.name;
+        const bgDiv = card.querySelector('.grid-background');
 
-  const renderPrimes = async (filter = '') => {
+        // Пути к картинкам
+        const framePath = `../img/frame/${name}.png`;
+        const weaponPath = `../img/weapon/${name}.png`;
+
+        // Ждём доступное изображение
+        const imgPath = await resolveImage(framePath, weaponPath);
+
+        // Устанавливаем фон
+        bgDiv.style.backgroundImage = `url('${imgPath || placeholder}')`;
+
+        observer.unobserve(card); // перестаём следить за карточкой
+      }
+    });
+  }, { threshold: 0.1 });
+
+  const renderPrimes = (filter = '') => {
     container.innerHTML = '';
 
     const entries = Object.entries(primes).filter(([name]) =>
@@ -51,8 +75,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     for (const [name, parts] of entries) {
       const card = document.createElement('div');
       card.className = 'prime-card';
+      card.dataset.name = name; // сохраняем имя для lazy load
 
-      // Фоновое изображение
+      // Фоновое изображение (пока placeholder)
       const bgDiv = document.createElement('div');
       bgDiv.className = 'grid-background';
       bgDiv.style.backgroundImage = `url('${placeholder}')`;
@@ -78,19 +103,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       container.appendChild(card);
 
-      // Пути к картинкам
-      const framePath = `../img/frame/${name}.png`;
-      const weaponPath = `../img/weapon/${name}.png`;
-
-      // Ждем доступное изображение
-      const imgPath = await resolveImage(framePath, weaponPath);
-
-      // Устанавливаем фон в bgDiv
-      bgDiv.style.backgroundImage = `url('${imgPath || placeholder}')`;
+      // Подключаем ленивую загрузку для карточки
+      observer.observe(card);
     }
   };
 
-  await renderPrimes();
+  renderPrimes();
 
   searchInput.addEventListener('input', () => {
     const q = searchInput.value.trim();
