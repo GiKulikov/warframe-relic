@@ -49,7 +49,7 @@ function registerLazyCard(card, urls, placeholder) {
 }
 
 // Общий плейсхолдер
-const PLACEHOLDER = '../img/placeholder.png';
+const PLACEHOLDER = '../img/placeholder.jpg';
 
 
 /* ========= // for relics ========= */
