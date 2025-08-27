@@ -1,6 +1,4 @@
 /* ========= Общие хелперы для ленивой загрузки ========= */
-
-// Пытаемся загрузить первый доступный URL из списка (последовательно)
 function loadFirstAvailable(urls) {
   return new Promise((resolve) => {
     let i = 0;
@@ -16,8 +14,7 @@ function loadFirstAvailable(urls) {
   });
 }
 
-// Один IntersectionObserver на весь файл
-const __lazyCards = new WeakMap(); // card -> { urls, placeholder }
+const __lazyCards = new WeakMap();
 const __io = new IntersectionObserver(async (entries) => {
   for (const entry of entries) {
     if (!entry.isIntersecting) continue;
@@ -35,11 +32,9 @@ const __io = new IntersectionObserver(async (entries) => {
   }
 }, { rootMargin: '200px 0px', threshold: 0.1 });
 
-// Регистрируем карточку на ленивую подгрузку
 function registerLazyCard(card, urls, placeholder) {
   const bg = card.querySelector('.grid-background');
   bg.style.backgroundImage = `url('${placeholder}')`;
-  // Универсальные настройки фона (как у тебя)
   bg.style.backgroundPosition = 'top center';
   bg.style.backgroundSize = 'contain';
   bg.style.backgroundRepeat = 'no-repeat';
@@ -48,13 +43,10 @@ function registerLazyCard(card, urls, placeholder) {
   __io.observe(card);
 }
 
-// Общий плейсхолдер
 const PLACEHOLDER = '../img/placeholder.jpg';
 
-
-/* ========= // for relics ========= */
 document.addEventListener('DOMContentLoaded', async () => {
-  // Выпадающее меню (оставлено без изменений)
+  // Выпадающее меню
   const infoLink = document.querySelector('.info-link');
   const dropdown = document.querySelector('.dropdown');
   if (infoLink && dropdown) {
@@ -69,196 +61,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Загрузка реликвий
-  const relicGrid = document.getElementById('relicGrid');
-  const res = await fetch('../public/relics.json');
-  const relics = await res.json();
-
-  // Группируем реликвии по tier
-  const byTier = relics.reduce((acc, r) => {
-    acc[r.tier] = acc[r.tier] || [];
-    acc[r.tier].push(r);
-    return acc;
-  }, {});
-
-  // Для каждого нужного tier берём случайно по 2 элемента
-  const desiredTiers = ['Lith','Meso','Neo','Axi'];
-  const selected = [];
-  desiredTiers.forEach(tier => {
-    const list = (byTier[tier] || []).slice();
-    for (let i = list.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [list[i], list[j]] = [list[j], list[i]];
-    }
-    selected.push(...list.slice(0,2));
-  });
-
-  // Перемешиваем итоговый массив
-  for (let i = selected.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [selected[i], selected[j]] = [selected[j], selected[i]];
-  }
-
-  // Рендерим (ленивая загрузка фона по tier)
-  selected.forEach((relic, i) => {
-    const item = document.createElement('div');
-    item.className = 'grid-item';
-    const span = (i % 3 === 0) ? 25 : 20;
-    item.style.setProperty('--span', span);
-
-    const bg = document.createElement('div');
-    bg.className = 'grid-background';
-
-    const overlay = document.createElement('div');
-    overlay.className = 'blur-overlay';
-    overlay.innerHTML = `
-      <div class="relic-title">${relic.name}</div>
-      <div class="relic-tier">${relic.tier} Relic</div>
-    `;
-
-    bg.appendChild(overlay);
-    item.appendChild(bg);
-
-    item.addEventListener('click', () => {
-      window.open(`https://warframe.market/items/${relic.slug}/dropsources`, '_blank');
-    });
-
-    relicGrid.appendChild(item);
-
-    // Ленивая загрузка: один URL — картинка тира
-    registerLazyCard(item, [
-      `../img/relic/${relic.tier}.png`
-    ], PLACEHOLDER);
-  });
-});
-
-
-/* ========= // for prime ========= */
-document.addEventListener('DOMContentLoaded', async () => {
-  const primeGrid = document.getElementById('relicGrid2');
-  if (!primeGrid) return;
-
-  primeGrid.innerText = 'Загрузка прайм частей...';
-
-  let primes;
+  // Установка даты
+  const dateElem = document.getElementById('date');
   try {
-    const res = await fetch('../public/primes.json');
-    primes = await res.json();
+    const res = await fetch('../public/last_update.json');
+    if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
+    const data = await res.json();
+    if (dateElem) dateElem.textContent = `Дата обновления: ${data.date}`;
   } catch (err) {
-    primeGrid.innerText = 'Ошибка загрузки прайм частей.';
-    console.error(err);
-    return;
+    console.error('❌ Ошибка при получении даты:', err);
+    if (dateElem) dateElem.textContent = 'Дата обновления: неизвестна';
   }
 
-  primeGrid.innerHTML = '';
-
-  const entries = Object.entries(primes);
-  const top8 = entries
-    .sort(([, a], [, b]) => b.length - a.length)
-    .slice(0, 8);
-
-  top8.forEach(([name, parts], i) => {
-    const item = document.createElement('div');
-    item.className = 'grid-item';
-    item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
-
-    const bg = document.createElement('div');
-    bg.className = 'grid-background';
-
-    const overlay = document.createElement('div');
-    overlay.className = 'blur-overlay';
-    overlay.innerHTML = `
-      <div class="relic-title">${name}</div>
-      <div class="relic-tier">${parts.length} частей</div>
-    `;
-
-    bg.appendChild(overlay);
-    item.appendChild(bg);
-
-    item.addEventListener('click', () => {
-      const encoded = encodeURIComponent(name);
-      window.location.href = `../path_prime/prime_details.html?name=${encoded}`;
-    });
-
-    primeGrid.appendChild(item);
-
-    // Ленивая загрузка: сначала пробуем frame, затем weapon
-    registerLazyCard(item, [
-      `../img/frame/${name}.png`,
-      `../img/weapon/${name}.png`
-    ], PLACEHOLDER);
-  });
-});
-
-
-/* ========= // varzia relics ========= */
-document.addEventListener('DOMContentLoaded', async () => {
-  const varziaGrid = document.getElementById('relicGrid3');
-  if (!varziaGrid) return;
-
-  varziaGrid.innerText = 'Загрузка данных Вазарии...';
-
-  let events;
-  try {
-    const res = await fetch('../public/eventRelic.json');
-    events = await res.json();
-  } catch (err) {
-    varziaGrid.innerText = 'Ошибка загрузки данных Вазарии.';
-    console.error(err);
-    return;
-  }
-
-  varziaGrid.innerHTML = '';
-
-  const entries = Object.entries(events);
-  const top8 = entries
-    .sort(([, a], [, b]) => b.length - a.length)
-    .slice(0, 8);
-
-  for (const [i, [name, parts]] of top8.entries()) {
-    const item = document.createElement('div');
-    item.className = 'grid-item';
-    item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
-
-    const bg = document.createElement('div');
-    bg.className = 'grid-background';
-
-    const overlay = document.createElement('div');
-    overlay.className = 'blur-overlay';
-    overlay.innerHTML = `
-      <div class="relic-title">${name}</div>
-      <div class="relic-tier">${parts.length} частей</div>
-    `;
-
-    bg.appendChild(overlay);
-    item.appendChild(bg);
-
-    item.addEventListener('click', () => {
-      const encoded = encodeURIComponent(name);
-      window.location.href = `../path_varzia_relic/varzia_details.html?name=${encoded}`;
-    });
-
-    varziaGrid.appendChild(item);
-
-    // Ленивая загрузка: frame → weapon
-    registerLazyCard(item, [
-      `../img/frame/${name}.png`,
-      `../img/weapon/${name}.png`
-    ], PLACEHOLDER);
-  }
-});
-
-
-/* ========= // Vazar timer ========= */
-document.addEventListener('DOMContentLoaded', () => {
+  // Таймер Варзии
   const timerElem = document.getElementById('columinfo-content_varzia');
-  const DURATION_DAYS = 30;
-
-  async function startTimer() {
+  if (timerElem) {
+    const DURATION_DAYS = 30;
     try {
       const response = await fetch('../public/last_update.json');
       const data = await response.json();
-
       const dateStr = (data.date || '').trim();
       const parts = dateStr.split('-');
       if (parts.length !== 3) throw new Error('Неверный формат даты');
@@ -293,26 +114,180 @@ document.addEventListener('DOMContentLoaded', () => {
       const intervalId = setInterval(updateTimer, 60000);
     } catch (e) {
       console.error(e);
-      if (timerElem) timerElem.textContent = 'Ошибка загрузки даты';
+      timerElem.textContent = 'Ошибка загрузки даты';
     }
   }
 
-  if (timerElem) startTimer();
-});
+  // Загрузка реликвий
+  const relicGrid = document.getElementById('relicGrid');
+  if (relicGrid) {
+    try {
+      const res = await fetch('../public/relics.json');
+      const relicsData = await res.json();
+
+      // Группируем реликвии по tier
+      const newByTier = relicsData.added.reduce((acc, r) => {
+        acc[r.tier] = acc[r.tier] || [];
+        acc[r.tier].push(r);
+        return acc;
+      }, {});
+      const oldByTier = relicsData.current.reduce((acc, r) => {
+        acc[r.tier] = acc[r.tier] || [];
+        acc[r.tier].push(r);
+        return acc;
+      }, {});
+
+      // Выбираем по 1 реликвии каждого типа (Lith, Meso, Neo, Axi)
+      const desiredTiers = ['Lith', 'Meso', 'Neo', 'Axi'];
+      const newRelics = desiredTiers
+        .map(tier => (newByTier[tier] || [])[Math.floor(Math.random() * (newByTier[tier] || []).length)] || null)
+        .filter(r => r);
+      const oldRelics = desiredTiers
+        .map(tier => (oldByTier[tier] || [])[Math.floor(Math.random() * (oldByTier[tier] || []).length)] || null)
+        .filter(r => r);
+      const selectedRelics = [...newRelics, ...oldRelics];
+
+      relicGrid.innerHTML = '';
+
+      selectedRelics.forEach((relic, i) => {
+        if (!relic) return; // Пропускаем, если реликвия не найдена
+        const item = document.createElement('div');
+        item.className = 'grid-item';
+        if (i < 4) item.classList.add('new'); // Первые 4 — новые
+        item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
+
+        const bg = document.createElement('div');
+        bg.className = 'grid-background';
+
+        const overlay = document.createElement('div');
+        overlay.className = 'blur-overlay';
+        overlay.innerHTML = `
+          <div class="relic-title">${relic.name}</div>
+          <div class="relic-tier">${relic.tier} Relic${i < 4 ? ' <span class="new-badge">NEW</span>' : ''}</div>
+        `;
+
+        bg.appendChild(overlay);
+        item.appendChild(bg);
+
+        item.addEventListener('click', () => {
+          window.open(`https://warframe.market/items/${relic.slug}/dropsources`, '_blank');
+        });
+
+        relicGrid.appendChild(item);
+
+        registerLazyCard(item, [`../img/relic/${relic.tier}.png`], PLACEHOLDER);
+      });
+    } catch (err) {
+      relicGrid.innerText = 'Ошибка загрузки реликвий.';
+      console.error(err);
+    }
+  }
+
+// Загрузка прайм-частей
+  const primeGrid = document.getElementById('relicGrid2');
+  if (primeGrid) {
+    try {
+      primeGrid.innerText = 'Загрузка прайм частей...';
+      const res = await fetch('../public/primes.json');
+      const primes = await res.json();
+
+      // Фильтруем новые прайм-объекты (полностью новые, которых не было раньше)
+      const newPrimes = Object.entries(primes.added).filter(([name]) => {
+        return !(name in primes.current) && !(name in primes.removed);
+      }).slice(0, 4);
+      // Старые прайм-объекты (сортировка по количеству частей)
+      const oldPrimes = Object.entries(primes.current)
+        .sort(([, a], [, b]) => b.length - a.length)
+        .slice(0, 5);
+      const selectedPrimes = [...newPrimes, ...oldPrimes];
+
+      primeGrid.innerHTML = '';
+
+      selectedPrimes.forEach(([name, parts], i) => {
+        const item = document.createElement('div');
+        item.className = 'grid-item';
+        if (i < 4) item.classList.add('new'); // Первые 4 — новые
+        item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
+
+        const bg = document.createElement('div');
+        bg.className = 'grid-background';
+
+        const overlay = document.createElement('div');
+        overlay.className = 'blur-overlay';
+        overlay.innerHTML = `
+          <div class="relic-title">${name}</div>
+          <div class="relic-tier">${parts.length} частей${i < 4 ? ' <span class="new-badge">NEW</span>' : ''}</div>
+        `;
+
+        bg.appendChild(overlay);
+        item.appendChild(bg);
+
+        item.addEventListener('click', () => {
+          const encoded = encodeURIComponent(name);
+          window.location.href = `../path_prime/prime_details.html?name=${encoded}`;
+        });
+
+        primeGrid.appendChild(item);
+
+        registerLazyCard(item, [
+          `../img/frame/${name}.png`,
+          `../img/weapon/${name}.png`
+        ], PLACEHOLDER);
+      });
+    } catch (err) {
+      primeGrid.innerText = 'Ошибка загрузки прайм частей.';
+      console.error(err);
+    }
+  }
 
 
-/* ========= // Установка даты ========= */
-document.addEventListener('DOMContentLoaded', async () => {
-  const dateElem = document.getElementById('date');
+  // Загрузка данных Варзии (без разделения на новое/старое)
+  const varziaGrid = document.getElementById('relicGrid3');
+  if (varziaGrid) {
+    try {
+      varziaGrid.innerText = 'Загрузка данных Вазарии...';
+      const res = await fetch('../public/eventRelic.json');
+      const events = await res.json();
 
-  try {
-    const res = await fetch('../public/last_update.json');
-    if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
+      const top8 = Object.entries(events)
+        .sort(([, a], [, b]) => b.length - a.length)
+        .slice(0, 8);
 
-    const data = await res.json();
-    if (dateElem) dateElem.textContent = `Дата обновления: ${data.date}`;
-  } catch (err) {
-    console.error('❌ Ошибка при получении даты:', err);
-    if (dateElem) dateElem.textContent = 'Дата обновления: неизвестна';
+      varziaGrid.innerHTML = '';
+
+      top8.forEach(([name, parts], i) => {
+        const item = document.createElement('div');
+        item.className = 'grid-item';
+        item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
+
+        const bg = document.createElement('div');
+        bg.className = 'grid-background';
+
+        const overlay = document.createElement('div');
+        overlay.className = 'blur-overlay';
+        overlay.innerHTML = `
+          <div class="relic-title">${name}</div>
+          <div class="relic-tier">${parts.length} частей</div>
+        `;
+
+        bg.appendChild(overlay);
+        item.appendChild(bg);
+
+        item.addEventListener('click', () => {
+          const encoded = encodeURIComponent(name);
+          window.location.href = `../path_varzia_relic/varzia_details.html?name=${encoded}`;
+        });
+
+        varziaGrid.appendChild(item);
+
+        registerLazyCard(item, [
+          `../img/frame/${name}.png`,
+          `../img/weapon/${name}.png`
+        ], PLACEHOLDER);
+      });
+    } catch (err) {
+      varziaGrid.innerText = 'Ошибка загрузки данных Вазарии.';
+      console.error(err);
+    }
   }
 });

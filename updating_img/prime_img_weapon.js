@@ -19,7 +19,17 @@ if (!fs.existsSync(weaponDir)) {
 async function processFile(filePath) {
   let primesData;
   try {
-    primesData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    const rawData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    // Для primes.json учитываем новую структуру { current, added, removed }
+    if (path.basename(filePath) === 'primes.json') {
+      primesData = {
+        ...rawData.current,
+        ...rawData.added
+      };
+    } else {
+      // Для eventRelic.json оставляем как есть
+      primesData = rawData;
+    }
   } catch (err) {
     console.error(`❌ Ошибка чтения ${path.basename(filePath)}:`, err.message);
     return;

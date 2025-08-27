@@ -180,6 +180,12 @@ box-shadow: 0 0 10px rgba(0, 0, 0, 0.411);
  padding: 20px;
   color: #fff;
 }
+.new-badge {
+  color: #b1a3c3;
+  font-weight: bold;
+  font-size: 16px;
+  margin-left: 6px;
+}
 
 .grid-item:hover{
   transform: translateY(5px);

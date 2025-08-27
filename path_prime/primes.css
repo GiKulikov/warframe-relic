@@ -120,6 +120,12 @@ font-size: 14px;
   transition: color 0.3s ease;
   user-select: none;
 }
+.new-badge {
+  color: #b1a3c3;
+  font-weight: bold;
+  font-size: 16px;
+  margin-left: 6px;
+}
 
 .prime-details {
   font-size: 14px;
@@ -129,8 +135,8 @@ font-size: 14px;
 }
 
 .prime-card:hover .prime-details {
-  color: transparent;
-  transition: color 0.3s ease;
+  visibility: collapse;
+  transition: visibility 0.12s ease;
 }
 
 

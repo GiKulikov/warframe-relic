@@ -17,83 +17,69 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const placeholder = '../img/placeholder.jpg';
+  const imageCache = {};
 
-  // Проверка доступности изображения
-const imageCache = {};
+  async function resolveImage(primaryUrl, fallbackUrl) {
+    const cacheKey = primaryUrl + '|' + fallbackUrl;
+    if (imageCache[cacheKey]) return imageCache[cacheKey];
 
-async function resolveImage(primaryUrl, fallbackUrl) {
-  const cacheKey = primaryUrl + '|' + fallbackUrl;
-  if (imageCache[cacheKey]) return imageCache[cacheKey]; // возвращаем из кэша
-
-  return new Promise((resolve) => {
-    const testImg = new Image();
-    testImg.onload = () => {
-      imageCache[cacheKey] = primaryUrl;
-      resolve(primaryUrl);
-    };
-    testImg.onerror = () => {
-      if (!fallbackUrl) {
-        imageCache[cacheKey] = '';
-        resolve('');
-        return;
-      }
-      const fallbackImg = new Image();
-      fallbackImg.onload = () => {
-        imageCache[cacheKey] = fallbackUrl;
-        resolve(fallbackUrl);
+    return new Promise((resolve) => {
+      const testImg = new Image();
+      testImg.onload = () => { imageCache[cacheKey] = primaryUrl; resolve(primaryUrl); };
+      testImg.onerror = () => {
+        if (!fallbackUrl) { imageCache[cacheKey] = ''; resolve(''); return; }
+        const fallbackImg = new Image();
+        fallbackImg.onload = () => { imageCache[cacheKey] = fallbackUrl; resolve(fallbackUrl); };
+        fallbackImg.onerror = () => { imageCache[cacheKey] = ''; resolve(''); };
+        fallbackImg.src = fallbackUrl;
       };
-      fallbackImg.onerror = () => {
-        imageCache[cacheKey] = '';
-        resolve('');
-      };
-      fallbackImg.src = fallbackUrl;
-    };
-    testImg.src = primaryUrl;
-  });
-}
+      testImg.src = primaryUrl;
+    });
+  }
 
-
-  // Наблюдатель для ленивой загрузки
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(async (entry) => {
-      if (entry.isIntersecting) {
-        const card = entry.target;
-        const name = card.dataset.name;
-        const bgDiv = card.querySelector('.grid-background');
+      if (!entry.isIntersecting) return;
+      const card = entry.target;
+      const name = card.dataset.name;
+      const bgDiv = card.querySelector('.grid-background');
 
-        // Пути к картинкам
-        const framePath = `../img/frame/${name}.png`;
-        const weaponPath = `../img/weapon/${name}.png`;
+      const framePath = `../img/frame/${name}.png`;
+      const weaponPath = `../img/weapon/${name}.png`;
 
-        // Ждём доступное изображение
-        const imgPath = await resolveImage(framePath, weaponPath);
+      const imgPath = await resolveImage(framePath, weaponPath);
+      bgDiv.style.backgroundImage = `url('${imgPath || placeholder}')`;
 
-        // Устанавливаем фон
-        bgDiv.style.backgroundImage = `url('${imgPath || placeholder}')`;
-
-        observer.unobserve(card); // перестаём следить за карточкой
-      }
+      observer.unobserve(card);
     });
   }, { threshold: 0.1 });
 
   const renderPrimes = (filter = '') => {
     container.innerHTML = '';
 
-    const entries = Object.entries(primes).filter(([name]) =>
-      name.toLowerCase().includes(filter.toLowerCase())
-    );
+    // Все имена праймов из current + added
+    const namesSet = new Set([
+      ...Object.keys(primes.current || {}),
+      ...Object.keys(primes.added || {})
+    ]);
 
-    if (entries.length === 0) {
+    const entries = Array.from(namesSet)
+      .filter(name => name.toLowerCase().includes(filter.toLowerCase()))
+      .map(name => [name, {
+        current: primes.current[name] || [],
+        added: primes.added[name] || []
+      }]);
+
+    if (!entries.length) {
       container.innerHTML = '<p>Ничего не найдено.</p>';
       return;
     }
 
-    for (const [name, parts] of entries) {
+    for (const [name, partsObj] of entries) {
       const card = document.createElement('div');
       card.className = 'prime-card';
-      card.dataset.name = name; // сохраняем имя для lazy load
+      card.dataset.name = name;
 
-      // Фоновое изображение (пока placeholder)
       const bgDiv = document.createElement('div');
       bgDiv.className = 'grid-background';
       bgDiv.style.backgroundImage = `url('${placeholder}')`;
@@ -101,13 +87,24 @@ async function resolveImage(primaryUrl, fallbackUrl) {
       bgDiv.style.backgroundSize = 'contain';
       bgDiv.style.backgroundRepeat = 'no-repeat';
 
-      // Оверлей с текстом
       const overlay = document.createElement('div');
       overlay.className = 'blur-overlay';
+
+      // Подсчёт частей
+      const currentCount = (partsObj.current || []).length;
+      const addedCount = (partsObj.added || []).length;
+      const partsCount = currentCount + addedCount;
+      const hasNew = addedCount > 0;
+
       overlay.innerHTML = `
         <div class="prime-title">${name}</div>
-        <div class="prime-details">${parts.length} частей в актуальных реликвиях</div>
+        <div class="prime-details">
+          ${partsCount} частей в актуальных реликвиях
+          ${hasNew ? '<span class="new-badge">New</span>' : ''}
+        </div>
       `;
+
+      
 
       bgDiv.appendChild(overlay);
       card.appendChild(bgDiv);
@@ -118,8 +115,6 @@ async function resolveImage(primaryUrl, fallbackUrl) {
       };
 
       container.appendChild(card);
-
-      // Подключаем ленивую загрузку для карточки
       observer.observe(card);
     }
   };
@@ -131,7 +126,6 @@ async function resolveImage(primaryUrl, fallbackUrl) {
     renderPrimes(q);
   });
 
-  // Загрузка даты обновления
   try {
     const res = await fetch('../public/last_update.json');
     if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
@@ -142,8 +136,6 @@ async function resolveImage(primaryUrl, fallbackUrl) {
     }
   } catch (err) {
     console.error('Ошибка при получении даты:', err);
-    if (dateElem) {
-      dateElem.textContent = 'Дата обновления: неизвестна';
-    }
+    if (dateElem) dateElem.textContent = 'Дата обновления: неизвестна';
   }
 });
