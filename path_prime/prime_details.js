@@ -26,12 +26,26 @@ document.addEventListener('DOMContentLoaded', async () => {
   const isWarframe = warframeCount > (partTypes.length - warframeCount); // Большинство - варфрейм-части
 
   // Фильтруем части: для варфреймов — только их части, для оружия — все части
-  const parts = allParts.filter(part => {
+  let parts = allParts.filter(part => {
     const partName = part.item.split(' ').pop();
     return isWarframe
       ? ['Blueprint', 'Chassis', 'Neuroptics', 'Systems'].includes(partName) // Для варфреймов
       : true; // Для оружия — все части, включая Blueprint
   });
+
+  // Сортировка частей
+  if (isWarframe) {
+    // Определяем порядок для варфреймов: Blueprint, Chassis, Neuroptics, Systems
+    const partOrder = ['Blueprint', 'Chassis', 'Neuroptics', 'Systems'];
+    parts.sort((a, b) => {
+      const partNameA = a.item.split(' ').pop();
+      const partNameB = b.item.split(' ').pop();
+      return partOrder.indexOf(partNameA) - partOrder.indexOf(partNameB);
+    });
+  } else {
+    // Для оружия сортируем по алфавиту (или оставляем как есть, если не нужна сортировка)
+    parts.sort((a, b) => a.item.localeCompare(b.item));
+  }
 
   const container = document.getElementById('partsContainer');
   container.innerHTML = '';
