@@ -1,80 +1,138 @@
 {
-  "Fang Prime": [
-    {
-      "item": "Fang Prime Blueprint",
-      "relic": "Lith N13"
-    }
-  ],
-  "Wukong Prime": [
-    {
-      "item": "Wukong Prime Chassis Blueprint",
-      "relic": "Lith N13"
-    },
-    {
-      "item": "Wukong Prime Neuroptics Blueprint",
-      "relic": "Lith S13"
-    },
-    {
-      "item": "Wukong Prime Blueprint",
-      "relic": "Meso W2"
-    },
-    {
-      "item": "Wukong Prime Systems Blueprint",
-      "relic": "Neo Z9"
-    }
-  ],
-  "Equinox Prime": [
-    {
-      "item": "Equinox Prime Blueprint",
-      "relic": "Lith S13"
-    },
-    {
-      "item": "Equinox Prime Systems Blueprint",
-      "relic": "Neo E3"
-    },
-    {
-      "item": "Equinox Prime Chassis Blueprint",
-      "relic": "Neo Z9"
-    },
-    {
-      "item": "Equinox Prime Neuroptics Blueprint",
-      "relic": "Axi T9"
-    }
-  ],
-  "Stradavar Prime": [
-    {
-      "item": "Stradavar Prime Blueprint",
-      "relic": "Lith S13"
-    }
-  ],
-  "Tipedo Prime": [
-    {
-      "item": "Tipedo Prime Blueprint",
-      "relic": "Meso W2"
-    }
-  ],
-  "Lex Prime": [
-    {
-      "item": "Lex Prime Blueprint",
-      "relic": "Neo E3"
-    }
-  ],
   "Burston Prime": [
     {
+      "item": "Burston Prime Receiver",
+      "relic": "Lith C8"
+    },
+    {
+      "item": "Burston Prime Barrel",
+      "relic": "Lith T6"
+    },
+    {
       "item": "Burston Prime Blueprint",
-      "relic": "Neo Z9"
+      "relic": "Neo K3"
+    },
+    {
+      "item": "Burston Prime Stock",
+      "relic": "Axi G5"
     }
   ],
-  "Ninkondi Prime": [
+  "Tiberon Prime": [
     {
-      "item": "Ninkondi Prime Blueprint",
-      "relic": "Axi T9"
+      "item": "Tiberon Prime Blueprint",
+      "relic": "Lith C8"
+    },
+    {
+      "item": "Tiberon Prime Stock",
+      "relic": "Lith T6"
+    },
+    {
+      "item": "Tiberon Prime Barrel",
+      "relic": "Neo K3"
+    },
+    {
+      "item": "Tiberon Prime Receiver",
+      "relic": "Axi G5"
     }
   ],
-  "Zhuge Prime": [
+  "Zephyr Prime": [
     {
-      "item": "Zhuge Prime Blueprint",
-      "relic": "Axi T9"
+      "item": "Zephyr Prime Neuroptics Blueprint",
+      "relic": "Lith C8"
+    },
+    {
+      "item": "Zephyr Prime Chassis Blueprint",
+      "relic": "Meso R4"
+    },
+    {
+      "item": "Zephyr Prime Systems Blueprint",
+      "relic": "Neo Z8"
+    },
+    {
+      "item": "Zephyr Prime Blueprint",
+      "relic": "Axi G5"
+    }
+  ],
+  "Rubico Prime": [
+    {
+      "item": "Rubico Prime Stock",
+      "relic": "Lith C8"
+    },
+    {
+      "item": "Rubico Prime Barrel",
+      "relic": "Lith T6"
+    },
+    {
+      "item": "Rubico Prime Blueprint",
+      "relic": "Meso R4"
+    },
+    {
+      "item": "Rubico Prime Receiver",
+      "relic": "Neo K3"
+    }
+  ],
+  "Chroma Prime": [
+    {
+      "item": "Chroma Prime Neuroptics Blueprint",
+      "relic": "Lith C8"
+    },
+    {
+      "item": "Chroma Prime Systems Blueprint",
+      "relic": "Meso R4"
+    },
+    {
+      "item": "Chroma Prime Chassis Blueprint",
+      "relic": "Neo Z8"
+    },
+    {
+      "item": "Chroma Prime Blueprint",
+      "relic": "Axi G5"
+    }
+  ],
+  "Braton Prime": [
+    {
+      "item": "Braton Prime Blueprint",
+      "relic": "Lith T6"
+    },
+    {
+      "item": "Braton Prime Barrel",
+      "relic": "Meso R4"
+    },
+    {
+      "item": "Braton Prime Receiver",
+      "relic": "Neo K3"
+    },
+    {
+      "item": "Braton Prime Stock",
+      "relic": "Neo Z8"
+    }
+  ],
+  "Kronen Prime": [
+    {
+      "item": "Kronen Prime Handle",
+      "relic": "Lith T6"
+    },
+    {
+      "item": "Kronen Prime Blade",
+      "relic": "Neo K3"
+    },
+    {
+      "item": "Kronen Prime Blueprint",
+      "relic": "Neo Z8"
+    }
+  ],
+  "Gram Prime": [
+    {
+      "item": "Gram Prime Blade",
+      "relic": "Meso R4"
+    },
+    {
+      "item": "Gram Prime Blueprint",
+      "relic": "Neo Z8"
+    },
+    {
+      "item": "Gram Prime Handle",
+      "relic": "Axi G5"
     }
   ]
 }
