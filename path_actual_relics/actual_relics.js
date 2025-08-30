@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="relic-title">${relic.name}</div>
         <div class="relic-tier">${relic.tier} Relic${addedRelics.has(relic.slug) ? ' <span class="new-badge">NEW</span>' : ''}</div>
         <div class="relic-link">
-          <a class="market-link" href="https://warframe.market/items/${relic.slug}/dropsources" target="_blank">
+          <a class="market-link" href="https://wiki.warframe.com/w/${relic.name}" target="_blank">
             Открыть
           </a>
         </div>

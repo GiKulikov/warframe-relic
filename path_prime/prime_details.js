@@ -69,12 +69,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     card.innerHTML = `
       <strong><span class="frame-name">${partDisplayName}</span></strong><br>
       Выпадает из реликвии: <b><span class="relic-name">${relic}</span></b><br><br>
-      <button class="market-btn" onclick="window.open('https://warframe.market/items/${marketSetSlug}', '_blank')">
-        Warframe Market
-      </button>
-      <button class="relic-btn" onclick="window.open('https://warframe.market/items/${relicSlug}/dropsources', '_blank')">
-        Источник реликвии
-      </button>
+      <div class="contBtn">
+        <button class="market-btn" onclick="window.open('https://warframe.market/items/${marketSetSlug}', '_blank')">
+          Купить часть
+        </button>
+        <div>
+          <button class="relic-btn" onclick="window.open('https://warframe.market/items/${relicSlug}', '_blank')">
+            Купить реликвию
+          </button>
+          <button class="wiki-btn" onclick="window.open('https://wiki.warframe.com/w/${relic}', '_blank')">
+            Источник реликвии
+          </button>
+        </div>
+      </div>
     `;
 
     const frameEl = card.querySelector('.frame-name');
@@ -91,6 +98,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       relicEl.style.color = '#aa62ecff';
     });
     card.querySelector('.relic-btn').addEventListener('mouseleave', () => {
+      relicEl.style.color = '';
+    });
+
+    card.querySelector('.wiki-btn').addEventListener('mouseenter', () => {
+      relicEl.style.color = '#aa62ecff';
+    });
+     card.querySelector('.wiki-btn').addEventListener('mouseleave', () => {
       relicEl.style.color = '';
     });
 

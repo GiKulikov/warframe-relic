@@ -20,20 +20,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     card.className = 'part-card';
 
     const marketSetSlug = item.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '');
-   
+    const relicSlug = relic.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '') + '_relic';
 
     card.innerHTML = `
       <strong><span class="frame-name">${item}</span></strong><br>
       Выпадает из реликвии: <b><span class="relic-name">${relic}</span></b><br><br>
 
       <button class="market-btn" onclick="window.open('https://warframe.market/items/${marketSetSlug}', '_blank')">
-        Warframe Market
+        Купить часть
       </button>
-      
+      <button class="relic-btn" onclick="window.open('https://warframe.market/items/${relicSlug}', '_blank')">
+       Купить реликвию
+      </button>
     `;
 
     const frameEl = card.querySelector('.frame-name');
-
+    const relicEl = card.querySelector('.relic-name');
 
     card.querySelector('.market-btn').addEventListener('mouseenter', () => {
       frameEl.style.color = '#aa62ecff';
@@ -42,7 +44,15 @@ document.addEventListener('DOMContentLoaded', async () => {
       frameEl.style.color = '';
     });
 
-   
+     card.querySelector('.relic-btn').addEventListener('mouseenter', () => {
+      relicEl.style.color = '#aa62ecff';
+    });
+     card.querySelector('.relic-btn').addEventListener('mouseleave', () => {
+      relicEl.style.color = '';
+    });
+
+
+    
 
     container.appendChild(card);
   });

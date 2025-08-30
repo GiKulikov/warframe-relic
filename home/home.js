@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         item.appendChild(bg);
 
         item.addEventListener('click', () => {
-          window.open(`https://warframe.market/items/${relic.slug}/dropsources`, '_blank');
+          window.open(`https://wiki.warframe.com/w/${relic.name}`, '_blank');
         });
 
         relicGrid.appendChild(item);
