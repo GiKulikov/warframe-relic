@@ -6,6 +6,12 @@ background-color: #000000e8;
   color: white;
   margin: 0;
 }
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none; 
+}
 
 main {
   padding-bottom: 40px; 

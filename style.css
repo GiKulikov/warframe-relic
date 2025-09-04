@@ -1,44 +1,55 @@
+/* Сброс */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: sans-serif;
   background-color: #00000062;
-  }
+}
 
+/* ---------- HEADER ---------- */
 header {
   background-color: #2d2c33;
-  height: 60px;
+  min-height: 60px;               /* гибче, чем фиксированная height */
   display: flex;
   align-items: center;
+  justify-content: space-between;
   position: sticky;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  justify-content: space-between;
   padding: 0 30px;
 }
 
 header .logo {
   font-size: 38px;
   font-weight: bold;
-  font-family: Crimson Text, serif;
-  color: white;
+  font-family: "Crimson Text", serif;
+  color: #fff;
+  line-height: 1.2;
 }
 
+/* Навигация */
 header nav {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
 nav a {
-  color: white;
+  color: #fff;
   text-decoration: none;
   padding: 8px 12px;
   cursor: pointer;
@@ -47,7 +58,7 @@ nav a {
   user-select: none;
 }
 
-/* Combobox container */
+/* ---------- COMBOBOX ---------- */
 .combobox {
   position: relative;
   display: inline-block;
@@ -55,11 +66,10 @@ nav a {
   user-select: none;
 }
 
-/* Кнопка combobox */
 .combobox-toggle {
   background: transparent;
   border: none;
-  color: white;
+  color: #fff;
   padding: 8px 12px;
   cursor: pointer;
   display: inline-flex;
@@ -75,7 +85,6 @@ nav a {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Стрелочка */
 .arrow {
   font-size: 12px;
   transition: transform 0.3s ease;
@@ -84,42 +93,35 @@ nav a {
   user-select: none;
 }
 
-/* Поворот стрелочки при открытом меню */
 .combobox-toggle.active .arrow {
   transform: rotate(180deg);
 }
 
-/* Выпадающий список */
 .dropdown {
   position: absolute;
   top: 100%;
-    right: 0;
+  right: 0;
   background-color: #2d2c33;
   border-radius: 4px;
   min-width: 220px;
   padding: 10px 0;
   z-index: 1000;
-
   opacity: 0;
   pointer-events: none;
   transform: translateY(-10px);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   display: flex;
   flex-direction: column;
 }
 
-/* Активный/открытый dropdown */
 .combobox.open .dropdown {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
 
-/* Ссылки в списке */
 .dropdown a {
-  color: white;
+  color: #fff;
   text-decoration: none;
   padding: 8px 16px;
   cursor: pointer;
@@ -130,8 +132,57 @@ nav a {
   background-color: #57545f;
 }
 
+/* ---------- FOOTER ---------- */
 footer {
   text-align: center;
   margin-top: 20px;
   font-size: 14px;
+}
+
+
+
+/* Планшет и телефон */
+@media (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+    padding: 10px 20px;
+  }
+
+  header .logo {
+    font-size: 28px;
+  }
+
+  header nav {
+    width: 100%;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  nav a {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+
+  .dropdown {
+    right: auto;
+    left: 0;
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 480px) {
+  header nav {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  nav a {
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
 }

@@ -1,9 +1,16 @@
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none; 
+}
 body {
   font-family: 'IBM Plex Mono', monospace;
   background-color: #000000e8;
   margin: 50px 0 0;
   color: #ffffff;
 }
+
 
 h1 {
   text-align: center;

@@ -1,3 +1,9 @@
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none; 
+}
 body {
   font-family: 'IBM Plex Mono', monospace;
   background-color: #000000e8;
@@ -155,4 +161,40 @@ footer {
 
 .footer a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+  }
+  .columinfo-header {
+    font-size: 16px;
+    padding: 8px;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}
+
+
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+  .top-banner {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  .grid {
+    grid-template-columns: 1fr 1fr; 
+    gap: 8px;
+  }
+  .relic-title {
+    font-size: 14px;
+  }
+  .relic-tier {
+    font-size: 12px;
+  }
 }
