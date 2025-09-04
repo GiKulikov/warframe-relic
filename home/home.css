@@ -198,9 +198,11 @@ footer {
     font-size: 16px;
     padding: 8px;
   }
-  .grid {
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  }
+ .grid {
+  grid-template-columns: 1fr;
+  width: 100%;
+  box-sizing: border-box;
+}
 }
 
 
