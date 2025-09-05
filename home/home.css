@@ -194,17 +194,43 @@ footer {
     padding: 10px;
     gap: 10px;
   }
+
   .columinfo-header {
     font-size: 16px;
     padding: 8px;
   }
- .grid {
-  grid-template-columns: 1fr;
-  width: 100%;
-  box-sizing: border-box;
-}
+
+  .grid {
+    grid-template-columns: 100%; 
+    justify-content: center; 
+    width: 100%; 
+    margin: 0; 
+  }
+
+  .grid-item {
+    width: 100%; 
+    min-width: 200px; 
+    box-sizing: border-box; 
+  }
+
+  .grid-background {
+    width: 100%; 
+  }
 }
 
 
+@media (max-width: 360px) {
+  .grid {
+    --base-width: 320;
+    --scale: calc(100vw / (var(--base-width) * 1px));
+    transform: scale(var(--scale));
+    transform-origin: top center;
+    width: calc(100% / var(--scale));
+  }
+
+  .blur-overlay { padding: 12px; }
+  .relic-title  { font-size: 14px; }
+  .relic-tier   { font-size: 12px; }
+}
 
 
