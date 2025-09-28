@@ -1,138 +1,116 @@
 {
-  "Burston Prime": [
+  "Dakra Prime": [
     {
-      "item": "Burston Prime Receiver",
-      "relic": "Lith C8"
+      "item": "Dakra Prime Handle",
+      "relic": "Lith M2"
     },
     {
-      "item": "Burston Prime Barrel",
-      "relic": "Lith T6"
+      "item": "Dakra Prime Blueprint",
+      "relic": "Meso B3"
     },
     {
-      "item": "Burston Prime Blueprint",
-      "relic": "Neo K3"
+      "item": "Dakra Prime Handle",
+      "relic": "Neo N9"
     },
     {
-      "item": "Burston Prime Stock",
-      "relic": "Axi G5"
+      "item": "Dakra Prime Blade",
+      "relic": "Axi S4"
     }
   ],
-  "Tiberon Prime": [
+  "Nova Prime": [
     {
-      "item": "Tiberon Prime Blueprint",
-      "relic": "Lith C8"
+      "item": "Nova Prime Neuroptics Blueprint",
+      "relic": "Lith M2"
     },
     {
-      "item": "Tiberon Prime Stock",
-      "relic": "Lith T6"
+      "item": "Nova Prime Systems Blueprint",
+      "relic": "Meso B3"
     },
     {
-      "item": "Tiberon Prime Barrel",
-      "relic": "Neo K3"
+      "item": "Nova Prime Chassis Blueprint",
+      "relic": "Neo N9"
     },
     {
-      "item": "Tiberon Prime Receiver",
-      "relic": "Axi G5"
+      "item": "Nova Prime Blueprint",
+      "relic": "Axi S4"
     }
   ],
-  "Zephyr Prime": [
+  "Soma Prime": [
     {
-      "item": "Zephyr Prime Neuroptics Blueprint",
-      "relic": "Lith C8"
+      "item": "Soma Prime Barrel",
+      "relic": "Lith M2"
     },
     {
-      "item": "Zephyr Prime Chassis Blueprint",
-      "relic": "Meso R4"
+      "item": "Soma Prime Blueprint",
+      "relic": "Meso B3"
     },
     {
-      "item": "Zephyr Prime Systems Blueprint",
-      "relic": "Neo Z8"
+      "item": "Soma Prime Receiver",
+      "relic": "Neo N9"
     },
     {
-      "item": "Zephyr Prime Blueprint",
-      "relic": "Axi G5"
+      "item": "Soma Prime Stock",
+      "relic": "Axi S4"
     }
   ],
-  "Rubico Prime": [
+  "Boar Prime": [
     {
-      "item": "Rubico Prime Stock",
-      "relic": "Lith C8"
+      "item": "Boar Prime Barrel",
+      "relic": "Lith M2"
     },
     {
-      "item": "Rubico Prime Barrel",
-      "relic": "Lith T6"
+      "item": "Boar Prime Stock",
+      "relic": "Meso B3"
     },
     {
-      "item": "Rubico Prime Blueprint",
-      "relic": "Meso R4"
+      "item": "Boar Prime Blueprint",
+      "relic": "Neo N9"
     },
     {
-      "item": "Rubico Prime Receiver",
-      "relic": "Neo K3"
+      "item": "Boar Prime Receiver",
+      "relic": "Axi S4"
     }
   ],
-  "Chroma Prime": [
+  "Mag Prime": [
     {
-      "item": "Chroma Prime Neuroptics Blueprint",
-      "relic": "Lith C8"
+      "item": "Mag Prime Blueprint",
+      "relic": "Lith M2"
     },
     {
-      "item": "Chroma Prime Systems Blueprint",
-      "relic": "Meso R4"
+      "item": "Mag Prime Chassis Blueprint",
+      "relic": "Meso B3"
     },
     {
-      "item": "Chroma Prime Chassis Blueprint",
-      "relic": "Neo Z8"
+      "item": "Mag Prime Neuroptics Blueprint",
+      "relic": "Neo N9"
     },
     {
-      "item": "Chroma Prime Blueprint",
-      "relic": "Axi G5"
+      "item": "Mag Prime Systems Blueprint",
+      "relic": "Axi S4"
     }
   ],
-  "Braton Prime": [
+  "Vasto Prime": [
     {
-      "item": "Braton Prime Blueprint",
-      "relic": "Lith T6"
+      "item": "Vasto Prime Barrel",
+      "relic": "Axi A5"
     },
     {
-      "item": "Braton Prime Barrel",
-      "relic": "Meso R4"
+      "item": "Vasto Prime Receiver",
+      "relic": "Axi A5"
     },
     {
-      "item": "Braton Prime Receiver",
-      "relic": "Neo K3"
-    },
-    {
-      "item": "Braton Prime Stock",
-      "relic": "Neo Z8"
+      "item": "Vasto Prime Blueprint",
+      "relic": "Axi A5"
     }
   ],
-  "Kronen Prime": [
+  "Akvasto Prime": [
     {
-      "item": "Kronen Prime Handle",
-      "relic": "Lith T6"
+      "item": "Akvasto Prime Link",
+      "relic": "Axi A5"
     },
     {
-      "item": "Kronen Prime Blade",
-      "relic": "Neo K3"
-    },
-    {
-      "item": "Kronen Prime Blueprint",
-      "relic": "Neo Z8"
-    }
-  ],
-  "Gram Prime": [
-    {
-      "item": "Gram Prime Blade",
-      "relic": "Meso R4"
-    },
-    {
-      "item": "Gram Prime Blueprint",
-      "relic": "Neo Z8"
-    },
-    {
-      "item": "Gram Prime Handle",
-      "relic": "Axi G5"
+      "item": "Akvasto Prime Blueprint",
+      "relic": "Axi A5"
     }
   ]
 }
