@@ -119,71 +119,99 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Загрузка реликвий
-  const relicGrid = document.getElementById('relicGrid');
-  if (relicGrid) {
-    try {
-      const res = await fetch('../public/relics.json');
-      const relicsData = await res.json();
+// Загрузка реликвий
+const relicGrid = document.getElementById('relicGrid');
+if (relicGrid) {
+  try {
+    const res = await fetch('../public/relics.json');
+    const relicsData = await res.json();
 
-      // Группируем реликвии по tier
-      const newByTier = relicsData.added.reduce((acc, r) => {
-        acc[r.tier] = acc[r.tier] || [];
-        acc[r.tier].push(r);
-        return acc;
-      }, {});
-      const oldByTier = relicsData.current.reduce((acc, r) => {
-        acc[r.tier] = acc[r.tier] || [];
-        acc[r.tier].push(r);
-        return acc;
-      }, {});
+    // Группируем реликвии по tier
+    const newByTier = (relicsData.added || []).reduce((acc, r) => {
+      acc[r.tier] = acc[r.tier] || [];
+      acc[r.tier].push(r);
+      return acc;
+    }, {});
+    const oldByTier = (relicsData.current || []).reduce((acc, r) => {
+      acc[r.tier] = acc[r.tier] || [];
+      acc[r.tier].push(r);
+      return acc;
+    }, {});
 
-      // Выбираем по 1 реликвии каждого типа (Lith, Meso, Neo, Axi)
-      const desiredTiers = ['Lith', 'Meso', 'Neo', 'Axi'];
-      const newRelics = desiredTiers
-        .map(tier => (newByTier[tier] || [])[Math.floor(Math.random() * (newByTier[tier] || []).length)] || null)
-        .filter(r => r);
-      const oldRelics = desiredTiers
-        .map(tier => (oldByTier[tier] || [])[Math.floor(Math.random() * (oldByTier[tier] || []).length)] || null)
-        .filter(r => r);
-      const selectedRelics = [...newRelics, ...oldRelics];
+    // Выбираем до 4 новых реликвий по типам (Lith, Meso, Neo, Axi)
+    const desiredTiers = ['Lith', 'Meso', 'Neo', 'Axi'];
+    const newRelics = desiredTiers
+      .map(tier => (newByTier[tier] || [])[Math.floor(Math.random() * (newByTier[tier] || []).length)] || null)
+      .filter(r => r);
 
-      relicGrid.innerHTML = '';
+    // Выбираем старые реликвии по типам, исключая уже выбранные типы
+    const usedTiers = newRelics.map(r => r.tier);
+    const remainingTiers = desiredTiers.filter(tier => !usedTiers.includes(tier));
+    const oldRelicsByType = remainingTiers
+      .map(tier => (oldByTier[tier] || [])[Math.floor(Math.random() * (oldByTier[tier] || []).length)] || null)
+      .filter(r => r);
 
-      selectedRelics.forEach((relic, i) => {
-        if (!relic) return; // Пропускаем, если реликвия не найдена
-        const item = document.createElement('div');
-        item.className = 'grid-item';
-        if (i < 4) item.classList.add('new'); // Первые 4 — новые
-        item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
+    // Дополняем до 8 реликвий, повторяя цикл типов
+    let selectedRelics = [...newRelics, ...oldRelicsByType];
+    let usedNames = selectedRelics.map(r => r.name);
+    let needed = 8 - selectedRelics.length;
 
-        const bg = document.createElement('div');
-        bg.className = 'grid-background';
-
-        const overlay = document.createElement('div');
-        overlay.className = 'blur-overlay';
-        overlay.innerHTML = `
-          <div class="relic-title">${relic.name}</div>
-          <div class="relic-tier">${relic.tier} Relic${i < 4 ? ' <span class="new-badge">NEW</span>' : ''}</div>
-        `;
-
-        bg.appendChild(overlay);
-        item.appendChild(bg);
-
-        item.addEventListener('click', () => {
-          window.open(`https://wiki.warframe.com/w/${relic.name}`, '_blank');
-        });
-
-        relicGrid.appendChild(item);
-
-        registerLazyCard(item, [`../img/relic/${relic.tier}.png`], PLACEHOLDER);
-      });
-    } catch (err) {
-      relicGrid.innerText = 'Ошибка загрузки реликвий.';
-      console.error(err);
+    while (needed > 0) {
+      for (const tier of desiredTiers) {
+        if (needed <= 0) break;
+        const available = (oldByTier[tier] || []).filter(r => !usedNames.includes(r.name));
+        if (available.length > 0) {
+          const selected = available[Math.floor(Math.random() * available.length)];
+          selectedRelics.push(selected);
+          usedNames.push(selected.name);
+          needed--;
+        }
+      }
     }
-  }
 
-// Загрузка прайм-частей
+    selectedRelics = selectedRelics.slice(0, 8);
+
+    relicGrid.innerHTML = '';
+
+    selectedRelics.forEach((relic, i) => {
+      if (!relic) return; // Пропускаем, если реликвия не найдена
+      const item = document.createElement('div');
+      item.className = 'grid-item';
+      if (i < newRelics.length) item.classList.add('new'); // Метка NEW только для новых
+      item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
+
+      const bg = document.createElement('div');
+      bg.className = 'grid-background';
+
+      const overlay = document.createElement('div');
+      overlay.className = 'blur-overlay';
+      overlay.innerHTML = `
+        <div class="relic-title">${relic.name}</div>
+        <div class="relic-tier">${relic.tier} Relic${i < newRelics.length ? ' <span class="new-badge">NEW</span>' : ''}</div>
+      `;
+
+      bg.appendChild(overlay);
+      item.appendChild(bg);
+
+      item.addEventListener('click', () => {
+        window.open(`https://wiki.warframe.com/w/${relic.name}`, '_blank');
+      });
+
+      relicGrid.appendChild(item);
+
+      registerLazyCard(item, [`../img/relic/${relic.tier}.png`], PLACEHOLDER);
+    });
+
+    if (selectedRelics.length === 0) {
+      relicGrid.innerText = 'Нет доступных реликвий.';
+    }
+  } catch (err) {
+    relicGrid.innerText = 'Ошибка загрузки реликвий.';
+    console.error(err);
+  }
+}
+
+  // Загрузка прайм-частей
   const primeGrid = document.getElementById('relicGrid2');
   if (primeGrid) {
     try {
@@ -191,22 +219,27 @@ document.addEventListener('DOMContentLoaded', async () => {
       const res = await fetch('../public/primes.json');
       const primes = await res.json();
 
-      // Фильтруем новые прайм-объекты (полностью новые, которых не было раньше)
+      // Новые прайм-объекты (полностью новые, которых не было раньше)
       const newPrimes = Object.entries(primes.added).filter(([name]) => {
         return !(name in primes.current) && !(name in primes.removed);
       }).slice(0, 4);
+
       // Старые прайм-объекты (сортировка по количеству частей)
       const oldPrimes = Object.entries(primes.current)
-        .sort(([, a], [, b]) => b.length - a.length)
-        .slice(0, 5);
-      const selectedPrimes = [...newPrimes, ...oldPrimes];
+        .sort(([, a], [, b]) => b.length - a.length);
+
+      // Заполняем до 9 карточек: сначала новые, затем старые
+      const selectedPrimes = [
+        ...newPrimes,
+        ...oldPrimes.slice(0, 9 - newPrimes.length) // Дополняем до 9
+      ].slice(0, 8);
 
       primeGrid.innerHTML = '';
 
       selectedPrimes.forEach(([name, parts], i) => {
         const item = document.createElement('div');
         item.className = 'grid-item';
-        if (i < 4) item.classList.add('new'); // Первые 4 — новые
+        if (i < newPrimes.length) item.classList.add('new');
         item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
 
         const bg = document.createElement('div');
@@ -216,7 +249,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         overlay.className = 'blur-overlay';
         overlay.innerHTML = `
           <div class="relic-title">${name}</div>
-          <div class="relic-tier">${parts.length} частей${i < 4 ? ' <span class="new-badge">NEW</span>' : ''}</div>
+          <div class="relic-tier">${parts.length} частей${i < newPrimes.length ? ' <span class="new-badge">NEW</span>' : ''}</div>
         `;
 
         bg.appendChild(overlay);
@@ -234,12 +267,15 @@ document.addEventListener('DOMContentLoaded', async () => {
           `../img/weapon/${name}.png`
         ], PLACEHOLDER);
       });
+
+      if (selectedPrimes.length === 0) {
+        primeGrid.innerText = 'Нет доступных прайм-частей.';
+      }
     } catch (err) {
       primeGrid.innerText = 'Ошибка загрузки прайм частей.';
       console.error(err);
     }
   }
-
 
   // Загрузка данных Варзии (без разделения на новое/старое)
   const varziaGrid = document.getElementById('relicGrid3');
