@@ -27,31 +27,51 @@ function safeWriteJSON(filePath, data) {
 function loadOldJSON(filePath, fallback) {
   if (!fs.existsSync(filePath)) return fallback;
   try {
-    const parsed = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-    return parsed;
+    return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
   } catch {
     return fallback;
   }
 }
 
-// При чтении старых файлов поддерживаем оба старых формата:
-// - массив/объект целиком
-// - объект вида { current, added?, removed? }
 function getOldRelicsArray(oldFileParsed) {
   if (!oldFileParsed) return [];
   if (Array.isArray(oldFileParsed)) return oldFileParsed;
-  if (Array.isArray(oldFileParsed.current)) return oldFileParsed.current;
-  return [];
+  const current = Array.isArray(oldFileParsed.current) ? oldFileParsed.current : [];
+  const added = Array.isArray(oldFileParsed.added) ? oldFileParsed.added : [];
+  return [...current, ...added];
 }
 
 function getOldPrimesObject(oldFileParsed) {
   if (!oldFileParsed) return {};
-  if (oldFileParsed && !Array.isArray(oldFileParsed) && typeof oldFileParsed === 'object') {
+  if (Array.isArray(oldFileParsed)) return {};
+  if (oldFileParsed && typeof oldFileParsed === 'object') {
+    const result = {};
+    const sources = [];
     if (oldFileParsed.current && typeof oldFileParsed.current === 'object' && !Array.isArray(oldFileParsed.current)) {
-      return oldFileParsed.current;
+      sources.push(oldFileParsed.current);
     }
-    // старый формат мог быть просто { "Volt Prime": [...] }
-    return oldFileParsed;
+    if (oldFileParsed.added && typeof oldFileParsed.added === 'object' && !Array.isArray(oldFileParsed.added)) {
+      sources.push(oldFileParsed.added);
+    }
+    if (sources.length === 0 && Object.keys(oldFileParsed).length > 0) {
+      sources.push(oldFileParsed);
+    }
+    for (const src of sources) {
+      for (const k in src) {
+        if (Array.isArray(src[k])) {
+          result[k] = result[k] || [];
+          const existingKeys = new Set(result[k].map(e => normalizeText(e.item) + '|' + normalizeText(e.relic)));
+          for (const entry of src[k]) {
+            const key = normalizeText(entry.item) + '|' + normalizeText(entry.relic);
+            if (!existingKeys.has(key)) {
+              result[k].push(entry);
+              existingKeys.add(key);
+            }
+          }
+        }
+      }
+    }
+    return result;
   }
   return {};
 }
@@ -62,7 +82,7 @@ function extractPrime(item) {
   const itemNorm = normalizeText(item);
   for (const p of parts) {
     const idx = itemNorm.indexOf(` Prime ${p}`);
-    if (idx > 0) return itemNorm.slice(0, idx + 6); // "... Prime"
+    if (idx > 0) return itemNorm.slice(0, idx + 6);
   }
   return null;
 }
@@ -77,7 +97,6 @@ async function fetchHTML(url) {
   return cheerio.load(data);
 }
 
-// Обычные (Unvaulted) реликвии
 async function getAllRelics() {
   const doc = await fetchDoc(VOID_RELIC);
   const cap = Array.from(doc.querySelectorAll('caption'))
@@ -88,7 +107,7 @@ async function getAllRelics() {
   if (!table) return relics;
 
   table.querySelectorAll('td').forEach((td, i) => {
-    if (i % 5 === 4) return; // пропустить Requiem колонку
+    if (i % 5 === 4) return;
     td.querySelectorAll('li a').forEach(a => {
       const rawName = a.textContent;
       const name = normalizeText(rawName);
@@ -116,7 +135,6 @@ async function parseDrops(relics) {
       if (frame) {
         const entry = { item, relic: r.name };
         primes[frame] = primes[frame] || [];
-        // ключ на основе нормализованной пары item|relic
         const key = normalizeText(entry.item) + '|' + normalizeText(entry.relic);
         const exists = primes[frame].some(e => (normalizeText(e.item) + '|' + normalizeText(e.relic)) === key);
         if (!exists) {
@@ -124,12 +142,32 @@ async function parseDrops(relics) {
         }
       }
     });
-    await new Promise(r => setTimeout(r, 200)); // задержка, чтобы не спамить
+    await new Promise(r => setTimeout(r, 200));
   }
-  return primes;
+  const deduped = {};
+  Object.keys(primes).forEach(key => {
+    const normKey = normalizeText(key);
+    if (!deduped[normKey]) {
+      deduped[normKey] = primes[key];
+    } else {
+      const existingKeys = new Set(deduped[normKey].map(e => normalizeText(e.item) + '|' + normalizeText(e.relic)));
+      primes[key].forEach(entry => {
+        const entryKey = normalizeText(entry.item) + '|' + normalizeText(entry.relic);
+        if (!existingKeys.has(entryKey)) {
+          deduped[normKey].push(entry);
+          existingKeys.add(entryKey);
+        }
+      });
+    }
+  });
+  const result = {};
+  Object.keys(deduped).forEach(normKey => {
+    const originalKey = Object.keys(primes).find(k => normalizeText(k) === normKey) || normKey;
+    result[originalKey] = deduped[normKey];
+  });
+  return result;
 }
 
-// Варзия — ивент-реликвии (без diff, с учетом частей оружия)
 async function parseEventRelics() {
   const $ = await fetchHTML(VARZIA);
   const relics = [];
@@ -162,7 +200,6 @@ async function parseEventRelics() {
         const primeName = extractPrime(itemName);
         if (primeName) {
           if (!relicMap[primeName]) relicMap[primeName] = [];
-          // Добавляем часть без фильтрации, так как нужны и варфреймы, и оружие
           relicMap[primeName].push({ item: itemName, relic: relic.name });
         }
       });
@@ -176,9 +213,7 @@ async function parseEventRelics() {
 }
 
 // ========== diffs ==========
-// Для relics: сравниваем по slug. current — берём объекты ИЗ СТАРОГО.
 function diffRelics(oldArr, newArr) {
-  // индексация
   const oldMap = new Map();
   for (const x of oldArr) {
     const slug = x.slug ? normalizeText(x.slug) : toSlug(x.name || '');
@@ -194,22 +229,19 @@ function diffRelics(oldArr, newArr) {
   const added = [];
   const removed = [];
 
-  // пересечение и удалённые
   for (const [slug, oldObj] of oldMap.entries()) {
     if (newMap.has(slug)) {
-      current.push(oldObj); // берём старую версию
+      current.push(oldObj);
     } else {
       removed.push(oldObj);
     }
   }
-  // добавленные
   for (const [slug, newObj] of newMap.entries()) {
     if (!oldMap.has(slug)) {
       added.push(newObj);
     }
   }
 
-  // опционально — сортируем по slug для стабильности
   current.sort((a, b) => (a.slug || '').localeCompare(b.slug || ''));
   added.sort((a, b) => (a.slug || '').localeCompare(b.slug || ''));
   removed.sort((a, b) => (a.slug || '').localeCompare(b.slug || ''));
@@ -217,10 +249,7 @@ function diffRelics(oldArr, newArr) {
   return { current, added, removed };
 }
 
-// Для primes: глубокое сравнение по ключам-праймам и по парам item|relic.
-// current — берём элементы ИЗ СТАРОГО.
 function diffPrimesDeep(oldObj, newObj) {
-  // Сопоставим ключи по нормализованным названиям
   const oldKeyByNorm = new Map();
   Object.keys(oldObj).forEach(k => oldKeyByNorm.set(normalizeText(k), k));
   const newKeyByNorm = new Map();
@@ -230,15 +259,12 @@ function diffPrimesDeep(oldObj, newObj) {
   const added = {};
   const removed = {};
 
-  // Ключи, которые есть в новом
   for (const [normKey, newKey] of newKeyByNorm.entries()) {
     const newItems = Array.isArray(newObj[newKey]) ? newObj[newKey] : [];
     const oldKey = oldKeyByNorm.get(normKey);
 
     if (oldKey) {
       const oldItems = Array.isArray(oldObj[oldKey]) ? oldObj[oldKey] : [];
-
-      // строим множества по ключу item|relic
       const oldSet = new Set(oldItems.map(e => normalizeText(e.item) + '|' + normalizeText(e.relic)));
       const newSet = new Set(newItems.map(e => normalizeText(e.item) + '|' + normalizeText(e.relic)));
 
@@ -246,16 +272,14 @@ function diffPrimesDeep(oldObj, newObj) {
       const addList = newItems.filter(e => !oldSet.has(normalizeText(e.item) + '|' + normalizeText(e.relic)));
       const remList = oldItems.filter(e => !newSet.has(normalizeText(e.item) + '|' + normalizeText(e.relic)));
 
-      if (curList.length) current[oldKey] = curList;      // под старым ключом
-      if (addList.length) added[newKey] = addList;        // под новым ключом (если имя менялось — будет видно)
-      if (remList.length) removed[oldKey] = remList;      // под старым ключом
+      if (curList.length) current[oldKey] = curList;
+      if (addList.length) added[newKey] = addList;
+      if (remList.length) removed[oldKey] = remList;
     } else {
-      // полностью новый прайм
       if (newItems.length) added[newKey] = newItems;
     }
   }
 
-  // Ключи, которые были в старом, но исчезли в новом
   for (const [normKey, oldKey] of oldKeyByNorm.entries()) {
     if (!newKeyByNorm.has(normKey)) {
       const oldItems = Array.isArray(oldObj[oldKey]) ? oldObj[oldKey] : [];
@@ -274,7 +298,6 @@ async function main() {
   const relics = await getAllRelics();
   const relicsData = relics.map(r => ({ name: r.name, tier: r.tier, slug: r.slug }));
   const relicsPath = path.join('public', 'relics.json');
-
   const oldRelicsParsed = loadOldJSON(relicsPath, null);
   const oldRelicsArr = getOldRelicsArray(oldRelicsParsed);
   const relicsDiff = diffRelics(oldRelicsArr, relicsData);
@@ -283,7 +306,6 @@ async function main() {
   // --- primes.json ---
   const primes = await parseDrops(relics);
   const primesPath = path.join('public', 'primes.json');
-
   const oldPrimesParsed = loadOldJSON(primesPath, null);
   const oldPrimesObj = getOldPrimesObject(oldPrimesParsed);
   const primesDiff = diffPrimesDeep(oldPrimesObj, primes);
@@ -298,8 +320,6 @@ async function main() {
   const now = new Date();
   const dateStr = now.toISOString().slice(0, 10);
   safeWriteJSON(lastUpdatePath, { date: dateStr });
-
-  console.log('✅ Готово. Данные собраны.');
 }
 
 main().catch(console.error);
