@@ -5,7 +5,7 @@ import path from 'path';
 
 const { JSDOM } = jsdom;
 const WIKI_BASE = 'https://wiki.warframe.com/w';
-const saveDir = path.resolve('../img/frame');
+const saveDir = path.resolve('img/frame');
 
 if (!fs.existsSync(saveDir)) {
   fs.mkdirSync(saveDir, { recursive: true });

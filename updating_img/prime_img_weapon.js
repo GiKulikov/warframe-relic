@@ -46,7 +46,7 @@ async function processFile(filePath) {
     const weaponPath = path.join(weaponDir, fileName);
 
     if (fs.existsSync(framePath)) {
-      console.log(`⏭️ Пропущено (уже есть в frame): ${fileName}`);
+      console.log(`⏭️ Пропущено (это frame): ${fileName}`);
       continue;
     }
 
