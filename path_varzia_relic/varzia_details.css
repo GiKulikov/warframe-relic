@@ -23,7 +23,8 @@ body {
  margin: 0 auto;
  padding: 5vh; 
  width: 95%;
- min-width: 550px;
+ min-width: 320px;
+
 }
 
 .back-link{
@@ -43,6 +44,8 @@ body {
 main{
   display: flex;
   justify-content: center;
+  min-width: 320px;
+
 }
 .grid {
   display: flex;
@@ -97,7 +100,7 @@ position: relative;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 10vh;
+  min-height: 10vh;
   font-size: 14px;
   color: #777;
 }
@@ -112,4 +115,13 @@ footer a:hover {
 .frame-name,
 .relic-name {
   transition: color 0.2s ease;
+}
+@media (max-width: 524px) {
+  .back-link{
+    font-size: 14px;
+  }
+  .top-banner{
+    font-size: 10px;
+    justify-content: right;
+  }
 }

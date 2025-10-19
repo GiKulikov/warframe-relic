@@ -28,6 +28,7 @@ body {
     padding: 25px 0px  15px 0px;
     font-size: 14px;
     color: #777;
+    width: 100%;
 }
 /* === column  === */
 main {
@@ -39,8 +40,8 @@ main {
   flex: 1;
   margin: 12px;
   background-color: transparent;
-  min-width: 400px;
   border-radius: 10px;
+   min-width: 220px;;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -202,7 +203,7 @@ footer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 10vh;
+  min-height: 10vh;
   font-size: 14px;
   color: #777;
 }
