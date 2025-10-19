@@ -2,6 +2,8 @@
 const combobox = document.querySelector('.combobox');
 const toggleBtn = combobox.querySelector('.combobox-toggle');
 const dropdown = combobox.querySelector('.dropdown');
+const page =document;
+
 
 toggleBtn.addEventListener('click', (e) => {
   e.preventDefault();
@@ -30,11 +32,12 @@ function resetCombobox() {
 // Закрыть combobox, 
 
 document.addEventListener('click', (e) => {
-  if (!combobox.contains(e.target)) {
+  if (!toggleBtn.contains(e.target)) {
     combobox.classList.remove('open');
     toggleBtn.classList.remove('active');
   }
 });
+
 
 
 

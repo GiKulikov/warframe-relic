@@ -6,15 +6,14 @@
 
   <title>Реликвии Warframe — Актуальные</title>
   <link rel="stylesheet" href="actual_relics.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
+
 </head>
 <body>
-  <!-- Шапка -->
  <div class="top-banner">
-  
     <span id="date">Загрузка даты...</span></span>
 </div>
 
-  <!-- Фильтр по типу -->
   <section id="filters">
     <label for="typeFilter">Тип реликвии:</label>
     <select id="typeFilter">
@@ -26,24 +25,18 @@
     </select> 
   </section>
 
-  <!-- Таблица реликвий -->
-  <main>
-  <div id="relicGrid"></div>
+<main>
+  <div class="grid" id="relicGrid"></div>
 </main>
-<script src="actual_relics.js"></script>
-<hr style="border: none; height: 1px; background-color: #413e4a; width: 95%;">
-<footer>
- <p class="footer">Источники данных: 
+<script src="actual_relics.js" ></script>
+</body>
+ <hr style="border: none; height: 1px; background-color: #413e4a; width: 95%; margin: 20px auto;" >
+ <footer>
+    <p>Источники данных: 
       <a href="https://warframe.market" target="_blank" style="color: #3498db;">Warframe Market API</a>, 
       <a href="https://wiki.warframe.com" target="_blank" style="color: #3498db;">wiki warframe</a>,
       <a href="https://warframe-web-assets.nyc3.cdn.digitaloceanspaces.com/uploads/cms/hnfvc0o3jnfvc873njb03enrf56.html" target="_blank" style="color: #3498db;">warframe-web-assets</a>.
     </p>
     <p>© 2025 Warframe Relic</p>
  </footer>
-
-
-  
-  
-</body>
- 
 </html>

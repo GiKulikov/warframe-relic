@@ -1,74 +1,142 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  const relicGrid = document.getElementById('relicGrid');
-  const filterSelect = document.getElementById('typeFilter');
-  const dateElem = document.getElementById('date');
+function loadFirstAvailable(urls) {
+  return new Promise((resolve) => {
+    let i = 0;
+    const tryNext = () => {
+      if (i >= urls.length) return resolve('');
+      const testImg = new Image();
+      const url = urls[i++];
+      testImg.onload = () => resolve(url);
+      testImg.onerror = tryNext;
+      testImg.src = url;
+    };
+    tryNext();
+  });
+}
 
-  // Загружаем дату обновления
-  try {
-    const resDate = await fetch('../public/last_update.json');
-    if (!resDate.ok) throw new Error('Не удалось загрузить last_update.json');
+const __lazyCards = new WeakMap();
+const __io = new IntersectionObserver(async (entries) => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
 
-    const data = await resDate.json();
-    dateElem.textContent = `Дата обновления: ${data.date}`;
-  } catch (err) {
-    console.error('❌ Ошибка при получении даты:', err);
-    dateElem.textContent = 'Дата обновления: неизвестна';
+    const card = entry.target;
+    const cfg = __lazyCards.get(card);
+    if (!cfg) { __io.unobserve(card); continue; }
+
+    const bg = card.querySelector('.item-img');
+    const url = await loadFirstAvailable(cfg.urls);
+    bg.style.backgroundImage = `url('${url || cfg.placeholder}')`;
+
+    __lazyCards.delete(card);
+    __io.unobserve(card);
   }
+}, { rootMargin: '200px 0px', threshold: 0.1 });
 
-  // Загружаем реликвии
-  const resRelics = await fetch('../public/relics.json');
-  const relicsData = await resRelics.json();
+function registerLazyCard(card, urls, placeholder) {
+  const bg = card.querySelector('.item-img');
+  bg.style.backgroundImage = `url('${placeholder}')`;
+  bg.style.backgroundPosition = 'top center';
+  bg.style.backgroundSize = 'contain';
+  bg.style.backgroundRepeat = 'no-repeat';
 
-  // Извлекаем added для определения новых реликвий
-  const addedRelics = new Set(relicsData.added.map(relic => relic.slug));
+  __lazyCards.set(card, { urls, placeholder });
+  __io.observe(card);
+}
 
-  // Объединяем current и added для отображения всех актуальных реликвий
-  const relics = [
-    ...relicsData.current,
-    ...relicsData.added
-  ];
+const PLACEHOLDER = '../img/placeholder.png';
+const relicGrid = document.getElementById('relicGrid');
+const typeFilter = document.getElementById('typeFilter');
+let uniqueRelics = [];
 
-  render(relics, addedRelics);
+function renderRelics(filterType, newRelicNames) {
+  relicGrid.innerHTML = '';
 
-  filterSelect.addEventListener('change', () => render(relics, addedRelics));
+  const filteredRelics = filterType === 'all' 
+    ? uniqueRelics 
+    : uniqueRelics.filter(relic => relic.tier === filterType);
 
-  function render(relics, addedRelics) {
-    const filter = filterSelect.value;
-    relicGrid.innerHTML = ''; // очищаем
+  filteredRelics.forEach((relic, i) => {
+    if (!relic) return;
+    const item = document.createElement('div');
+    item.className = 'grid-item';
+    item.innerHTML = `
+      <div class="description-card">
+        <label class="name-card">${relic.name}</label>
+        <label class="addition">${relic.tier} Relic</label>
+        ${newRelicNames.has(relic.name) ? '<label class="new-badge">NEW</label>' : ''}
+      </div>
+    `;
 
-    relics.forEach(relic => {
-      if (filter !== 'all' && relic.tier !== filter) return;
+    const bg = document.createElement('div');
+    bg.className = 'item-background';
+    bg.textContent = relic.name;
 
-      const card = document.createElement('div');
-      card.className = 'relic-card';
-      // Добавляем класс new, если реликвия в added
-      if (addedRelics.has(relic.slug)) {
-        card.classList.add('new');
-      }
+    const overlay = document.createElement('div');
+    overlay.className = 'item-img';
 
-      // Фоновый блок
-      const bg = document.createElement('div');
-      bg.className = 'grid-background';
-      bg.style.backgroundImage = `url('../img/relic/${relic.tier}.png')`;
-      bg.style.backgroundPosition = '100px';
-      bg.style.backgroundRepeat = 'no-repeat';
+    bg.appendChild(overlay);
+    item.appendChild(bg);
 
-      // Оверлей с текстом
-      const overlay = document.createElement('div');
-      overlay.className = 'blur-overlay';
-      overlay.innerHTML = `
-        <div class="relic-title">${relic.name}</div>
-        <div class="relic-tier">${relic.tier} Relic${addedRelics.has(relic.slug) ? ' <span class="new-badge">NEW</span>' : ''}</div>
-        <div class="relic-link">
-          <a class="market-link" href="https://wiki.warframe.com/w/${relic.name}" target="_blank">
-            Открыть
-          </a>
-        </div>
-      `;
-
-      bg.appendChild(overlay);
-      card.appendChild(bg);
-      relicGrid.appendChild(card);
+    item.addEventListener('click', () => {
+      window.open(`https://wiki.warframe.com/w/${relic.name}`, '_blank');
     });
+
+    relicGrid.appendChild(item);
+
+    registerLazyCard(item, [`../img/relic/${relic.tier}.png`], PLACEHOLDER);
+  });
+
+  if (filteredRelics.length === 0) {
+    relicGrid.innerText = 'Нет доступных реликвий для выбранного типа.';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const dateElem = document.getElementById('date');
+  fetch('../public/last_update.json')
+    .then(res => {
+      if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
+      return res.json();
+    })
+    .then(data => {
+      if (dateElem) dateElem.textContent = `Дата обновления: ${data.date}`;
+    })
+    .catch(err => {
+      console.error('❌ Ошибка при получении даты:', err);
+      if (dateElem) dateElem.textContent = 'Дата обновления: неизвестна';
+    });
+
+  if (relicGrid) {
+    fetch('../public/relics.json')
+      .then(res => res.json())
+      .then(relicsData => {
+        // Объединяем все реликвии (added и current) в один массив
+        const allRelics = [...(relicsData.added || []), ...(relicsData.current || [])];
+        // Сохраняем имена новых реликвий для метки NEW
+        const newRelicNames = new Set((relicsData.added || []).map(relic => relic.name));
+
+        // Удаляем дубликаты по имени
+        const usedNames = new Set();
+        uniqueRelics = allRelics.filter(relic => {
+          if (!usedNames.has(relic.name)) {
+            usedNames.add(relic.name);
+            return true;
+          }
+          return false;
+        });
+
+        // Первоначальный рендеринг всех реликвий
+        renderRelics('all', newRelicNames);
+
+        // Добавляем обработчик события для фильтра
+        if (typeFilter) {
+          typeFilter.addEventListener('change', (e) => {
+            renderRelics(e.target.value, newRelicNames);
+          });
+        }
+      })
+      .catch(err => {
+        relicGrid.innerText = 'Ошибка загрузки реликвий.';
+        console.error(err);
+      });
   }
 });

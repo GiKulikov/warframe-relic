@@ -23,7 +23,7 @@ const __io = new IntersectionObserver(async (entries) => {
     const cfg = __lazyCards.get(card);
     if (!cfg) { __io.unobserve(card); continue; }
 
-    const bg = card.querySelector('.grid-background');
+    const bg = card.querySelector('.item-img');
     const url = await loadFirstAvailable(cfg.urls);
     bg.style.backgroundImage = `url('${url || cfg.placeholder}')`;
 
@@ -33,7 +33,7 @@ const __io = new IntersectionObserver(async (entries) => {
 }, { rootMargin: '200px 0px', threshold: 0.1 });
 
 function registerLazyCard(card, urls, placeholder) {
-  const bg = card.querySelector('.grid-background');
+  const bg = card.querySelector('.item-img');
   bg.style.backgroundImage = `url('${placeholder}')`;
   bg.style.backgroundPosition = 'top center';
   bg.style.backgroundSize = 'contain';
@@ -43,7 +43,7 @@ function registerLazyCard(card, urls, placeholder) {
   __io.observe(card);
 }
 
-const PLACEHOLDER = '../img/placeholder.jpg';
+const PLACEHOLDER = '../img/placeholder.png';
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Выпадающее меню
@@ -118,7 +118,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Загрузка реликвий
 // Загрузка реликвий
 const relicGrid = document.getElementById('relicGrid');
 if (relicGrid) {
@@ -177,18 +176,25 @@ if (relicGrid) {
       if (!relic) return; // Пропускаем, если реликвия не найдена
       const item = document.createElement('div');
       item.className = 'grid-item';
+      item.innerHTML = `
+        <div class="description-card">
+          <label class="name-card">${relic.name}</label>
+          <label class="addition">${relic.tier} Relic</label>
+          ${i < newRelics.length ? '<label class="new-badge">NEW</label>' : ''}
+        </div>
+      `;
       if (i < newRelics.length) item.classList.add('new'); // Метка NEW только для новых
       item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
 
       const bg = document.createElement('div');
-      bg.className = 'grid-background';
+      bg.className = 'item-background';
+      bg.textContent = relic.name;
+      
 
       const overlay = document.createElement('div');
-      overlay.className = 'blur-overlay';
-      overlay.innerHTML = `
-        <div class="relic-title">${relic.name}</div>
-        <div class="relic-tier">${relic.tier} Relic${i < newRelics.length ? ' <span class="new-badge">NEW</span>' : ''}</div>
-      `;
+      overlay.className = 'item-img';
+
+      
 
       bg.appendChild(overlay);
       item.appendChild(bg);
@@ -211,7 +217,7 @@ if (relicGrid) {
   }
 }
 
-  // Загрузка прайм-частей
+  // Загрузка прайм-частей///////////////////////////////////////////////////////////////////////////////
   const primeGrid = document.getElementById('relicGrid2');
   if (primeGrid) {
     try {
@@ -239,19 +245,26 @@ if (relicGrid) {
       selectedPrimes.forEach(([name, parts], i) => {
         const item = document.createElement('div');
         item.className = 'grid-item';
+        item.innerHTML = `
+       <div class="description-card">
+          <label class="name-card">${name}</label>
+          <label class="addition">${parts.length} частей</label>
+          ${i < newPrimes.length ? '<label class="new-badge">NEW</label>' : ''}
+        </div>
+
+        `;
         if (i < newPrimes.length) item.classList.add('new');
         item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
 
         const bg = document.createElement('div');
-        bg.className = 'grid-background';
+        bg.className = 'item-background';
+        bg.textContent = name; 
+        
 
         const overlay = document.createElement('div');
-        overlay.className = 'blur-overlay';
-        overlay.innerHTML = `
-          <div class="relic-title">${name}</div>
-          <div class="relic-tier">${parts.length} частей${i < newPrimes.length ? ' <span class="new-badge">NEW</span>' : ''}</div>
-        `;
-
+        overlay.className = 'item-img';
+       
+       
         bg.appendChild(overlay);
         item.appendChild(bg);
 
@@ -277,7 +290,7 @@ if (relicGrid) {
     }
   }
 
-  // Загрузка данных Варзии (без разделения на новое/старое)
+  // Загрузка данных Варзии................................................................................
   const varziaGrid = document.getElementById('relicGrid3');
   if (varziaGrid) {
     try {
@@ -294,17 +307,22 @@ if (relicGrid) {
       top8.forEach(([name, parts], i) => {
         const item = document.createElement('div');
         item.className = 'grid-item';
+        item.innerHTML = `
+          <div class="description-card">
+          <label class="name-card">${name}</label>
+          <label class="addition">${parts.length} частей</label>
+          
+        </div>
+        `;
         item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
 
         const bg = document.createElement('div');
-        bg.className = 'grid-background';
+        bg.className = 'item-background';
+        bg.textContent = name;
 
         const overlay = document.createElement('div');
-        overlay.className = 'blur-overlay';
-        overlay.innerHTML = `
-          <div class="relic-title">${name}</div>
-          <div class="relic-tier">${parts.length} частей</div>
-        `;
+        overlay.className = 'item-img';
+        
 
         bg.appendChild(overlay);
         item.appendChild(bg);

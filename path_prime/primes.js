@@ -1,8 +1,147 @@
+/* ========= Общие хелперы для ленивой загрузки ========= */
+function loadFirstAvailable(urls) {
+  return new Promise((resolve) => {
+    let i = 0;
+    const tryNext = () => {
+      if (i >= urls.length) return resolve('');
+      const testImg = new Image();
+      const url = urls[i++];
+      testImg.onload = () => resolve(url);
+      testImg.onerror = tryNext;
+      testImg.src = url;
+    };
+    tryNext();
+  });
+}
+
+const __lazyCards = new WeakMap();
+const __io = new IntersectionObserver(async (entries) => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+
+    const card = entry.target;
+    const cfg = __lazyCards.get(card);
+    if (!cfg) { __io.unobserve(card); continue; }
+
+    const bg = card.querySelector('.item-img');
+    const url = await loadFirstAvailable(cfg.urls);
+    bg.style.backgroundImage = `url('${url || cfg.placeholder}')`;
+
+    __lazyCards.delete(card);
+    __io.unobserve(card);
+  }
+}, { rootMargin: '200px 0px', threshold: 0.1 });
+
+function registerLazyCard(card, urls, placeholder) {
+  const bg = card.querySelector('.item-img');
+  bg.style.backgroundImage = `url('${placeholder}')`;
+  bg.style.backgroundPosition = 'top center';
+  bg.style.backgroundSize = 'contain';
+  bg.style.backgroundRepeat = 'no-repeat';
+
+  __lazyCards.set(card, { urls, placeholder });
+  __io.observe(card);
+}
+
+const PLACEHOLDER = '../img/placeholder.png';
+
 document.addEventListener('DOMContentLoaded', async () => {
+  
+
+  // Установка даты
+  const dateElem = document.getElementById('date');
+  try {
+    const res = await fetch('../public/last_update.json');
+    if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
+    const data = await res.json();
+    if (dateElem) dateElem.textContent = `Дата обновления: ${data.date}`;
+  } catch (err) {
+    console.error('❌ Ошибка при получении даты:', err);
+    if (dateElem) dateElem.textContent = 'Дата обновления: неизвестна';
+  }
+
+  
+
+  // Загрузка прайм-частей///////////////////////////////////////////////////////////////////////////////
+  const primeGrid = document.getElementById('primesContainer');
+  if (primeGrid) {
+    try {
+      primeGrid.innerText = 'Загрузка прайм частей...';
+      const res = await fetch('../public/primes.json');
+      const primes = await res.json();
+
+      // Новые прайм-объекты (полностью новые, которых не было раньше)
+      const newPrimes = Object.entries(primes.added).filter(([name]) => {
+        return !(name in primes.current) && !(name in primes.removed);
+      }).slice(0, 4);
+
+      // Старые прайм-объекты (сортировка по количеству частей)
+      const oldPrimes = Object.entries(primes.current)
+        .sort(([, a], [, b]) => b.length - a.length);
+
+      // Заполняем до 9 карточек: сначала новые, затем старые
+      const selectedPrimes = [
+        ...newPrimes,
+        ...oldPrimes // Дополняем до 9
+      ];
+
+      primeGrid.innerHTML = '';
+
+      selectedPrimes.forEach(([name, parts], i) => {
+        const item = document.createElement('div');
+        item.className = 'grid-item';
+        item.innerHTML = `
+        <div class="description-card">
+         ${i < newPrimes.length ? '<label class="new-badge">NEW</label>' : ''}
+          <label class="name-card">${name}</label>
+          <label class="addition">${parts.length} частей в актуальных реликвиях</label>
+         
+        </div>
+        `;
+        if (i < newPrimes.length) item.classList.add('new');
+
+        const bg = document.createElement('div');
+        bg.className = 'item-background';
+        bg.textContent = name; 
+        
+
+        const overlay = document.createElement('div');
+        overlay.className = 'item-img';
+       
+       
+        bg.appendChild(overlay);
+        item.appendChild(bg);
+
+        item.addEventListener('click', () => {
+          const encoded = encodeURIComponent(name);
+          window.location.href = `../path_prime/prime_details.html?name=${encoded}`;
+        });
+
+        primeGrid.appendChild(item);
+
+        registerLazyCard(item, [
+          `../img/frame/${name}.png`,
+          `../img/weapon/${name}.png`
+        ], PLACEHOLDER);
+      });
+
+      if (selectedPrimes.length === 0) {
+        primeGrid.innerText = 'Нет доступных прайм-частей.';
+      }
+    } catch (err) {
+      primeGrid.innerText = 'Ошибка загрузки прайм частей.';
+      console.error(err);
+    }
+  }
+
+  
+});
+async function initPrimeSearchStyled() {
   const container = document.getElementById('primesContainer');
   const searchInput = document.getElementById('searchInput');
-  const dateElem = document.getElementById('date');
   container.innerText = 'Загрузка данных...';
+
+  // Загружаем JSON с праймами
   let primes = {};
   try {
     const res = await fetch('../public/primes.json');
@@ -13,118 +152,87 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error(err);
     return;
   }
-  const placeholder = '../img/placeholder.jpg';
-  const imageCache = {};
-  async function resolveImage(primaryUrl, fallbackUrl) {
-    const cacheKey = primaryUrl + '|' + fallbackUrl;
-    if (imageCache[cacheKey]) return imageCache[cacheKey];
-    return new Promise((resolve) => {
-      const testImg = new Image();
-      testImg.onload = () => { imageCache[cacheKey] = primaryUrl; resolve(primaryUrl); };
-      testImg.onerror = () => {
-        if (!fallbackUrl) { imageCache[cacheKey] = ''; resolve(''); return; }
-        const fallbackImg = new Image();
-        fallbackImg.onload = () => { imageCache[cacheKey] = fallbackUrl; resolve(fallbackUrl); };
-        fallbackImg.onerror = () => { imageCache[cacheKey] = ''; resolve(''); };
-        fallbackImg.src = fallbackUrl;
-      };
-      testImg.src = primaryUrl;
-    });
-  }
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(async (entry) => {
-      if (!entry.isIntersecting) return;
-      const card = entry.target;
-      const name = card.dataset.name;
-      const bgDiv = card.querySelector('.grid-background');
-      const framePath = `../img/frame/${name}.png`;
-      const weaponPath = `../img/weapon/${name}.png`;
-      const imgPath = await resolveImage(framePath, weaponPath);
-      bgDiv.style.backgroundImage = `url('${imgPath || placeholder}')`;
-      observer.unobserve(card);
-    });
-  }, { threshold: 0.1 });
-  const renderPrimes = (filter = '') => {
+
+  // Функция поиска и отображения,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+  function searchPrimes(filter = '') {
     container.innerHTML = '';
-    // Все имена праймов из current + added
+
     const namesSet = new Set([
       ...Object.keys(primes.current || {}),
       ...Object.keys(primes.added || {})
     ]);
-    const entries = Array.from(namesSet)
+
+    const lowerFilter = filter.toLowerCase().trim();
+
+    // Ищем совпадения
+    const results = Array.from(namesSet)
       .filter(name => {
-        const lowerFilter = filter.toLowerCase().trim();
-        // Проверяем совпадение с названием прайма
         if (name.toLowerCase().includes(lowerFilter)) return true;
-        // Получаем реликвии для текущего прайма из primes.json
-        const partsObj = {
-          current: primes.current[name] || [],
-          added: primes.added[name] || []
-        };
-        // Объединяем все реликвии
-        const allRelics = [...partsObj.current, ...partsObj.added];
-        // Проверяем, есть ли совпадение с названием реликвии в поле relic
-        return allRelics.some(relicObj => {
-          // Проверяем поле relic в объекте
-          return relicObj.relic && typeof relicObj.relic === 'string' && relicObj.relic.toLowerCase().includes(lowerFilter);
-        });
+
+        const allRelics = [
+          ...(primes.current[name] || []),
+          ...(primes.added[name] || [])
+        ];
+        return allRelics.some(r =>
+          r.relic && r.relic.toLowerCase().includes(lowerFilter)
+        );
       })
-      .map(name => [name, {
-        current: primes.current[name] || [],
-        added: primes.added[name] || []
-      }]);
-    if (!entries.length) {
+      .map(name => {
+        const currentParts = primes.current[name] || [];
+        const addedParts = primes.added[name] || [];
+        return [name, [...currentParts, ...addedParts]];
+      });
+
+    if (!results.length) {
       container.innerHTML = '<p>Ничего не найдено.</p>';
       return;
     }
-    for (const [name, partsObj] of entries) {
-      const card = document.createElement('div');
-      card.className = 'prime-card';
-      card.dataset.name = name;
-      const bgDiv = document.createElement('div');
-      bgDiv.className = 'grid-background';
-      bgDiv.style.backgroundImage = `url('${placeholder}')`;
-      bgDiv.style.backgroundPosition = 'top center';
-      bgDiv.style.backgroundSize = 'contain';
-      bgDiv.style.backgroundRepeat = 'no-repeat';
-      const overlay = document.createElement('div');
-      overlay.className = 'blur-overlay';
-      // Подсчёт частей
-      const currentCount = (partsObj.current || []).length;
-      const addedCount = (partsObj.added || []).length;
-      const partsCount = currentCount + addedCount;
-      const hasNew = addedCount > 0;
-      overlay.innerHTML = `
-        <div class="prime-title">${name}</div>
-        <div class="prime-details">
-          ${partsCount} частей в актуальных реликвиях
-          ${hasNew ? '<span class="new-badge">New</span>' : ''}
-        </div>
+
+    // Создаём элементы в нужном формате
+    results.forEach(([name, parts], i) => {
+      const item = document.createElement('div');
+      item.className = 'grid-item';
+      item.innerHTML = `
+      <div class="description-card">
+    ${ (primes.added[name] && primes.added[name].length > 0) ? '<label class="new-badge">NEW</label>' : '' }
+    <label class="name-card">${name}</label>
+    <label class="addition">${parts.length} частей в актуальных реликвиях</label>
+  </div>
       `;
-      bgDiv.appendChild(overlay);
-      card.appendChild(bgDiv);
-      card.onclick = () => {
+
+      if (primes.added[name] && primes.added[name].length > 0) item.classList.add('new');
+      item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
+
+      const bg = document.createElement('div');
+      bg.className = 'item-background';
+      bg.textContent = name;
+
+      const overlay = document.createElement('div');
+      overlay.className = 'item-img';
+
+      bg.appendChild(overlay);
+      item.appendChild(bg);
+
+      item.addEventListener('click', () => {
         const encoded = encodeURIComponent(name);
-        window.location.href = `prime_details.html?name=${encoded}`;
-      };
-      container.appendChild(card);
-      observer.observe(card);
-    }
-  };
-  renderPrimes();
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.trim();
-    renderPrimes(q);
-  });
-  try {
-    const res = await fetch('../public/last_update.json');
-    if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
-    const data = await res.json();
-    if (dateElem) {
-      dateElem.textContent = `Дата обновления: ${data.date}`;
-    }
-  } catch (err) {
-    console.error('Ошибка при получении даты:', err);
-    if (dateElem) dateElem.textContent = 'Дата обновления: неизвестна';
+        window.location.href = `../path_prime/prime_details.html?name=${encoded}`;
+      });
+
+      container.appendChild(item);
+      registerLazyCard(item, [
+          `../img/frame/${name}.png`,
+          `../img/weapon/${name}.png`
+        ], PLACEHOLDER);
+    });
   }
-});
+
+  // Привязка поиска к полю
+  searchInput.addEventListener('input', () => {
+    searchPrimes(searchInput.value);
+  });
+
+  // Первичный вывод
+  searchPrimes('');
+}
+
+document.addEventListener('DOMContentLoaded', initPrimeSearchStyled);

@@ -1,39 +1,19 @@
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html {
+  scrollbar-width: none; 
+}
+html::-webkit-scrollbar {
+  display: none;
+}
 
 body {
   font-family: 'IBM Plex Mono', monospace;
-background-color: #000000e8;
-  color: white;
-  margin: 0;
-}
-html {
-  scrollbar-width: none;
-}
-html::-webkit-scrollbar {
-  display: none; 
-}
-
-main {
-  padding-bottom: 40px; 
-}
-
-.top-banner {
-  background-color: #262529;
-  display: flex;
-  font-weight: lighter;
-  justify-content: center;
-  align-items: center;
-  padding: 15px 30px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 22px;
-  overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-h1 {
-  margin: 0 0 10px;
-  font-size: 28px;
-  color: #e6e1eb;
+    color: white;
 }
 
 #date {
@@ -41,159 +21,187 @@ h1 {
   color: #777;
 }
 
+.top-banner {
+  background: #262529;
+  background: radial-gradient(circle, rgba(38, 37, 41, 1) 0%, rgba(45, 43, 49,1) 88%, rgba(50, 46, 53, 1) 100%);
+  box-shadow:  0px 3px 7px #38333b67 ;
+  display: flex;
+  font-weight: lighter;
+  justify-content: center;
+  align-items: center;
+  padding: 25px 0px  15px 0px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 22px;
+}
+
+
+
+
+/* filter */
 #filters {
   display: flex;
   justify-content: left;
+  position: relative;
+  max-width: 95%;
+  margin: 0 auto;
+  padding: 10px 0;
   font-weight: bolder;
   font-size: 19px;
-  align-items: center;
-   margin: 20px 15px 20px;
-
-  gap: 10px;
-  flex-wrap: wrap;
 }
 
 #typeFilter {
-  padding: 8px 12px;
+  padding: 6px 12px;
   border-radius: 6px;
   color: #ffffff;
-  background-color: #2d2c33;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.286);
-
+  background-color: #262529;
+  box-shadow:  0px 3px 7px #38333b67 ;
   font-size: 13px;
-  border: none;}
-
-/* Сетка карточек */
-#relicGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 25px;
-  max-width: 95%;
-  margin: 0 auto;
+  border: none;
 }
 
-.relic-card {
-  border-radius: 16px;
-  padding: 0;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.286);
-  border:  #ffffff19 1px solid;
-
+/* FlexBox */
+main{
   display: flex;
+  justify-content: center;
   
-  min-height: 100px;
+
+}
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  user-select: none;
+
+  width: 95%; 
+
+}
+
+.grid-item {
+  flex:  1 1 300px;
+  height: 150px;
+  min-width: 300px;
+   border-radius: 15px;
+  border: rgba(78, 77, 77, 0.353) 1px solid;
+  padding: 0;
+  display: flex;
   overflow: hidden;
   position: relative;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 0 #262529;
+  transition: box-shadow 0.6s, clip-path 1s  ease;
+  clip-path: inset(0 0 0 0);
 }
 
-.relic-card:hover {
-  transform: translateY(5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
 
-/* Фон карточки */
-.grid-background {
-  flex: 1;
-  width: 100%;
-   background-color: rgba(0, 0, 0, 0.388);
 
-  background-size: cover;
-  background-position: center;
+/* === structure-item  === */
+.item-background {
   position: relative;
-  display: flex;
-}
-
-/* Размытый оверлей */
-.blur-overlay {
-  position: absolute;
-  inset: 0;
-   background-color: rgba(0, 0, 0, 0.558);
+  z-index: 1;
+  width: 100%;
+  border-radius: 15px;
+  padding: 10px 0px 0px 0px;
+  background-color: rgba(0, 0, 0, 0.453);
+  color: #ffffff00;
+  font-size: 30px;
+  font-style: 900;
+  font-family: 'Major Mono Display', monospace;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* по вертикали */
-  align-items: flex-start; /* всё влево */
+  justify-content: center;
+  align-items: start;
+  padding: 10px;
+}
+
+.item-img {
+  position: absolute;
+  z-index: 0;
+  display: flex;
+  right: 0;
+  width: 40%;
+  height: 100%;
   color: #fff;
-  border-radius: 16px;
-  text-align: left; /* текст тоже влево */
-  padding: 20px;
+  font-family: 'IBM Plex Mono', monospace;
+  filter: brightness(0.5);
+  transform: scale(2);
+  transition: transform 0.6s ,brightness 0.3s ease ;
   
 }
+
 .new-badge {
   color: #b1a3c3;
   font-weight: bold;
   font-size: 16px;
-  margin-left: 6px;
-}
- 
-
-/*hover card */
-.blur-overlay:hover  {
-  background: rgba(0, 0, 0, 0.179);
-  transition: background  0.5s ease;
 }
 
-.relic-card:hover .relic-tier  {
-  color: transparent;
-  transition: color 0.2s ease;
-}
-.relic-card:hover .new-badge  {
-  color: transparent;
-  transition: color 0.2s ease;
-}
-.relic-card:hover .relic-link{
- opacity: 1;
-  transition: opacity 0.7s ease;
-}
-/*text */
-.relic-title {
-  font-size: 17px;
-  font-weight: bold;
-  color: #e6e1eb;
-  margin-bottom: 10px;
-  transition: color 0.3s ease;
-}
-
-.relic-tier {
-  font-size: 14px;
-  color: #888;
+.description-card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding:0  20px ;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items:start;
+  justify-content: center;
+  z-index: 3;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  transition: color 0.6s ease-out;
+
 }
-.relic-tier:hover {
-  color:transparent;
+.addition{
+  color: #a4a4a4;
+  transition: color 0.6s ease-out;
+
+
+}
+.grid-item:hover{
+  box-shadow: 0 1px 10px #38333B;
+  overflow: visible;
+  clip-path: inset(-10px -10px -10px -10px);
+  z-index: 1000;
+  
+}
+.grid-item:hover .item-img{
+  background-color: rgba(0, 0, 0, 0);
+  filter: brightness(1);
+  transform: translateX(10px) scale(1.5);
+}
+.grid-item:hover .item-background{
+  color: #ffffff26;
+  text-shadow:1px 0px 5px #b19dc338 ;
+  transition: color 1s, text-shadow 2s ease;
 }
 
-.relic-link {
-  opacity: 0;
-  text-align: right;
+.grid-item:hover .description-card,
+.grid-item:hover .addition,
+.grid-item:hover .name-card,
+.grid-item:hover .new-badge{
+  color: #d6d3e000;
+  transition: color 0.1s ease-in;
 }
 
-a.market-link {
-  background-color: #413e4a;
-  color: white;
-  text-decoration: none;
-  padding: 6px 12px;
-  border-radius: 5px;
-  font-size: 13px;
-  transition: background-color 0.2s;
-}
 
-a.market-link:hover {
-  background-color: #57545f;
-}
+
+
+
 /*footer*/
 footer {
-  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 10vh;
   font-size: 14px;
   color: #777;
-  margin-top: 40px;
+ 
 }
 
-.footer a {
+footer a {
   color: #a9adc9;
   text-decoration: none;
 }
 
-.footer a:hover {
+footer a:hover {
   text-decoration: underline;
 }

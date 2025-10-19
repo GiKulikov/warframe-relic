@@ -1,92 +1,128 @@
+/* ========= Общие хелперы для ленивой загрузки ========= */
+function loadFirstAvailable(urls) {
+  return new Promise((resolve) => {
+    let i = 0;
+    const tryNext = () => {
+      if (i >= urls.length) return resolve('');
+      const testImg = new Image();
+      const url = urls[i++];
+      testImg.onload = () => resolve(url);
+      testImg.onerror = tryNext;
+      testImg.src = url;
+    };
+    tryNext();
+  });
+}
+
+const __lazyCards = new WeakMap();
+const __io = new IntersectionObserver(async (entries) => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+
+    const card = entry.target;
+    const cfg = __lazyCards.get(card);
+    if (!cfg) { __io.unobserve(card); continue; }
+
+    const bg = card.querySelector('.item-img');
+    const url = await loadFirstAvailable(cfg.urls);
+    bg.style.backgroundImage = `url('${url || cfg.placeholder}')`;
+
+    __lazyCards.delete(card);
+    __io.unobserve(card);
+  }
+}, { rootMargin: '200px 0px', threshold: 0.1 });
+
+function registerLazyCard(card, urls, placeholder) {
+  const bg = card.querySelector('.item-img');
+  bg.style.backgroundImage = `url('${placeholder}')`;
+  bg.style.backgroundPosition = 'top center';
+  bg.style.backgroundSize = 'contain';
+  bg.style.backgroundRepeat = 'no-repeat';
+
+  __lazyCards.set(card, { urls, placeholder });
+  __io.observe(card);
+}
+
+const PLACEHOLDER = '../img/placeholder.png';
+
 document.addEventListener('DOMContentLoaded', async () => {
   const container = document.getElementById('primesContainer');
   const searchInput = document.getElementById('searchInput');
   const dateElem = document.getElementById('date');
 
-  container.innerText = 'Загрузка данных...';
+  
 
-  let primes = {};
+  // Загрузка данных для Varzia
+  if (container) {
+    try {
+      container.innerText = 'Загрузка данных...';
+      const res = await fetch('../public/eventRelic.json');
+      if (!res.ok) throw new Error(`Ошибка HTTP: ${res.status}`);
+      const primes = await res.json()
 
-  try {
-    const res = await fetch('../public/eventRelic.json');
-    primes = await res.json();
-  } catch (err) {
-    container.innerText = 'Ошибка загрузки данных.';
-    console.error(err);
-    return;
-  }
+      // Функция рендера с фильтром
+      const renderPrimes = (filter = '') => {
+        container.innerHTML = '';
+        const lowerFilter = filter.toLowerCase().trim();
 
-  // Проверяем, существует ли картинка по url, учитывая пробелы (например, "Ash Prime.png")
-  function resolveImage(primaryUrl, fallbackUrl) {
-    return new Promise((resolve) => {
-      const testImg = new Image();
-      testImg.onload = () => resolve(primaryUrl);
-      testImg.onerror = () => {
-        const fallbackImg = new Image();
-        fallbackImg.onload = () => resolve(fallbackUrl);
-        fallbackImg.onerror = () => resolve(''); // Нет картинки
-        fallbackImg.src = fallbackUrl;
-      };
-      testImg.src = primaryUrl;
-    });
-  }
+        const entries = Object.entries(primes).filter(([name]) => {
+          if (lowerFilter === '') return true;
+          return name.toLowerCase().includes(lowerFilter);
+        });
 
-  const renderPrimes = async (filter = '') => {
-    container.innerHTML = '';
-    const entries = Object.entries(primes).filter(([name]) =>
-      name.toLowerCase().includes(filter.toLowerCase())
-    );
+        if (entries.length === 0) {
+          container.innerHTML = '<p>Ничего не найдено.</p>';
+          return;
+        }
 
-    if (entries.length === 0) {
-      container.innerHTML = '<p>Ничего не найдено.</p>';
-      return;
-    }
-
-    for (const [name, parts] of entries) {
-      const card = document.createElement('div');
-      card.className = 'prime-card';
-
-      // Формируем пути с пробелами, учитывая регистр букв
-      const framePath = `../img/frame/${name}.png`;
-      const weaponPath = `../img/weapon/${name}.png`;
-
-      const imageUrl = await resolveImage(framePath, weaponPath);
-
-      card.innerHTML = `
-        <div class="grid-background" style="background-image: url('${imageUrl}')">
-          <div class="blur-overlay">
-            <div class="prime-title">${name}</div>
-            <div class="prime-details">${parts.length} частей в актуальных реликвиях</div>
-          </div>
-        </div>
-      `;
-       const bg = card.querySelector('.grid-background');
-if (bg) {
-  bg.style.backgroundPosition = 'top center';  // можно оставить, чтобы картинка сверху была
-  bg.style.backgroundSize = 'contain'; // вот эта строка меняет поведение
-  bg.style.backgroundRepeat = 'no-repeat'; // чтобы не было повторов
-}
+        entries.forEach(([name, parts], i) => {
+          const item = document.createElement('div');
+          item.className = 'grid-item';
+          item.innerHTML = `
+            <div class="description-card">
+              <label class="name-card">${name}</label>
+              <label class="addition">${parts.length} частей в актуальных реликвиях</label>
+            </div>
+          `;
 
 
-      card.onclick = () => {
-        const encoded = encodeURIComponent(name);
-        window.location.href = `varzia_details.html?name=${encoded}`;
+          const bg = document.createElement('div');
+          bg.className = 'item-background';
+          bg.textContent = name;
+
+          const overlay = document.createElement('div');
+          overlay.className = 'item-img';
+
+          bg.appendChild(overlay);
+          item.appendChild(bg);
+
+          item.addEventListener('click', () => {
+            const encoded = encodeURIComponent(name);
+            window.location.href = `varzia_details.html?name=${encoded}`;
+          });
+
+          container.appendChild(item);
+
+          registerLazyCard(item, [
+            `../img/frame/${name}.png`,
+            `../img/weapon/${name}.png`
+          ], PLACEHOLDER);
+        });
       };
 
-      container.appendChild(card);
+      // Инициализация
+      renderPrimes();
+
+      // Поиск
+      searchInput.addEventListener('input', () => {
+        renderPrimes(searchInput.value);
+      });
+
+    } catch (err) {
+      container.innerText = 'Ошибка загрузки данных.';
+      console.error(err);
     }
-  };
-
-  // Изначальный рендер
-  renderPrimes();
-
-  // Обработчик поиска
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value;
-    renderPrimes(query);
-  });
-
-
+  }
 });
 //Vazar timer/////////////////////////////////////////////////////////////////////////////////////////////////////
 document.addEventListener('DOMContentLoaded', () => {

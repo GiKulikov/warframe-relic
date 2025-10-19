@@ -1,4 +1,4 @@
-/* home.css */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -12,65 +12,62 @@ html::-webkit-scrollbar {
 }
 
 body {
-    font-family: IBM Plex Mono, monospace;
-    
-    background-color: #000000e8;
+  font-family: 'IBM Plex Mono', monospace;
     color: white;
 }
 
 
-
-
-
-
 .top-banner {
-    background-color: #262529;
+    background: #262529;
+    background: radial-gradient(circle, rgba(38, 37, 41, 1) 0%, rgba(45, 43, 49,1) 88%, rgba(50, 46, 53, 1) 100%);
+    box-shadow:  0px 3px 7px #38333b67 ;
     display: flex;
     font-weight: lighter;
     justify-content: center;
-    padding: 15px 30px;
-    font-family: IBM Plex Mono, monospace;
+    text-align: center;
+    padding: 25px 0px  15px 0px;
     font-size: 14px;
     color: #777;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-
+/* === column  === */
 main {
     display: flex;
-    gap: 20px;
-    align-items: flex-start;
-    padding: 15px;
+    flex-wrap: wrap;
 }
 
 .columinfo {
-    flex: 1;
-    background-color: transparent;
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    
+  flex: 1;
+  margin: 12px;
+  background-color: transparent;
+  min-width: 400px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  
 }
 
 
 
 .columinfo-header {
-    background-color: #2d2c33;
-    padding: 15px;
-    font-size: 20px;
-    font-weight: lighter;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: IBM Plex Mono, monospace;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  user-select: none;
+
+  background: #262529;
+  background: radial-gradient(circle, rgba(38, 37, 41, 1) 50%, rgba(45, 43, 49,1) 100%, rgba(50, 46, 53, 1) 60%);
+  box-shadow:  0px 3px 7px #38333b67 ;
+  padding: 15px;
+  font-size: 20px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
 
 }
 
 .columinfo-content_relic {
+
+
     padding: 10px;
     flex: 1;
 }
@@ -83,7 +80,7 @@ main {
     flex: 1;
 }
 
-/* === CSS Grid Layout === */
+/* === grid-column  === */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -92,145 +89,133 @@ main {
 }
 
 .grid-item {
-  border-radius: 16px;
-  border:  #ffffff19 1px solid;
+  user-select: none;
+
+  border-radius: 15px;
+  border: rgba(78, 77, 77, 0.353) 1px solid;
   padding: 0; 
-  background: none; 
   grid-row-end: span var(--span, 20);
   display: flex;
+  justify-content: center;
   overflow: hidden;
   position: relative;
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.411);
-
+  box-shadow: 0 0 0 #262529;
+  transition: box-shadow 0.6s  ease;
   
 }
 
-.grid-background {
-  flex: 1;
+/* === structure-item  === */
+.item-background {
+  position: relative;
+  z-index: 1;
   width: 100%;
-   background-color: rgba(0, 0, 0, 0.388);
-  background-size: cover;
+  padding: 10px 0px 0px 0px;
+  background-color: rgba(0, 0, 0, 0.453);
+  color: #ffffff00;
+  font-size: 30px;
+  font-style: 900;
+  font-family: 'Major Mono Display', monospace;
   display: flex;
-  justify-content: center;
- 
+  flex-direction: column;
+  text-align: center;
+  
+
 }
 
-/* Квадратный оверлей с блюром */
-.blur-overlay {
+
+.item-img {
   position: absolute;
-  inset: 0; 
+  z-index: 0;
+  flex: 1;
   display: flex;
-  background-color: rgba(0, 0, 0, 0.558);
- flex-direction: column;
- text-align: center;
- justify-content: center;
-   text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-
- padding: 20px;
+  
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
   color: #fff;
+  font-family: 'IBM Plex Mono', monospace;
+  filter: brightness(0.4);
+  transform: scale(1);
+  transition: transform 0.6s ,brightness 0.3s ease ;
 }
-.new-badge {
-  color: #b1a3c3;
-  font-weight: bold;
+
+.description-card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: center;
+  z-index: 3;
   font-size: 16px;
-  margin-left: 6px;
+  font-weight: bold;
+  color: #ffffff;
+  transition: color 0.6s ease-out;
+}
+
+.addition{
+  color: #a4a4a4;
+  transition: color 0.6s ease-out;
+}
+
+.new-badge {
+  
+  color: #d3b4fa;
+  font-weight:100;
+  font-size: 20px;
+
+  
 }
 
 .grid-item:hover{
-  transform: translateY(5px);
-  transition: transform 0.2s ease;
-}
-.blur-overlay:hover  {    
-  background: rgba(0, 0, 0, 0.179);
-  transition: background  0.4s ease;
-  
-}
-.grid-background:hover .relic-tier{
-    visibility: collapse;
+  box-shadow: 0 1px 10px #38333B;
 
 }
-
-
-/* разные высоты блоков через nth-child для демонстрации */
-.grid-item:nth-child(3n) {
-    --span: 20;
+.grid-item:hover .item-img{
+  background-color: rgba(0, 0, 0, 0);
+  filter: brightness(1);
+  transform: scale(0.76);
+  transform: translateY(20px);
+}
+.grid-item:hover .item-background{
+  color: #ffffff26;
+  text-shadow:1px 0px 5px #b19dc338 ;
+  transition: color 1s, text-shadow 2s ease;
 }
 
-.grid-item:nth-child(5n) {
-    --span: 25;
+.grid-item:hover .description-card,
+.grid-item:hover .addition,
+.grid-item:hover .name-card,
+.grid-item:hover .new-badge{
+  color: #d6d3e000;
+  transition: color 0.1s ease-in;
 }
 
-.relic-title {
-    font-size: 16px;
-    ;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
 
-.relic-tier {
-    font-size: 14px;
-    color: #d6d3e0;
-}
 
 footer {
-  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 10vh;
   font-size: 14px;
   color: #777;
-  margin-top: 40px;
 }
 
-.footer a {
+footer a {
   color: #a9adc9;
   text-decoration: none;
 }
 
-.footer a:hover {
+footer a:hover {
   text-decoration: underline;
 }
 
-@media (max-width: 768px) {
-  main {
-    flex-direction: column;
-    padding: 10px;
-    gap: 10px;
-  }
 
-  .columinfo-header {
-    font-size: 16px;
-    padding: 8px;
-  }
-
-  .grid {
-    grid-template-columns: 100%; 
-    justify-content: center; 
-    width: 100%; 
-    margin: 0; 
-  }
-
-  .grid-item {
-    width: 100%; 
-    min-width: 200px; 
-    box-sizing: border-box; 
-  }
-
-  .grid-background {
-    width: 100%; 
-  }
-}
-
-
-@media (max-width: 360px) {
-  .grid {
-    --base-width: 320;
-    --scale: calc(100vw / (var(--base-width) * 1px));
-    transform: scale(var(--scale));
-    transform-origin: top center;
-    width: calc(100% / var(--scale));
-  }
-
-  .blur-overlay { padding: 12px; }
-  .relic-title  { font-size: 14px; }
-  .relic-tier   { font-size: 12px; }
-}
 
 
