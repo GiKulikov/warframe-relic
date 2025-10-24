@@ -319,6 +319,12 @@ async function setupVarziaBotWorkflow() {
   const workflowPath = path.join('.github', 'workflows', 'varzia-bot.yml');
   const git = simpleGit();
 
+  // Проверяем, существует ли varzia-bot.yml
+  if (fs.existsSync(workflowPath)) {
+    console.log('varzia-bot.yml уже существует, пропускаем создание.');
+    return;
+  }
+
   // Создаем директорию, если нет
   fs.mkdirSync(path.dirname(workflowPath), { recursive: true });
 
@@ -358,7 +364,7 @@ jobs:
             const fs = require('fs');
             const path = require('path');
             const simpleGit = require('simple-git');
-            const { parseEventRelics } = require('./update_data.js');
+            const { parseEventRelics } = require('./updating_img/update_data.js');
 
             async function checkAndUpdate() {
               const filePath = path.join('public', 'eventRelic.json');
