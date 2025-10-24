@@ -88,29 +88,5 @@
       "item": "Mag Prime Systems Blueprint",
       "relic": "Axi S4"
     }
-  ],
-  "Vasto Prime": [
-    {
-      "item": "Vasto Prime Barrel",
-      "relic": "Axi A5"
-    },
-    {
-      "item": "Vasto Prime Receiver",
-      "relic": "Axi A5"
-    },
-    {
-      "item": "Vasto Prime Blueprint",
-      "relic": "Axi A5"
-    }
-  ],
-  "Akvasto Prime": [
-    {
-      "item": "Akvasto Prime Link",
-      "relic": "Axi A5"
-    },
-    {
-      "item": "Akvasto Prime Blueprint",
-      "relic": "Axi A5"
-    }
   ]
 }
