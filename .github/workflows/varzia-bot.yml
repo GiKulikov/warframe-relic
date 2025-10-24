@@ -29,7 +29,7 @@ jobs:
             const fs = require('fs');
             const path = require('path');
             const simpleGit = require('simple-git');
-            const { parseEventRelics } = require('./update_data.js');
+            const { parseEventRelics } = require('../update_data.js');
 
             async function checkAndUpdate() {
               const filePath = path.join('public', 'eventRelic.json');
