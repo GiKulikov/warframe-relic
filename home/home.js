@@ -46,20 +46,7 @@ function registerLazyCard(card, urls, placeholder) {
 const PLACEHOLDER = '../img/placeholder.png';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Выпадающее меню
-  const infoLink = document.querySelector('.info-link');
-  const dropdown = document.querySelector('.dropdown');
-  if (infoLink && dropdown) {
-    infoLink.addEventListener('click', e => {
-      e.preventDefault();
-      dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
-    });
-    document.addEventListener('click', e => {
-      if (!infoLink.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.style.display = 'none';
-      }
-    });
-  }
+  
 
   // Установка даты
   const dateElem = document.getElementById('date');
@@ -291,57 +278,65 @@ if (relicGrid) {
   }
 
   // Загрузка данных Варзии................................................................................
-  const varziaGrid = document.getElementById('relicGrid3');
-  if (varziaGrid) {
-    try {
-      varziaGrid.innerText = 'Загрузка данных Вазарии...';
-      const res = await fetch('../public/eventRelic.json');
-      const events = await res.json();
+  
+const varziaGrid = document.getElementById('relicGrid3');
+if (varziaGrid) {
+  try {
+    varziaGrid.innerText = 'Загрузка данных Вазарии...';
+    const res = await fetch('../public/eventRelic.json');
+    const events = await res.json();
 
-      const top8 = Object.entries(events)
-        .sort(([, a], [, b]) => b.length - a.length)
-        .slice(0, 8);
+    // Проверяем статус и прекращаем обработку, если status == "NotUpdated"
+    if (events.status === 'NotUpdated') {
+      varziaGrid.innerText = 'Данные Варзии не обновлены.';
+      return;
+    }
 
-      varziaGrid.innerHTML = '';
+    // Исключаем поле status из обработки, сортируем и берем топ-8
+    const top8 = Object.entries(events)
+      .filter(([key]) => key !== 'status') // Пропускаем поле status
+      .sort(([, a], [, b]) => b.length - a.length)
+      .slice(0, 8);
 
-      top8.forEach(([name, parts], i) => {
-        const item = document.createElement('div');
-        item.className = 'grid-item';
-        item.innerHTML = `
-          <div class="description-card">
+    varziaGrid.innerHTML = '';
+
+    top8.forEach(([name, parts], i) => {
+      const item = document.createElement('div');
+      item.className = 'grid-item';
+      item.innerHTML = `
+        <div class="description-card">
           <label class="name-card">${name}</label>
           <label class="addition">${parts.length} частей</label>
-          
         </div>
-        `;
-        item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
+      `;
+      item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
 
-        const bg = document.createElement('div');
-        bg.className = 'item-background';
-        bg.textContent = name;
+      const bg = document.createElement('div');
+      bg.className = 'item-background';
+      bg.textContent = name;
 
-        const overlay = document.createElement('div');
-        overlay.className = 'item-img';
-        
+      const overlay = document.createElement('div');
+      overlay.className = 'item-img';
 
-        bg.appendChild(overlay);
-        item.appendChild(bg);
+      bg.appendChild(overlay);
+      item.appendChild(bg);
 
-        item.addEventListener('click', () => {
-          const encoded = encodeURIComponent(name);
-          window.location.href = `../path_varzia_relic/varzia_details.html?name=${encoded}`;
-        });
-
-        varziaGrid.appendChild(item);
-
-        registerLazyCard(item, [
-          `../img/frame/${name}.png`,
-          `../img/weapon/${name}.png`
-        ], PLACEHOLDER);
+      item.addEventListener('click', () => {
+        const encoded = encodeURIComponent(name);
+        window.location.href = `../path_varzia_relic/varzia_details.html?name=${encoded}`;
       });
-    } catch (err) {
-      varziaGrid.innerText = 'Ошибка загрузки данных Вазарии.';
-      console.error(err);
-    }
+
+      varziaGrid.appendChild(item);
+
+      registerLazyCard(item, [
+        `../img/frame/${name}.png`,
+        `../img/weapon/${name}.png`
+      ], PLACEHOLDER);
+    });
+  } catch (err) {
+    varziaGrid.innerText = 'Ошибка загрузки данных Вазарии.';
+    console.error(err);
   }
+}
+
 });

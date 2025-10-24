@@ -53,76 +53,83 @@ document.addEventListener('DOMContentLoaded', async () => {
   
 
   // Загрузка данных для Varzia
-  if (container) {
-    try {
-      container.innerText = 'Загрузка данных...';
-      const res = await fetch('../public/eventRelic.json');
-      if (!res.ok) throw new Error(`Ошибка HTTP: ${res.status}`);
-      const primes = await res.json()
+ if (container) {
+  try {
+    container.innerText = 'Загрузка данных...';
+    const res = await fetch('../public/eventRelic.json');
+    if (!res.ok) throw new Error(`Ошибка HTTP: ${res.status}`);
+    const primes = await res.json();
 
-      // Функция рендера с фильтром
-      const renderPrimes = (filter = '') => {
-        container.innerHTML = '';
-        const lowerFilter = filter.toLowerCase().trim();
+    // Проверяем статус и прекращаем обработку, если status == "NotUpdated"
+    if (primes.status === 'NotUpdated') {
+      container.innerText = 'Данные Варзии не обновлены.';
+      return;
+    }
 
-        const entries = Object.entries(primes).filter(([name]) => {
+    // Функция рендера с фильтром
+    const renderPrimes = (filter = '') => {
+      container.innerHTML = '';
+      const lowerFilter = filter.toLowerCase().trim();
+
+      const entries = Object.entries(primes)
+        .filter(([name]) => name !== 'status') // Пропускаем поле status
+        .filter(([name]) => {
           if (lowerFilter === '') return true;
           return name.toLowerCase().includes(lowerFilter);
         });
 
-        if (entries.length === 0) {
-          container.innerHTML = '<p>Ничего не найдено.</p>';
-          return;
-        }
+      if (entries.length === 0) {
+        container.innerHTML = '<p>Ничего не найдено.</p>';
+        return;
+      }
 
-        entries.forEach(([name, parts], i) => {
-          const item = document.createElement('div');
-          item.className = 'grid-item';
-          item.innerHTML = `
-            <div class="description-card">
-              <label class="name-card">${name}</label>
-              <label class="addition">${parts.length} частей в актуальных реликвиях</label>
-            </div>
-          `;
+      entries.forEach(([name, parts], i) => {
+        const item = document.createElement('div');
+        item.className = 'grid-item';
+        item.innerHTML = `
+          <div class="description-card">
+            <label class="name-card">${name}</label>
+            <label class="addition">${parts.length} частей в актуальных реликвиях</label>
+          </div>
+        `;
 
+        const bg = document.createElement('div');
+        bg.className = 'item-background';
+        bg.textContent = name;
 
-          const bg = document.createElement('div');
-          bg.className = 'item-background';
-          bg.textContent = name;
+        const overlay = document.createElement('div');
+        overlay.className = 'item-img';
 
-          const overlay = document.createElement('div');
-          overlay.className = 'item-img';
+        bg.appendChild(overlay);
+        item.appendChild(bg);
 
-          bg.appendChild(overlay);
-          item.appendChild(bg);
-
-          item.addEventListener('click', () => {
-            const encoded = encodeURIComponent(name);
-            window.location.href = `varzia_details.html?name=${encoded}`;
-          });
-
-          container.appendChild(item);
-
-          registerLazyCard(item, [
-            `../img/frame/${name}.png`,
-            `../img/weapon/${name}.png`
-          ], PLACEHOLDER);
+        item.addEventListener('click', () => {
+          const encoded = encodeURIComponent(name);
+          window.location.href = `varzia_details.html?name=${encoded}`;
         });
-      };
 
-      // Инициализация
-      renderPrimes();
+        container.appendChild(item);
 
-      // Поиск
-      searchInput.addEventListener('input', () => {
-        renderPrimes(searchInput.value);
+        registerLazyCard(item, [
+          `../img/frame/${name}.png`,
+          `../img/weapon/${name}.png`
+        ], PLACEHOLDER);
       });
+    };
 
-    } catch (err) {
-      container.innerText = 'Ошибка загрузки данных.';
-      console.error(err);
-    }
+    // Инициализация
+    renderPrimes();
+
+    // Поиск
+    searchInput.addEventListener('input', () => {
+      renderPrimes(searchInput.value);
+    });
+
+  } catch (err) {
+    container.innerText = 'Ошибка загрузки данных.';
+    console.error(err);
   }
+}
 });
 //Vazar timer/////////////////////////////////////////////////////////////////////////////////////////////////////
 document.addEventListener('DOMContentLoaded', () => {

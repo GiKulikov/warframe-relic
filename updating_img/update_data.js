@@ -209,7 +209,30 @@ async function parseEventRelics() {
     await new Promise(r => setTimeout(r, 200));
   }
 
-  return relicMap;
+  // Read the previous eventRelic.json file, if it exists
+  const filePath = path.join('public', 'eventRelic.json');
+  let previousData = {};
+  try {
+    previousData = loadOldJSON(filePath, {});
+    // Remove status field from previous data for comparison
+    delete previousData.status;
+  } catch (e) {
+    console.log('No previous eventRelic.json found or error reading file:', e.message);
+  }
+
+  // Compare the new relicMap with the previous data
+  const isIdentical = JSON.stringify(relicMap) === JSON.stringify(previousData);
+
+  // Prepare output with status
+  const output = {
+    status: isIdentical ? 'NotUpdated' : 'Updated',
+    ...relicMap
+  };
+
+  // Write the output to eventRelic.json
+  safeWriteJSON(filePath, output);
+
+  return output;
 }
 
 // ========== diffs ==========
@@ -313,7 +336,6 @@ async function main() {
 
   // --- eventRelic.json ---
   const eventPr = await parseEventRelics();
-  safeWriteJSON(path.join('public', 'eventRelic.json'), eventPr);
 
   // --- last_update.json ---
   const lastUpdatePath = path.join(__dirname, '..', 'public', 'last_update.json');
