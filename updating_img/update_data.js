@@ -4,6 +4,7 @@ const axios = require('axios');
 const { JSDOM } = require('jsdom');
 const cheerio = require('cheerio');
 const path = require('path');
+const simpleGit = require('simple-git'); // Требуется: npm install simple-git
 
 const BASE = 'https://wiki.warframe.com';
 const VOID_RELIC = `${BASE}/w/Void_Relic`;
@@ -313,6 +314,101 @@ function diffPrimesDeep(oldObj, newObj) {
   return { current, added, removed };
 }
 
+// ========== GitHub Actions Setup ==========
+async function setupVarziaBotWorkflow() {
+  const workflowPath = path.join('.github', 'workflows', 'varzia-bot.yml');
+  const git = simpleGit();
+
+  // Создаем директорию, если нет
+  fs.mkdirSync(path.dirname(workflowPath), { recursive: true });
+
+  // Время начала и окончания (3 дня)
+  const startDate = new Date();
+  const endDate = new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000);
+
+  // YAML для Varzia workflow
+  const yamlContent = `name: Varzia Bot - Update Every 6 Hours for 3 Days
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Каждые 6 часов
+  workflow_dispatch:
+
+jobs:
+  update-varzia:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install || true
+
+      - name: Check status and update Varzia
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            const simpleGit = require('simple-git');
+            const { parseEventRelics } = require('./update_data.js');
+
+            async function checkAndUpdate() {
+              const filePath = path.join('public', 'eventRelic.json');
+              let data = {};
+              try {
+                data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+              } catch (e) {
+                console.log('eventRelic.json not found, running update...');
+              }
+
+              const startTime = new Date('${startDate.toISOString()}');
+              const endTime = new Date('${endDate.toISOString()}');
+              const now = new Date();
+
+              if (data.status && data.status !== 'NotUpdated' || now > endTime) {
+                console.log('Бот остановлен: статус обновлен или 3 дня прошли.');
+                const workflowPath = path.join('.github', 'workflows', 'varzia-bot.yml');
+                const emptyYaml = 'name: Disabled Varzia Bot\\non: {}';
+                fs.writeFileSync(workflowPath, emptyYaml);
+                fs.writeFileSync('public/varzia_bot_stopped.json', JSON.stringify({ stopped: true, reason: data.status !== 'NotUpdated' ? 'Status Updated' : '3 Days Passed', timestamp: now.toISOString() }));
+                await simpleGit().add([workflowPath, 'public/varzia_bot_stopped.json']).commit('Stop Varzia Bot: ' + (data.status !== 'NotUpdated' ? 'Status Updated' : '3 Days Passed')).push();
+                return;
+              }
+
+              console.log('Обновляем данные Варзии...');
+              await parseEventRelics();
+              console.log('Обновление завершено.');
+
+              // Коммитим изменения
+              await simpleGit().add('public/eventRelic.json').commit('auto: update Varzia data').push();
+            }
+
+            checkAndUpdate().catch(console.error);
+          "
+`;
+
+  // Записываем YAML
+  fs.writeFileSync(workflowPath, yamlContent);
+
+  // Коммитим изменения
+  try {
+    await git.add(workflowPath);
+    await git.commit('Add Varzia Bot workflow: run every 6 hours for 3 days');
+    await git.push();
+    console.log('GitHub Actions бот для Варзии настроен и запущен!');
+  } catch (e) {
+    console.error('Ошибка коммита workflow:', e.message);
+  }
+}
+
 // ========== main ==========
 async function main() {
   fs.mkdirSync('./public', { recursive: true });
@@ -336,6 +432,14 @@ async function main() {
 
   // --- eventRelic.json ---
   const eventPr = await parseEventRelics();
+
+  // Проверяем статус и настраиваем Varzia bot, если NotUpdated
+  const filePath = path.join('public', 'eventRelic.json');
+  const writtenData = loadOldJSON(filePath, {});
+  if (writtenData.status === 'NotUpdated') {
+    console.log('Данные Варзии не обновлены. Настраиваем GitHub Actions бота на 3 дня (каждые 6 часов).');
+    await setupVarziaBotWorkflow();
+  }
 
   // --- last_update.json ---
   const lastUpdatePath = path.join(__dirname, '..', 'public', 'last_update.json');
