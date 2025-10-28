@@ -656,16 +656,16 @@
     ],
     "Okina Prime": [
       {
+        "item": "Okina Prime Handle",
+        "relic": "Meso L3"
+      },
+      {
         "item": "Okina Prime Blueprint",
         "relic": "Lith O4"
       },
       {
         "item": "Okina Prime Handle",
         "relic": "Meso A8"
-      },
-      {
-        "item": "Okina Prime Blueprint",
-        "relic": "Meso L3"
       },
       {
         "item": "Okina Prime Blade",
@@ -779,6 +779,8 @@
       }
     ]
   },
-  "added": {},
-  "removed": {}
+  "added": {
+  },
+  "removed": {
+  }
 }
