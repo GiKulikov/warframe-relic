@@ -1,141 +1,139 @@
 {
   "status": "Updated",
-  "Lex Prime": [
+  "Shade Prime": [
     {
-      "item": "Lex Prime Receiver",
-      "relic": "Lith G7"
+      "item": "Shade Prime Cerebrum",
+      "relic": "Lith F3"
     },
     {
-      "item": "Lex Prime Blueprint",
-      "relic": "Meso N15"
+      "item": "Shade Prime Systems",
+      "relic": "Lith L6"
     },
     {
-      "item": "Lex Prime Barrel",
-      "relic": "Meso Z5"
-    }
-  ],
-  "Nezha Prime": [
-    {
-      "item": "Nezha Prime Systems Blueprint",
-      "relic": "Lith G7"
+      "item": "Shade Prime Carapace",
+      "relic": "Axi S19"
     },
     {
-      "item": "Nezha Prime Blueprint",
-      "relic": "Lith O3"
-    },
-    {
-      "item": "Nezha Prime Chassis Blueprint",
-      "relic": "Meso N15"
-    },
-    {
-      "item": "Nezha Prime Neuroptics Blueprint",
-      "relic": "Neo T8"
+      "item": "Shade Prime Blueprint",
+      "relic": "Axi W4"
     }
   ],
   "Fang Prime": [
     {
       "item": "Fang Prime Handle",
-      "relic": "Lith G7"
+      "relic": "Lith F3"
     },
     {
       "item": "Fang Prime Blueprint",
-      "relic": "Lith O3"
+      "relic": "Neo H4"
     },
     {
       "item": "Fang Prime Blade",
-      "relic": "Meso Z5"
+      "relic": "Axi W4"
     }
   ],
-  "Zakti Prime": [
+  "Larkspur Prime": [
     {
-      "item": "Zakti Prime Barrel",
-      "relic": "Lith G7"
+      "item": "Larkspur Prime Stock",
+      "relic": "Lith F3"
     },
     {
-      "item": "Zakti Prime Receiver",
-      "relic": "Meso N15"
+      "item": "Larkspur Prime Barrel",
+      "relic": "Lith L6"
     },
     {
-      "item": "Zakti Prime Blueprint",
-      "relic": "Meso Z5"
+      "item": "Larkspur Prime Receiver",
+      "relic": "Meso G10"
+    },
+    {
+      "item": "Larkspur Prime Blueprint",
+      "relic": "Neo H4"
     }
   ],
-  "Guandao Prime": [
+  "Burston Prime": [
     {
-      "item": "Guandao Prime Handle",
-      "relic": "Lith G7"
+      "item": "Burston Prime Barrel",
+      "relic": "Lith F3"
     },
     {
-      "item": "Guandao Prime Blade",
-      "relic": "Lith O3"
+      "item": "Burston Prime Receiver",
+      "relic": "Lith L6"
     },
     {
-      "item": "Guandao Prime Blueprint",
-      "relic": "Meso Z5"
+      "item": "Burston Prime Stock",
+      "relic": "Meso G10"
+    },
+    {
+      "item": "Burston Prime Blueprint",
+      "relic": "Axi S19"
     }
   ],
-  "Tenora Prime": [
+  "Fulmin Prime": [
     {
-      "item": "Tenora Prime Blueprint",
-      "relic": "Lith O3"
+      "item": "Fulmin Prime Receiver",
+      "relic": "Lith F3"
     },
     {
-      "item": "Tenora Prime Barrel",
-      "relic": "Meso Z5"
+      "item": "Fulmin Prime Blueprint",
+      "relic": "Neo H4"
     },
     {
-      "item": "Tenora Prime Receiver",
-      "relic": "Neo T8"
+      "item": "Fulmin Prime Stock",
+      "relic": "Axi S19"
     },
     {
-      "item": "Tenora Prime Stock",
-      "relic": "Axi P5"
+      "item": "Fulmin Prime Barrel",
+      "relic": "Axi W4"
     }
   ],
-  "Octavia Prime": [
+  "Gunsen Prime": [
     {
-      "item": "Octavia Prime Blueprint",
-      "relic": "Lith O3"
+      "item": "Gunsen Prime Blueprint",
+      "relic": "Lith L6"
     },
     {
-      "item": "Octavia Prime Chassis Blueprint",
-      "relic": "Meso N15"
+      "item": "Gunsen Prime Blade",
+      "relic": "Meso G10"
     },
     {
-      "item": "Octavia Prime Systems Blueprint",
-      "relic": "Neo T8"
-    },
-    {
-      "item": "Octavia Prime Neuroptics Blueprint",
-      "relic": "Axi P5"
+      "item": "Gunsen Prime Handle",
+      "relic": "Axi S19"
     }
   ],
-  "Pandero Prime": [
+  "Wisp Prime": [
     {
-      "item": "Pandero Prime Blueprint",
-      "relic": "Meso N15"
+      "item": "Wisp Prime Neuroptics Blueprint",
+      "relic": "Lith L6"
     },
     {
-      "item": "Pandero Prime Barrel",
-      "relic": "Neo T8"
+      "item": "Wisp Prime Systems Blueprint",
+      "relic": "Meso G10"
     },
     {
-      "item": "Pandero Prime Receiver",
-      "relic": "Axi P5"
+      "item": "Wisp Prime Chassis Blueprint",
+      "relic": "Neo H4"
+    },
+    {
+      "item": "Wisp Prime Blueprint",
+      "relic": "Axi W4"
     }
   ],
-  "Vasto Prime": [
+  "Hildryn Prime": [
     {
-      "item": "Vasto Prime Receiver",
-      "relic": "Neo T8"
+      "item": "Hildryn Prime Chassis Blueprint",
+      "relic": "Meso G10"
     },
     {
-      "item": "Vasto Prime Barrel",
-      "relic": "Axi P5"
+      "item": "Hildryn Prime Blueprint",
+      "relic": "Neo H4"
     },
     {
-      "item": "Vasto Prime Blueprint",
-      "relic": "Axi P5"
+      "item": "Hildryn Prime Systems Blueprint",
+      "relic": "Axi S19"
+    },
+    {
+      "item": "Hildryn Prime Neuroptics Blueprint",
+      "relic": "Axi W4"
     }
   ]
 }
