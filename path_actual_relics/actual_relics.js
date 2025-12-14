@@ -1,16 +1,21 @@
-function loadFirstAvailable(urls) {
-  return new Promise((resolve) => {
-    let i = 0;
-    const tryNext = () => {
-      if (i >= urls.length) return resolve('');
-      const testImg = new Image();
-      const url = urls[i++];
-      testImg.onload = () => resolve(url);
-      testImg.onerror = tryNext;
-      testImg.src = url;
-    };
-    tryNext();
-  });
+const PLACEHOLDER = '../img/placeholder.png';
+let uniqueRelics = [];
+
+async function loadFirstAvailable(urls) {
+  for (const url of urls) {
+    try {
+      await new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => reject(false);
+        img.src = url;
+      });
+      return url;
+    } catch {
+      continue;
+    }
+  }
+  return PLACEHOLDER;
 }
 
 const __lazyCards = new WeakMap();
@@ -33,6 +38,8 @@ const __io = new IntersectionObserver(async (entries) => {
 
 function registerLazyCard(card, urls, placeholder) {
   const bg = card.querySelector('.item-img');
+  if (!bg) return;
+
   bg.style.backgroundImage = `url('${placeholder}')`;
   bg.style.backgroundPosition = 'top center';
   bg.style.backgroundSize = 'contain';
@@ -42,20 +49,17 @@ function registerLazyCard(card, urls, placeholder) {
   __io.observe(card);
 }
 
-const PLACEHOLDER = '../img/placeholder.png';
-const relicGrid = document.getElementById('relicGrid');
-const typeFilter = document.getElementById('typeFilter');
-let uniqueRelics = [];
-
-function renderRelics(filterType, newRelicNames) {
+function renderRelics(filterType, newRelicNames, relicGrid) {
+  if (!relicGrid) return;
   relicGrid.innerHTML = '';
 
-  const filteredRelics = filterType === 'all' 
-    ? uniqueRelics 
-    : uniqueRelics.filter(relic => relic.tier === filterType);
+  const filteredRelics = filterType === 'all'
+    ? uniqueRelics
+    : uniqueRelics.filter(r => r.tier === filterType);
 
-  filteredRelics.forEach((relic, i) => {
+  filteredRelics.forEach((relic) => {
     if (!relic) return;
+
     const item = document.createElement('div');
     item.className = 'grid-item';
     item.innerHTML = `
@@ -81,7 +85,6 @@ function renderRelics(filterType, newRelicNames) {
     });
 
     relicGrid.appendChild(item);
-
     registerLazyCard(item, [`../img/relic/${relic.tier}.png`], PLACEHOLDER);
   });
 
@@ -90,53 +93,63 @@ function renderRelics(filterType, newRelicNames) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  const relicGrid = document.getElementById('relicGrid');
+  const typeFilter = document.getElementById('typeFilter');
   const dateElem = document.getElementById('date');
-  fetch('../public/last_update.json')
-    .then(res => {
-      if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
-      return res.json();
-    })
-    .then(data => {
-      if (dateElem) dateElem.textContent = `Дата обновления: ${data.date}`;
-    })
-    .catch(err => {
-      console.error('❌ Ошибка при получении даты:', err);
-      if (dateElem) dateElem.textContent = 'Дата обновления: неизвестна';
-    });
 
-  if (relicGrid) {
-    fetch('../public/relics.json')
-      .then(res => res.json())
-      .then(relicsData => {
-        // Объединяем все реликвии (added и current) в один массив
-        const allRelics = [...(relicsData.added || []), ...(relicsData.current || [])];
-        // Сохраняем имена новых реликвий для метки NEW
-        const newRelicNames = new Set((relicsData.added || []).map(relic => relic.name));
-
-        // Удаляем дубликаты по имени
-        const usedNames = new Set();
-        uniqueRelics = allRelics.filter(relic => {
-          if (!usedNames.has(relic.name)) {
-            usedNames.add(relic.name);
-            return true;
-          }
-          return false;
-        });
-
-        // Первоначальный рендеринг всех реликвий
-        renderRelics('all', newRelicNames);
-
-        // Добавляем обработчик события для фильтра
-        if (typeFilter) {
-          typeFilter.addEventListener('change', (e) => {
-            renderRelics(e.target.value, newRelicNames);
-          });
-        }
-      })
-      .catch(err => {
-        relicGrid.innerText = 'Ошибка загрузки реликвий.';
-        console.error(err);
-      });
+  // Загружаем дату обновления
+  try {
+    const res = await fetch('../public/last_update.json');
+    const data = await res.json();
+    if (dateElem) dateElem.textContent = `Дата обновления: ${data.date || 'неизвестна'}`;
+  } catch (err) {
+    console.error('❌ Ошибка при получении даты:', err);
+    if (dateElem) dateElem.textContent = 'Дата обновления: неизвестна';
   }
+
+  // Проверка видимости контента
+  try {
+    const res1 = await fetch('../public/VisibleContent.json');
+    const visibleContent = await res1.json();
+
+    if (visibleContent.status === false || visibleContent.status === 'false') {
+      if (relicGrid) relicGrid.innerText = 'Данные не обновлены.';
+    } else {
+      // Загружаем реликвии
+      if (relicGrid) {
+        try {
+          const res = await fetch('../public/relics.json');
+          const relicsData = await res.json();
+
+          const allRelics = [...(relicsData.added || []), ...(relicsData.current || [])];
+          const newRelicNames = new Set((relicsData.added || []).map(r => r.name));
+
+          const usedNames = new Set();
+          uniqueRelics = allRelics.filter(r => {
+            if (!usedNames.has(r.name)) {
+              usedNames.add(r.name);
+              return true;
+            }
+            return false;
+          });
+
+          renderRelics('all', newRelicNames, relicGrid);
+
+          if (typeFilter) {
+            typeFilter.addEventListener('change', (e) => {
+              renderRelics(e.target.value, newRelicNames, relicGrid);
+            });
+          }
+
+        } catch (err) {
+          relicGrid.innerText = 'Ошибка загрузки реликвий.';
+          console.error(err);
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Ошибка загрузки VisibleContent.json:', err);
+  }
+
 });

@@ -31,29 +31,9 @@
       "slug": "axi_v10_relic"
     },
     {
-      "name": "Axi V13",
-      "tier": "Axi",
-      "slug": "axi_v13_relic"
-    },
-    {
       "name": "Axi Y1",
       "tier": "Axi",
       "slug": "axi_y1_relic"
-    },
-    {
-      "name": "Axi Y2",
-      "tier": "Axi",
-      "slug": "axi_y2_relic"
-    },
-    {
-      "name": "Lith A10",
-      "tier": "Lith",
-      "slug": "lith_a10_relic"
-    },
-    {
-      "name": "Lith C13",
-      "tier": "Lith",
-      "slug": "lith_c13_relic"
     },
     {
       "name": "Lith C7",
@@ -71,6 +51,150 @@
       "slug": "lith_k12_relic"
     },
     {
+      "name": "Lith Q2",
+      "tier": "Lith",
+      "slug": "lith_q2_relic"
+    },
+    {
+      "name": "Meso N11",
+      "tier": "Meso",
+      "slug": "meso_n11_relic"
+    },
+    {
+      "name": "Meso V11",
+      "tier": "Meso",
+      "slug": "meso_v11_relic"
+    },
+    {
+      "name": "Meso V12",
+      "tier": "Meso",
+      "slug": "meso_v12_relic"
+    },
+    {
+      "name": "Neo C6",
+      "tier": "Neo",
+      "slug": "neo_c6_relic"
+    },
+    {
+      "name": "Neo D9",
+      "tier": "Neo",
+      "slug": "neo_d9_relic"
+    },
+    {
+      "name": "Neo V9",
+      "tier": "Neo",
+      "slug": "neo_v9_relic"
+    }
+  ],
+  "added": [
+    {
+      "name": "Axi A20",
+      "tier": "Axi",
+      "slug": "axi_a20_relic"
+    },
+    {
+      "name": "Axi T13",
+      "tier": "Axi",
+      "slug": "axi_t13_relic"
+    },
+    {
+      "name": "Lith D7",
+      "tier": "Lith",
+      "slug": "lith_d7_relic"
+    },
+    {
+      "name": "Lith G14",
+      "tier": "Lith",
+      "slug": "lith_g14_relic"
+    },
+    {
+      "name": "Lith L7",
+      "tier": "Lith",
+      "slug": "lith_l7_relic"
+    },
+    {
+      "name": "Lith N18",
+      "tier": "Lith",
+      "slug": "lith_n18_relic"
+    },
+    {
+      "name": "Meso A9",
+      "tier": "Meso",
+      "slug": "meso_a9_relic"
+    },
+    {
+      "name": "Meso P17",
+      "tier": "Meso",
+      "slug": "meso_p17_relic"
+    },
+    {
+      "name": "Meso V13",
+      "tier": "Meso",
+      "slug": "meso_v13_relic"
+    },
+    {
+      "name": "Meso V14",
+      "tier": "Meso",
+      "slug": "meso_v14_relic"
+    },
+    {
+      "name": "Meso X1",
+      "tier": "Meso",
+      "slug": "meso_x1_relic"
+    },
+    {
+      "name": "Meso Y1",
+      "tier": "Meso",
+      "slug": "meso_y1_relic"
+    },
+    {
+      "name": "Neo C7",
+      "tier": "Neo",
+      "slug": "neo_c7_relic"
+    },
+    {
+      "name": "Neo K9",
+      "tier": "Neo",
+      "slug": "neo_k9_relic"
+    },
+    {
+      "name": "Neo O3",
+      "tier": "Neo",
+      "slug": "neo_o3_relic"
+    },
+    {
+      "name": "Neo P9",
+      "tier": "Neo",
+      "slug": "neo_p9_relic"
+    },
+    {
+      "name": "Neo T10",
+      "tier": "Neo",
+      "slug": "neo_t10_relic"
+    }
+  ],
+  "removed": [
+    {
+      "name": "Axi V13",
+      "tier": "Axi",
+      "slug": "axi_v13_relic"
+    },
+    {
+      "name": "Axi Y2",
+      "tier": "Axi",
+      "slug": "axi_y2_relic"
+    },
+    {
+      "name": "Lith A10",
+      "tier": "Lith",
+      "slug": "lith_a10_relic"
+    },
+    {
+      "name": "Lith C13",
+      "tier": "Lith",
+      "slug": "lith_c13_relic"
+    },
+    {
       "name": "Lith N17",
       "tier": "Lith",
       "slug": "lith_n17_relic"
@@ -79,11 +203,6 @@
       "name": "Lith O4",
       "tier": "Lith",
       "slug": "lith_o4_relic"
-    },
-    {
-      "name": "Lith Q2",
-      "tier": "Lith",
-      "slug": "lith_q2_relic"
     },
     {
       "name": "Meso A7",
@@ -106,11 +225,6 @@
       "slug": "meso_l3_relic"
     },
     {
-      "name": "Meso N11",
-      "tier": "Meso",
-      "slug": "meso_n11_relic"
-    },
-    {
       "name": "Meso P16",
       "tier": "Meso",
       "slug": "meso_p16_relic"
@@ -119,16 +233,6 @@
       "name": "Meso T8",
       "tier": "Meso",
       "slug": "meso_t8_relic"
-    },
-    {
-      "name": "Meso V11",
-      "tier": "Meso",
-      "slug": "meso_v11_relic"
-    },
-    {
-      "name": "Meso V12",
-      "tier": "Meso",
-      "slug": "meso_v12_relic"
     },
     {
       "name": "Neo A14",
@@ -141,19 +245,9 @@
       "slug": "neo_a15_relic"
     },
     {
-      "name": "Neo C6",
-      "tier": "Neo",
-      "slug": "neo_c6_relic"
-    },
-    {
       "name": "Neo D10",
       "tier": "Neo",
       "slug": "neo_d10_relic"
-    },
-    {
-      "name": "Neo D9",
-      "tier": "Neo",
-      "slug": "neo_d9_relic"
     },
     {
       "name": "Neo T9",
@@ -161,16 +255,9 @@
       "slug": "neo_t9_relic"
     },
     {
-      "name": "Neo V9",
-      "tier": "Neo",
-      "slug": "neo_v9_relic"
-    },
-    {
       "name": "Neo X1",
       "tier": "Neo",
       "slug": "neo_x1_relic"
     }
-  ],
-  "added": [],
-  "removed": []
+  ]
 }

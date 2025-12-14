@@ -172,6 +172,7 @@ async function parseEventRelics() {
   const $ = await fetchHTML(VARZIA);
   const relics = [];
 
+  // Собираем все доступные реликвии
   $('table tbody tr').each((_, row) => {
     const $row = $(row);
     const relicCell = $row.find('td').eq(0);
@@ -192,20 +193,27 @@ async function parseEventRelics() {
   });
 
   const relicMap = {};
+
+  // Парсим детали каждой реликвии
   for (const relic of relics) {
     try {
       const $rel = await fetchHTML(relic.url);
+
       $rel('table tbody tr').each((_, row) => {
         const itemName = normalizeText($rel(row).find('td').first().text());
         const primeName = extractPrime(itemName);
         if (primeName) {
           if (!relicMap[primeName]) relicMap[primeName] = [];
-          relicMap[primeName].push({ item: itemName, relic: relic.name });
+          // Оставляем только название реликвии
+          const cleanRelicName = relic.name.split('{')[0].trim();
+          relicMap[primeName].push({ item: itemName, relic: cleanRelicName });
         }
       });
+
     } catch (e) {
       console.error(`Ошибка при обработке ${relic.name}: ${e.message}`);
     }
+
     await new Promise(r => setTimeout(r, 200));
   }
 
@@ -214,26 +222,23 @@ async function parseEventRelics() {
   let previousData = {};
   try {
     previousData = loadOldJSON(filePath, {});
-    // Remove status field from previous data for comparison
     delete previousData.status;
   } catch (e) {
     console.log('No previous eventRelic.json found or error reading file:', e.message);
   }
 
-  // Compare the new relicMap with the previous data
   const isIdentical = JSON.stringify(relicMap) === JSON.stringify(previousData);
 
-  // Prepare output with status
   const output = {
     status: isIdentical ? 'NotUpdated' : 'Updated',
     ...relicMap
   };
 
-  // Write the output to eventRelic.json
   safeWriteJSON(filePath, output);
 
   return output;
 }
+
 
 // ========== diffs ==========
 function diffRelics(oldArr, newArr) {

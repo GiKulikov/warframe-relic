@@ -60,7 +60,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (dateElem) dateElem.textContent = 'Дата обновления: неизвестна';
   }
 
-  
+  const res1 = await fetch('../public/VisibleContent.json');
+      const visibleContent =await res1.json();
+      
+      const primesGrid = document.getElementById('primesContainer');
+      if (visibleContent.status === false) {
+      primesGrid.innerText = 'Данные не обновлены.';
+      return;
+      }
+      
 
   // Загрузка прайм-частей///////////////////////////////////////////////////////////////////////////////
   const primeGrid = document.getElementById('primesContainer');
@@ -70,31 +78,60 @@ document.addEventListener('DOMContentLoaded', async () => {
       const res = await fetch('../public/primes.json');
       const primes = await res.json();
 
-      // Новые прайм-объекты (полностью новые, которых не было раньше)
-      const newPrimes = Object.entries(primes.added).filter(([name]) => {
-        return !(name in primes.current) && !(name in primes.removed);
-      }).slice(0, 4);
 
-      // Старые прайм-объекты (сортировка по количеству частей)
+     const newPrimes = Object.entries(primes.added).filter(([name]) => {
+        return !(name in primes.current) && !(name in primes.removed);
+       });
+      
+
       const oldPrimes = Object.entries(primes.current)
         .sort(([, a], [, b]) => b.length - a.length);
-
-      // Заполняем до 9 карточек: сначала новые, затем старые
+       
       const selectedPrimes = [
         ...newPrimes,
-        ...oldPrimes // Дополняем до 9
+        ...oldPrimes 
       ];
+      
 
       primeGrid.innerHTML = '';
+      function getPrimePartType(name, item) {
+        if (!name || !item) return null;
 
-      selectedPrimes.forEach(([name, parts], i) => {
+        let part = item;
+
+        // убираем имя прайма
+        part = part.replace(name, '').trim();
+
+        // убираем Blueprint
+        part = part.replace(/Blueprint$/i, '').trim();
+
+        // если ничего не осталось — это основной Blueprint
+        return part || 'Blueprint';
+      }
+      
+      
+      selectedPrimes.forEach(([name, parts ], i) => {
         const item = document.createElement('div');
+        
+        const currentParts = primes.current[name] || [];
+        const addedParts   = primes.added[name] || [];
+        const allParts     = [...currentParts, ...addedParts];
+
+        const frameParts = new Set();
+
+        allParts.forEach(p => {
+          const type = getPrimePartType(name, p.item);
+          if (type) frameParts.add(type);
+        });
+
+        const frameCount = frameParts.size;
+  
         item.className = 'grid-item';
         item.innerHTML = `
         <div class="description-card">
          ${i < newPrimes.length ? '<label class="new-badge">NEW</label>' : ''}
           <label class="name-card">${name}</label>
-          <label class="addition">${parts.length} частей в актуальных реликвиях</label>
+          <label class="addition">${frameCount} частей в актуальных реликвиях</label>
          
         </div>
         `;

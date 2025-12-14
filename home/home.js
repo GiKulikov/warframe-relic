@@ -104,7 +104,15 @@ document.addEventListener('DOMContentLoaded', async () => {
       timerElem.textContent = 'Ошибка загрузки даты';
     }
   }
-
+      const res1 = await fetch('../public/VisibleContent.json');
+      const visibleContent =await res1.json();
+      
+      const relicGrid = document.getElementById('relicGrid');
+      if (visibleContent.status === false) {
+      relicGrid.innerText = 'Данные не обновлены.';
+      
+      }
+      else{
 // Загрузка реликвий
 const relicGrid = document.getElementById('relicGrid');
 if (relicGrid) {
@@ -212,6 +220,11 @@ if (relicGrid) {
       const res = await fetch('../public/primes.json');
       const primes = await res.json();
 
+      
+  
+
+    
+
       // Новые прайм-объекты (полностью новые, которых не было раньше)
       const newPrimes = Object.entries(primes.added).filter(([name]) => {
         return !(name in primes.current) && !(name in primes.removed);
@@ -226,16 +239,44 @@ if (relicGrid) {
         ...newPrimes,
         ...oldPrimes.slice(0, 9 - newPrimes.length) // Дополняем до 9
       ].slice(0, 8);
+      function getPrimePartType(name, item) {
+        if (!name || !item) return null;
+
+        let part = item;
+
+        // убираем имя прайма
+        part = part.replace(name, '').trim();
+
+        // убираем Blueprint
+        part = part.replace(/Blueprint$/i, '').trim();
+
+        // если ничего не осталось — это основной Blueprint
+        return part || 'Blueprint';
+      }
 
       primeGrid.innerHTML = '';
 
       selectedPrimes.forEach(([name, parts], i) => {
         const item = document.createElement('div');
+
+        const currentParts = primes.current[name] || [];
+        const addedParts   = primes.added[name] || [];
+        const allParts     = [...currentParts, ...addedParts];
+
+        const frameParts = new Set();
+
+        allParts.forEach(p => {
+          const type = getPrimePartType(name, p.item);
+          if (type) frameParts.add(type);
+        });
+
+        const frameCount = frameParts.size;
+
         item.className = 'grid-item';
         item.innerHTML = `
        <div class="description-card">
           <label class="name-card">${name}</label>
-          <label class="addition">${parts.length} частей</label>
+          <label class="addition">${frameCount} частей</label>
           ${i < newPrimes.length ? '<label class="new-badge">NEW</label>' : ''}
         </div>
 
@@ -275,7 +316,10 @@ if (relicGrid) {
       primeGrid.innerText = 'Ошибка загрузки прайм частей.';
       console.error(err);
     }
+    
   }
+}
+  
 
   // Загрузка данных Варзии................................................................................
   
