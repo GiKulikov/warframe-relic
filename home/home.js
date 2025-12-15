@@ -108,19 +108,19 @@ document.addEventListener('DOMContentLoaded', async () => {
       const visibleContent =await res1.json();
       
       const relicGrid = document.getElementById('relicGrid');
-      if (visibleContent.status === false) {
+ if (visibleContent.status === false) {
       relicGrid.innerText = 'Данные не обновлены.';
       
-      }
-      else{
+  }
+  else{
 // Загрузка реликвий
-const relicGrid = document.getElementById('relicGrid');
-if (relicGrid) {
-  try {
+    const relicGrid = document.getElementById('relicGrid');
+    if (relicGrid) {
+      try {
     const res = await fetch('../public/relics.json');
     const relicsData = await res.json();
 
-    // Группируем реликвии по tier
+    // Группируем реликвии по типам
     const newByTier = (relicsData.added || []).reduce((acc, r) => {
       acc[r.tier] = acc[r.tier] || [];
       acc[r.tier].push(r);
@@ -132,20 +132,20 @@ if (relicGrid) {
       return acc;
     }, {});
 
-    // Выбираем до 4 новых реликвий по типам (Lith, Meso, Neo, Axi)
+    // Выбираем новые реликвии по типам
     const desiredTiers = ['Lith', 'Meso', 'Neo', 'Axi'];
     const newRelics = desiredTiers
       .map(tier => (newByTier[tier] || [])[Math.floor(Math.random() * (newByTier[tier] || []).length)] || null)
       .filter(r => r);
 
-    // Выбираем старые реликвии по типам, исключая уже выбранные типы
+    // Выбираем старые реликвии по оставшимся типам
     const usedTiers = newRelics.map(r => r.tier);
     const remainingTiers = desiredTiers.filter(tier => !usedTiers.includes(tier));
     const oldRelicsByType = remainingTiers
       .map(tier => (oldByTier[tier] || [])[Math.floor(Math.random() * (oldByTier[tier] || []).length)] || null)
       .filter(r => r);
 
-    // Дополняем до 8 реликвий, повторяя цикл типов
+    // Заполняем до 8 реликвий, избегая дубликатов
     let selectedRelics = [...newRelics, ...oldRelicsByType];
     let usedNames = selectedRelics.map(r => r.name);
     let needed = 8 - selectedRelics.length;
@@ -168,17 +168,18 @@ if (relicGrid) {
     relicGrid.innerHTML = '';
 
     selectedRelics.forEach((relic, i) => {
-      if (!relic) return; // Пропускаем, если реликвия не найдена
+      if (!relic) return;
       const item = document.createElement('div');
       item.className = 'grid-item';
       item.innerHTML = `
         <div class="description-card">
+        ${i < newRelics.length ? '<label class="new-badge">NEW</label>' : ''}
           <label class="name-card">${relic.name}</label>
           <label class="addition">${relic.tier} Relic</label>
-          ${i < newRelics.length ? '<label class="new-badge">NEW</label>' : ''}
+          
         </div>
       `;
-      if (i < newRelics.length) item.classList.add('new'); // Метка NEW только для новых
+      if (i < newRelics.length) item.classList.add('new'); 
       item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
 
       const bg = document.createElement('div');
@@ -225,32 +226,26 @@ if (relicGrid) {
 
     
 
-      // Новые прайм-объекты (полностью новые, которых не было раньше)
+      // Новые прайм-объекты 
       const newPrimes = Object.entries(primes.added).filter(([name]) => {
         return !(name in primes.current) && !(name in primes.removed);
       }).slice(0, 4);
 
-      // Старые прайм-объекты (сортировка по количеству частей)
+      // Старые прайм-объекты 
       const oldPrimes = Object.entries(primes.current)
         .sort(([, a], [, b]) => b.length - a.length);
 
-      // Заполняем до 9 карточек: сначала новые, затем старые
+      
       const selectedPrimes = [
         ...newPrimes,
-        ...oldPrimes.slice(0, 9 - newPrimes.length) // Дополняем до 9
+        ...oldPrimes.slice(0, 9 - newPrimes.length) 
       ].slice(0, 8);
+
       function getPrimePartType(name, item) {
         if (!name || !item) return null;
-
         let part = item;
-
-        // убираем имя прайма
         part = part.replace(name, '').trim();
-
-        // убираем Blueprint
         part = part.replace(/Blueprint$/i, '').trim();
-
-        // если ничего не осталось — это основной Blueprint
         return part || 'Blueprint';
       }
 
@@ -258,9 +253,10 @@ if (relicGrid) {
 
       selectedPrimes.forEach(([name, parts], i) => {
         const item = document.createElement('div');
-
+        // подсчёт уникальных частей прайм-объекта
         const currentParts = primes.current[name] || [];
         const addedParts   = primes.added[name] || [];
+        const removedParts = primes.removed[name] || [];
         const allParts     = [...currentParts, ...addedParts];
 
         const frameParts = new Set();
@@ -269,15 +265,37 @@ if (relicGrid) {
           const type = getPrimePartType(name, p.item);
           if (type) frameParts.add(type);
         });
-
+        
         const frameCount = frameParts.size;
+        let part = '';
+        if(frameCount<5){
+          part = 'части';
+        }
+        else{
+          part = 'частей';
+        }
+         // определение статусов
+        const inCurr = addedParts.filter(added =>
+          currentParts.some(current => current.item === added.item)
+        );
+        
 
+        let boolNew = false;
+        let boolupdate = false;
+        if(inCurr.length===0 && addedParts.length>0 && removedParts.length===0){
+          boolNew = true;
+        }
+        else if(removedParts.length>0 &&addedParts.length>0){
+          boolupdate = true;
+        }
         item.className = 'grid-item';
         item.innerHTML = `
        <div class="description-card">
+
           <label class="name-card">${name}</label>
-          <label class="addition">${frameCount} частей</label>
-          ${i < newPrimes.length ? '<label class="new-badge">NEW</label>' : ''}
+          <label class="addition">${frameCount} ${part}</label>
+          ${boolNew ? '<label class="new-badge">NEW</label>' :  boolupdate ?'<label class="new-badge">UPDATED</label>' :''}
+
         </div>
 
         `;
@@ -346,11 +364,18 @@ if (varziaGrid) {
 
     top8.forEach(([name, parts], i) => {
       const item = document.createElement('div');
+       let part = '';
+        if(parts.length<5){
+          part = 'части';
+        }
+        else{
+          part = 'частей';
+        }
       item.className = 'grid-item';
       item.innerHTML = `
         <div class="description-card">
           <label class="name-card">${name}</label>
-          <label class="addition">${parts.length} частей</label>
+          <label class="addition">${parts.length} ${part}</label>
         </div>
       `;
       item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);

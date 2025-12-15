@@ -80,43 +80,44 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
      const newPrimes = Object.entries(primes.added).filter(([name]) => {
-        return !(name in primes.current) && !(name in primes.removed);
-       });
-      
+          
+           return !(name in primes.current) && !(name in primes.removed);
+      });
+      const UPDATEdPrimes = Object.entries(primes.current).filter(([name]) => {
+          
+           return (name in primes.added);
+      });
 
       const oldPrimes = Object.entries(primes.current)
-        .sort(([, a], [, b]) => b.length - a.length);
+        .filter(([name]) => !(name in primes.added)
+      );
        
       const selectedPrimes = [
         ...newPrimes,
+        ...UPDATEdPrimes,
         ...oldPrimes 
       ];
       
 
       primeGrid.innerHTML = '';
+      
       function getPrimePartType(name, item) {
         if (!name || !item) return null;
-
         let part = item;
-
-        // убираем имя прайма
         part = part.replace(name, '').trim();
-
-        // убираем Blueprint
         part = part.replace(/Blueprint$/i, '').trim();
-
-        // если ничего не осталось — это основной Blueprint
         return part || 'Blueprint';
       }
       
       
       selectedPrimes.forEach(([name, parts ], i) => {
         const item = document.createElement('div');
-        
+        // подсчёт уникальных частей прайм-объекта
         const currentParts = primes.current[name] || [];
         const addedParts   = primes.added[name] || [];
+        const removedParts = primes.removed[name] || [];
         const allParts     = [...currentParts, ...addedParts];
-
+        
         const frameParts = new Set();
 
         allParts.forEach(p => {
@@ -125,17 +126,39 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         const frameCount = frameParts.size;
-  
+        // определение статусов
+        const inCurr = addedParts.filter(added =>
+          currentParts.some(current => current.item === added.item)
+        );
+        
+
+        let boolNew = false;
+        let boolupdate = false;
+        if(inCurr.length===0 && addedParts.length>0 && removedParts.length===0){
+          boolNew = true;
+        }
+        else if(removedParts.length>0 &&addedParts.length>0){
+          boolupdate = true;
+        }
+        
+        let part = '';
+        if(frameCount<5){
+          part = 'части';
+        }
+        else{
+          part = 'частей';
+        }
+       
         item.className = 'grid-item';
         item.innerHTML = `
         <div class="description-card">
-         ${i < newPrimes.length ? '<label class="new-badge">NEW</label>' : ''}
+         ${boolNew ? '<label class="new-badge">NEW</label>' :  boolupdate ?'<label class="new-badge">UPDATED</label>' :''}
           <label class="name-card">${name}</label>
-          <label class="addition">${frameCount} частей в актуальных реликвиях</label>
+          <label class="addition">${frameCount} ${part} в актуальных реликвиях</label>
          
         </div>
         `;
-        if (i < newPrimes.length) item.classList.add('new');
+        
 
         const bg = document.createElement('div');
         bg.className = 'item-background';
@@ -200,67 +223,90 @@ async function initPrimeSearchStyled() {
     ]);
 
     const lowerFilter = filter.toLowerCase().trim();
+    function getPrimePartType(name, item) {
+        if (!name || !item) return null;
+        let part = item;
+        part = part.replace(name, '').trim();
+        part = part.replace(/Blueprint$/i, '').trim();
+        return part || 'Blueprint';
+      }
 
     // Ищем совпадения
-    const results = Array.from(namesSet)
-      .filter(name => {
-        if (name.toLowerCase().includes(lowerFilter)) return true;
+   const results = Array.from(namesSet)
+  .filter(name => {
+    if (name.toLowerCase().includes(lowerFilter)) return true;
+    const allRelics = [...(primes.current[name] || []), ...(primes.added[name] || [])];
+    return allRelics.some(r => r.relic && r.relic.toLowerCase().includes(lowerFilter));
+  })
+  .map(name => {
+    return {
+      name,
+      currentParts: primes.current[name] || [],
+      addedParts: primes.added[name] || []
+    };
+  });
 
-        const allRelics = [
-          ...(primes.current[name] || []),
-          ...(primes.added[name] || [])
-        ];
-        return allRelics.some(r =>
-          r.relic && r.relic.toLowerCase().includes(lowerFilter)
-        );
-      })
-      .map(name => {
-        const currentParts = primes.current[name] || [];
-        const addedParts = primes.added[name] || [];
-        return [name, [...currentParts, ...addedParts]];
+results.forEach(({name, currentParts, addedParts}, i) => {
+  // подсчёт уникальных частей прайм-объекта
+  const allParts = [...currentParts, ...addedParts];
+  const frameParts = new Set();
+  allParts.forEach(p => {
+    const type = getPrimePartType(name, p.item);
+    if (type) frameParts.add(type);
+  });
+  const frameCount = frameParts.size;
+  const partWord = frameCount < 5 ? 'части' : 'частей';
+
+  // определение статусов
+  const statuscurr = addedParts.filter(added =>
+    currentParts.some(current => current.item === added.item)
+  );
+  const statusaded = currentParts.filter(current =>
+    addedParts.some(added => added.item === current.item)
+  );
+
+  let boolNew = false;
+  let boolupdate = false;
+  if(statuscurr.length===0 && addedParts.length>0){
+    boolNew = true;
+  }
+  else if(statusaded.length>0 && currentParts.length>0){
+    boolupdate = true;
+  }
+
+  const item = document.createElement('div');
+  item.className = 'grid-item';
+  item.innerHTML = `
+    <div class="description-card">
+       ${boolNew ? '<label class="new-badge">NEW</label>' :  boolupdate ?'<label class="new-badge">UPDATED</label>' :''}
+      <label class="name-card">${name}</label>
+      <label class="addition">${frameCount} ${partWord} в актуальных реликвиях</label>
+    </div>
+  `;
+
+        
+
+        const bg = document.createElement('div');
+        bg.className = 'item-background';
+        bg.textContent = name;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'item-img';
+
+        bg.appendChild(overlay);
+        item.appendChild(bg);
+
+        item.addEventListener('click', () => {
+          const encoded = encodeURIComponent(name);
+          window.location.href = `../path_prime/prime_details.html?name=${encoded}`;
+        });
+
+        container.appendChild(item);
+        registerLazyCard(item, [
+            `../img/frame/${name}.png`,
+            `../img/weapon/${name}.png`
+          ], PLACEHOLDER);
       });
-
-    if (!results.length) {
-      container.innerHTML = '<p>Ничего не найдено.</p>';
-      return;
-    }
-
-    // Создаём элементы в нужном формате
-    results.forEach(([name, parts], i) => {
-      const item = document.createElement('div');
-      item.className = 'grid-item';
-      item.innerHTML = `
-      <div class="description-card">
-    ${ (primes.added[name] && primes.added[name].length > 0) ? '<label class="new-badge">NEW</label>' : '' }
-    <label class="name-card">${name}</label>
-    <label class="addition">${parts.length} частей в актуальных реликвиях</label>
-  </div>
-      `;
-
-      if (primes.added[name] && primes.added[name].length > 0) item.classList.add('new');
-      item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
-
-      const bg = document.createElement('div');
-      bg.className = 'item-background';
-      bg.textContent = name;
-
-      const overlay = document.createElement('div');
-      overlay.className = 'item-img';
-
-      bg.appendChild(overlay);
-      item.appendChild(bg);
-
-      item.addEventListener('click', () => {
-        const encoded = encodeURIComponent(name);
-        window.location.href = `../path_prime/prime_details.html?name=${encoded}`;
-      });
-
-      container.appendChild(item);
-      registerLazyCard(item, [
-          `../img/frame/${name}.png`,
-          `../img/weapon/${name}.png`
-        ], PLACEHOLDER);
-    });
   }
 
   // Привязка поиска к полю

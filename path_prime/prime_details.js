@@ -1,11 +1,14 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const frameName = new URLSearchParams(window.location.search).get('name');
-  document.getElementById('frameTitle').innerText = frameName || 'Прайм персонаж или оружие';
+const frameTitle =  document.getElementById('frameTitle');
 
   const res = await fetch('../public/primes.json');
   const rawPrimes = await res.json();
 
-  // Объединяем current и added, сливая массивы для каждого ключа
+  const currentParts = rawPrimes.current[frameName] || [];
+  const addedParts   = rawPrimes.added[frameName] || [];
+  const removedParts = rawPrimes.removed[frameName] || [];
+ 
   const primes = {};
   Object.keys(rawPrimes.current).forEach(key => {
     primes[key] = [...(rawPrimes.current[key] || [])];
@@ -17,25 +20,23 @@ document.addEventListener('DOMContentLoaded', async () => {
       primes[key] = [...(rawPrimes.added[key] || [])];
     }
   });
+  
 
-  // Определяем, является ли объект варфреймом или оружием на основе большинства частей
-  const warframeParts = ['Chassis', 'Neuroptics', 'Systems']; // Исключаем Blueprint из проверки
+  const warframeParts = ['Chassis', 'Neuroptics', 'Systems']; 
   const allParts = primes[frameName] || [];
   const partTypes = allParts.map(part => part.item.split(' ').pop());
   const warframeCount = partTypes.filter(p => warframeParts.includes(p)).length;
-  const isWarframe = warframeCount > (partTypes.length - warframeCount); // Большинство - варфрейм-части
+  const isWarframe = warframeCount > (partTypes.length - warframeCount); 
 
-  // Фильтруем части: для варфреймов — только их части, для оружия — все части
+
   let parts = allParts.filter(part => {
     const partName = part.item.split(' ').pop();
     return isWarframe
-      ? ['Blueprint', 'Chassis', 'Neuroptics', 'Systems'].includes(partName) // Для варфреймов
-      : true; // Для оружия — все части, включая Blueprint
+      ? ['Blueprint', 'Chassis', 'Neuroptics', 'Systems'].includes(partName) 
+      : true; 
   });
 
-  // Сортировка частей
   if (isWarframe) {
-    // Определяем порядок для варфреймов: Blueprint, Chassis, Neuroptics, Systems
     const partOrder = ['Blueprint', 'Chassis', 'Neuroptics', 'Systems'];
     parts.sort((a, b) => {
       const partNameA = a.item.split(' ').pop();
@@ -43,7 +44,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       return partOrder.indexOf(partNameA) - partOrder.indexOf(partNameB);
     });
   } else {
-    // Для оружия сортируем по алфавиту (или оставляем как есть, если не нужна сортировка)
     parts.sort((a, b) => a.item.localeCompare(b.item));
   }
 
@@ -59,16 +59,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     const card = document.createElement('div');
     card.className = 'part-card';
 
-    // Нормализуем имя предмета для warframe.market
     const marketSetSlug = item.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '');
     const relicSlug = relic.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '') + '_relic';
 
-    // Формируем название части для отображения
     const partDisplayName = item.replace(`${frameName} `, '');
+    
+     var isNewPrime = false;
+     var isNewPart = false;
+     var isNewRelic = false;
 
+      if (currentParts.length===0 && removedParts.length===0){
+        isNewPrime = true;
+      }
+      if(frameName in rawPrimes.added){
+        const addedPart = rawPrimes.added[frameName] || [];
+        const currentPart = rawPrimes.current[frameName] || [];
+        const removedPart = rawPrimes.removed[frameName] || [];
+        const realIsNeWPart= !removedPart.some(p => p.item === item);
+        
+        const isNeWparts= !currentPart.some(p => p.item === item);
+        if(isNeWparts && realIsNeWPart){
+          isNewPart = true;
+        }
+       
+        if(addedPart.some(p => p.relic === relic)){
+          
+          isNewRelic = true;
+
+        }
+        
+      }
+   
+      frameTitle.textContent = frameName;
     card.innerHTML = `
-      <strong><span class="frame-name">${partDisplayName}</span></strong><br>
-      Выпадает из реликвии: <b><span class="relic-name">${relic}</span></b><br><br>
+      <div>
+      <span class="frame-name">${partDisplayName }</span>
+      ${isNewPart ? '<span class="isNew">NEW</span>' : ''}
+      </div><br>
+      Выпадает из реликвии: <b><span class="relic-name">${relic}</span>
+      ${isNewRelic ? '<span class="isNew">NEW</span>' : ''}
+      </b><br><br>
       <div class="contBtn">
         <button class="market-btn" onclick="window.open('https://warframe.market/items/${marketSetSlug}', '_blank')">
           Купить часть

@@ -68,6 +68,11 @@ main{
   box-shadow: 0 1px 10px #38333b00;
   transition: box-shadow 0.3s ease;
 }
+.isNew {
+   color: #c7afec;
+  font-size: 15px;
+  text-shadow: 1px 1px 10px #a26aadbc;
+}
 
 .part-card:hover {
     box-shadow: 0 1px 10px #38333B;

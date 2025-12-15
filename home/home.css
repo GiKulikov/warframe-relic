@@ -163,12 +163,10 @@ main {
 }
 
 .new-badge {
-  
-  color: #d3b4fa;
-  font-weight:100;
-  font-size: 20px;
-
-  
+  color: #c7afec;
+  font-size: 15px;
+  text-shadow: 1px 1px 10px #a26aadbc;
+  transition: text-shadow 0.1s ease;
 }
 
 .grid-item:hover{
@@ -192,6 +190,7 @@ main {
 .grid-item:hover .name-card,
 .grid-item:hover .new-badge{
   color: #d6d3e000;
+  text-shadow: 0 1px 10px #b78fdf00;
   transition: color 0.1s ease-in;
 }
 

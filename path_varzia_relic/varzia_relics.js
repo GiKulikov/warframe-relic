@@ -1,4 +1,3 @@
-/* ========= Общие хелперы для ленивой загрузки ========= */
 function loadFirstAvailable(urls) {
   return new Promise((resolve) => {
     let i = 0;
@@ -60,19 +59,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!res.ok) throw new Error(`Ошибка HTTP: ${res.status}`);
     const primes = await res.json();
 
-    // Проверяем статус и прекращаем обработку, если status == "NotUpdated"
     if (primes.status === 'NotUpdated') {
       container.innerText = 'Данные Варзии не обновлены.';
       return;
     }
 
-    // Функция рендера с фильтром
     const renderPrimes = (filter = '') => {
       container.innerHTML = '';
       const lowerFilter = filter.toLowerCase().trim();
 
       const entries = Object.entries(primes)
-        .filter(([name]) => name !== 'status') // Пропускаем поле status
+        .filter(([name]) => name !== 'status') 
         .filter(([name]) => {
           if (lowerFilter === '') return true;
           return name.toLowerCase().includes(lowerFilter);
@@ -82,14 +79,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         container.innerHTML = '<p>Ничего не найдено.</p>';
         return;
       }
-
+      
       entries.forEach(([name, parts], i) => {
         const item = document.createElement('div');
+  
+        let part = '';
+        if(parts.length<5){
+          part = 'части';
+        }
+        else{
+          part = 'частей';
+        }
         item.className = 'grid-item';
         item.innerHTML = `
           <div class="description-card">
             <label class="name-card">${name}</label>
-            <label class="addition">${parts.length} частей в актуальных реликвиях</label>
+            <label class="addition">${parts.length} ${part} в актуальных реликвиях</label>
           </div>
         `;
 
@@ -117,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     };
 
-    // Инициализация
+    
     renderPrimes();
 
     // Поиск
@@ -153,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (parts.length !== 3) throw new Error('Неверный формат даты');
 
       const year = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1; // месяцы с 0
+      const month = parseInt(parts[1], 10) - 1; 
       const day = parseInt(parts[2], 10);
 
       const lastUpdateDate = new Date(year, month, day);
