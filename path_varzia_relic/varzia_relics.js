@@ -139,60 +139,49 @@ document.addEventListener('DOMContentLoaded', async () => {
 //Vazar timer/////////////////////////////////////////////////////////////////////////////////////////////////////
 document.addEventListener('DOMContentLoaded', () => {
   const timerElem = document.getElementById('content_varzia');
-  console.log('timerElem:', timerElem);
-
- 
   
-
-  const DURATION_DAYS = 30;
-
-  async function startTimer() {
-    try {
-      console.log('Запрос last_update.json');
-      const response = await fetch('../public/last_update.json'); 
-      const data = await response.json();
-
-     
-      const dateStr = data.date.trim();
-      const parts = dateStr.split('-');
-      if (parts.length !== 3) throw new Error('Неверный формат даты');
-
-      const year = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1; 
-      const day = parseInt(parts[2], 10);
-
-      const lastUpdateDate = new Date(year, month, day);
-      if (isNaN(lastUpdateDate)) {
-        throw new Error('Дата некорректна');
-      }
-
-      const endDate = new Date(lastUpdateDate.getTime() + DURATION_DAYS * 24 * 60 * 60 * 1000);
-
-      function updateTimer() {
-        const now = new Date();
-        const diffMs = endDate - now;
+  if (timerElem) {
+    (async () => {
+      try {
+        const response = await fetch('../public/eventRelic.json');
+        const data = await response.json();
         
-
-        if (diffMs <= 0) {
-          timerElem.textContent = "Вазария — срок 30 дней истёк";
-          clearInterval(intervalId);
-          return;
+        const varziaPeriod = data.varziaPeriod;
+        if (!Array.isArray(varziaPeriod) || varziaPeriod.length === 0) {
+          throw new Error('Данные о периоде отсутствуют');
+        }
+        
+        const endDateStr = varziaPeriod[0].endDate;
+        const endDate = new Date(endDateStr);
+        
+        if (isNaN(endDate.getTime())) {
+          throw new Error('Дата некорректна');
         }
 
-        const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
+        function updateTimer() {
+          const now = new Date();
+          const diffMs = endDate - now;
 
-        timerElem.textContent = `Вазария ещё  ${days}д,  ${hours}ч,  ${minutes}м`;
+          if (diffMs <= 0) {
+            timerElem.textContent = "Вазария — срок 30 дней истёк";
+            clearInterval(intervalId);
+            return;
+          }
+
+          const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+          const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
+
+          timerElem.textContent = `Вазария ещё ${days}д, ${hours}ч, ${minutes}м`;
+        }
+
+        updateTimer();
+        const intervalId = setInterval(updateTimer, 60000);
+
+      } catch (e) {
+        console.error(e);
+        timerElem.textContent = "Ошибка загрузки даты";
       }
-
-      updateTimer();
-      const intervalId = setInterval(updateTimer, 60000);
-    } catch (e) {
-      console.error(e);
-      timerElem.textContent = "Ошибка загрузки даты";
-    }
+    })();
   }
-
-  startTimer();
 });

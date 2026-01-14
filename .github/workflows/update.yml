@@ -1,66 +1,97 @@
-name: Update Relic Data
+name: Update Relic Data - Start & End Only
 
 permissions:
   contents: write
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Runs every day at midnight
-  workflow_dispatch:        
+    - cron: '0 0 * * *'    
+  workflow_dispatch:
 
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Install dependencies
-        run: npm install || true
+        run: npm ci || npm install
 
-      - name: Check last update date
-        id: check_date
-        run: |
-          FILE="public/last_update.json"
-          if [ ! -f "$FILE" ]; then
-            echo "last_update.json not found, proceeding with update"
-            echo "::set-output name=run_update::true"
-          else
-            LAST_DATE=$(jq -r '.date' "$FILE")
-            LAST_TS=$(date -d "$LAST_DATE" +%s)
-            NOW_TS=$(date +%s)
-            DIFF_DAYS=$(( (NOW_TS - LAST_TS) / 86400 ))
-            echo "Last update was $DIFF_DAYS days ago"
-            if [ "$DIFF_DAYS" -ge 30 ]; then
-              echo "::set-output name=run_update::true"
-            else
-              echo "::set-output name=run_update::false"
-            fi
-          fi
+      # ── Главная логика: обновляем только один раз около начала и один раз около конца ──
+      - name: Check if this is the right moment for update
+        id: should_update
         shell: bash
+        run: |
+          EVENT_FILE="public/eventRelic.json"
+          UPDATE_NEEDED="false"
+          MARKER_FILE=".update-markers"
 
-      - name: Run update_data.js
-        if: steps.check_date.outputs.run_update == 'true'
-        run: node updating_img/update_data.js
+          # Если файла с периодами вообще нет → делаем полное обновление
+          if [ ! -f "$EVENT_FILE" ]; then
+            echo "No periods file → full update"
+            UPDATE_NEEDED="true"
+          else
+            NOW=$(date +%s)
+            
+            # Читаем все периоды
+            while IFS= read -r period; do
+              start=$(echo "$period" | jq -r '.startDate')
+              end=$(echo "$period" | jq -r '.endDate')
+              
+              [ -z "$start" ] || [ -z "$end" ] && continue
+              
+              start_ts=$(date -d "$start" +%s 2>/dev/null) || continue
+              end_ts=$(date -d "$end" +%s 2>/dev/null)     || continue
+              
+              # Окно начала: ±12 часов от старта периода
+              if [ $NOW -ge $((start_ts - 43200)) ] && [ $NOW -le $((start_ts + 43200)) ]; then
+                # Проверяем, обновляли ли уже этот старт
+                if ! grep -q "start:${start}" "$MARKER_FILE" 2>/dev/null; then
+                  echo "→ Start window detected ($start), not updated yet"
+                  UPDATE_NEEDED="true"
+                  echo "start:${start}" >> "$MARKER_FILE"
+                  break
+                fi
+              fi
+              
+              # Окно конца: последние 36 часов + 12 часов после конца
+              if [ $NOW -ge $((end_ts - 129600)) ] && [ $NOW -le $((end_ts + 43200)) ]; then
+                if ! grep -q "end:${end}" "$MARKER_FILE" 2>/dev/null; then
+                  echo "→ End window detected ($end), not updated yet"
+                  UPDATE_NEEDED="true"
+                  echo "end:${end}" >> "$MARKER_FILE"
+                  break
+                fi
+              fi
+            done < <(jq -c '.varziaPeriod[]' "$EVENT_FILE" 2>/dev/null || echo "")
+          fi
 
-      - name: Run prime_img_frame.js
-        if: steps.check_date.outputs.run_update == 'true'
-        run: node updating_img/prime_img_frame.js
+          echo "update_needed=$UPDATE_NEEDED" >> "$GITHUB_OUTPUT"
 
-      - name: Run prime_img_weapon.js
-        if: steps.check_date.outputs.run_update == 'true'
-        run: node updating_img/prime_img_weapon.js
+      - name: Run update scripts
+        if: steps.should_update.outputs.update_needed == 'true'
+        run: |
+          node updating_img/update_data.js
+          node updating_img/prime_img_frame.js
+          node updating_img/prime_img_weapon.js
 
-      - name: Commit and push updated files
-        if: steps.check_date.outputs.run_update == 'true'
+      - name: Commit changes + marker file
+        if: steps.should_update.outputs.update_needed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/* img/*
-          git commit -m "auto: update relics & images" || echo "No changes"
-          git push
+          
+          git add public/ img/ .update-markers
+          git commit -m "auto: update at period start/end" --allow-empty || true
+          git push || true
+
+      

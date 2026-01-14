@@ -217,12 +217,38 @@ async function parseEventRelics() {
     await new Promise(r => setTimeout(r, 200));
   }
 
+  // ──────────────────────────────────────────────
+  // Добавляем период доступности Варзии
+  let varziaPeriod = [];
+
+  try {
+    const traderData = await fetch("https://api.warframestat.us/pc/vaultTrader")
+      .then(res => res.json());
+
+    // Проверяем, что сейчас именно Варзия (на всякий случай)
+    if (traderData?.character?.toLowerCase().includes('varzia') &&
+        traderData.activation && traderData.expiry) {
+      
+      varziaPeriod = [{
+        startDate: traderData.activation,
+        endDate: traderData.expiry
+      }];
+    }
+    // Если в будущем API начнёт возвращать массив — можно будет легко доработать
+  } catch (err) {
+    console.warn('Не удалось получить даты Варзии:', err.message);
+    // Можно оставить пустой массив или записать fallback-значения
+  }
+  // ──────────────────────────────────────────────
+
   // Read the previous eventRelic.json file, if it exists
   const filePath = path.join('public', 'eventRelic.json');
   let previousData = {};
   try {
     previousData = loadOldJSON(filePath, {});
     delete previousData.status;
+    // Если раньше уже было поле varziaPeriod — его тоже можно удалить для чистого сравнения
+    delete previousData.varziaPeriod;
   } catch (e) {
     console.log('No previous eventRelic.json found or error reading file:', e.message);
   }
@@ -231,6 +257,7 @@ async function parseEventRelics() {
 
   const output = {
     status: isIdentical ? 'NotUpdated' : 'Updated',
+    varziaPeriod,           // ← добавляем сюда
     ...relicMap
   };
 

@@ -1,5 +1,11 @@
 {
   "status": "Updated",
+  "varziaPeriod": [
+    {
+      "startDate": "2025-12-18T19:00:00.000Z",
+      "endDate": "2026-01-15T19:00:00.000Z"
+    }
+  ],
   "Latron Prime": [
     {
       "item": "Latron Prime Blueprint",
