@@ -341,15 +341,14 @@ if (varziaGrid) {
     const res = await fetch('../public/eventRelic.json');
     const events = await res.json();
 
-    // Проверяем статус и прекращаем обработку, если status == "NotUpdated"
     if (events.status === 'NotUpdated') {
       varziaGrid.innerText = 'Данные Варзии не обновлены.';
       return;
     }
 
-    // Исключаем поле status из обработки, сортируем и берем топ-8
+    
     const top8 = Object.entries(events)
-      .filter(([key]) => key !== 'status') // Пропускаем поле status
+      .filter(([key]) => key !== 'status' && key !== 'varziaPeriod') 
       .sort(([, a], [, b]) => b.length - a.length)
       .slice(0, 8);
 

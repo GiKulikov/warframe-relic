@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   
 
-  // Загрузка данных для Varzia
+  // Загрузка данных  Varzia
  if (container) {
   try {
     container.innerText = 'Загрузка данных...';
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const lowerFilter = filter.toLowerCase().trim();
 
       const entries = Object.entries(primes)
-        .filter(([name]) => name !== 'status') 
+        .filter(([name]) => name !== 'status' && name !== 'varziaPeriod') 
         .filter(([name]) => {
           if (lowerFilter === '') return true;
           return name.toLowerCase().includes(lowerFilter);

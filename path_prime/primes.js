@@ -141,6 +141,9 @@ document.addEventListener('DOMContentLoaded', async () => {
           boolupdate = true;
         }
         
+
+        
+       
         let part = '';
         if(frameCount<5){
           part = 'части';
