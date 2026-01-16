@@ -52,26 +52,25 @@ jobs:
               start_ts=$(date -d "$start" +%s 2>/dev/null) || continue
               end_ts=$(date -d "$end" +%s 2>/dev/null)     || continue
               
-              # Окно начала: ±12 часов от старта периода
-              if [ $NOW -ge $((start_ts - 43200)) ] && [ $NOW -le $((start_ts + 43200)) ]; then
-                # Проверяем, обновляли ли уже этот старт
-                if ! grep -q "start:${start}" "$MARKER_FILE" 2>/dev/null; then
-                  echo "→ Start window detected ($start), not updated yet"
-                  UPDATE_NEEDED="true"
-                  echo "start:${start}" >> "$MARKER_FILE"
-                  break
-                fi
+             # Окно начала: от старта до +12 часов
+            if [ $NOW -ge $start_ts ] && [ $NOW -le $((start_ts + 43200)) ]; then
+              if ! grep -q "start:${start}" "$MARKER_FILE" 2>/dev/null; then
+                echo "→ Start window detected ($start), not updated yet"
+                UPDATE_NEEDED="true"
+                echo "start:${start}" >> "$MARKER_FILE"
+                break
               fi
-              
-              # Окно конца: последние 36 часов + 12 часов после конца
-              if [ $NOW -ge $((end_ts - 129600)) ] && [ $NOW -le $((end_ts + 43200)) ]; then
-                if ! grep -q "end:${end}" "$MARKER_FILE" 2>/dev/null; then
-                  echo "→ End window detected ($end), not updated yet"
-                  UPDATE_NEEDED="true"
-                  echo "end:${end}" >> "$MARKER_FILE"
-                  break
-                fi
-              fi
+            fi
+
+            # Окно конца: последние 36 часов до конца + 12 часов после конца
+           if [ $NOW -ge $end_ts ] && [ $NOW -le $((end_ts + 43200)) ]; then
+            if ! grep -q "end:${end}" "$MARKER_FILE" 2>/dev/null; then
+              echo "→ End window detected ($end), not updated yet"
+              UPDATE_NEEDED="true"
+              echo "end:${end}" >> "$MARKER_FILE"
+              break
+            fi
+          fi
             done < <(jq -c '.varziaPeriod[]' "$EVENT_FILE" 2>/dev/null || echo "")
           fi
 
