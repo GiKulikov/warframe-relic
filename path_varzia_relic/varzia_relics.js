@@ -79,9 +79,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         container.innerHTML = '<p>Ничего не найдено.</p>';
         return;
       }
-      
+       
       entries.forEach(([name, parts], i) => {
         const item = document.createElement('div');
+
+        function getPrimePartType(name, item) {
+        if (!name || !item) return null;
+        let part = item;
+        part = part.replace(name, '').trim();
+        part = part.replace(/Blueprint$/i, '').trim();
+        return part || 'Blueprint';
+      }
+        const frameParts = new Set();
+        console.log(parts);
+        parts.forEach(p => {
+          const type = getPrimePartType(name, p.item);
+          if (type) frameParts.add(type);
+        });
+        const frameCount = frameParts.size;
   
         let part = '';
         if(parts.length<5){
@@ -94,7 +109,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         item.innerHTML = `
           <div class="description-card">
             <label class="name-card">${name}</label>
-            <label class="addition">${parts.length} ${part} в актуальных реликвиях</label>
+            <label class="addition">${frameCount} ${part} в актуальных реликвиях</label>
           </div>
         `;
 

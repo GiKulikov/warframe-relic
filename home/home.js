@@ -214,10 +214,8 @@ if (timerElem) {
       const res = await fetch('../public/primes.json');
       const primes = await res.json();
 
-      
-  
 
-    
+   
 
       // Новые прайм-объекты 
       const newPrimes = Object.entries(primes.added).filter(([name]) => {
@@ -356,6 +354,23 @@ if (varziaGrid) {
 
     top8.forEach(([name, parts], i) => {
       const item = document.createElement('div');
+
+      
+        function getPrimePartType(name, item) {
+        if (!name || !item) return null;
+        let part = item;
+        part = part.replace(name, '').trim();
+        part = part.replace(/Blueprint$/i, '').trim();
+        return part || 'Blueprint';
+      }
+        const frameParts = new Set();
+        parts.forEach(p => {
+          const type = getPrimePartType(name, p.item);
+          if (type) frameParts.add(type);
+        });
+        const frameCount = frameParts.size;
+  
+
        let part = '';
         if(parts.length<5){
           part = 'части';
@@ -367,7 +382,7 @@ if (varziaGrid) {
       item.innerHTML = `
         <div class="description-card">
           <label class="name-card">${name}</label>
-          <label class="addition">${parts.length} ${part}</label>
+          <label class="addition">${frameCount} ${part}</label>
         </div>
       `;
       item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
