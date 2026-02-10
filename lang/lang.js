@@ -9,11 +9,11 @@ export async function loadLang(lang) {
     weaponParts,
     generalDict
   ] = await Promise.all([
-    fetch(`../lang/${lang}/frame/name_frame.json`).then(r => r.json()),
-    fetch(`../lang/${lang}/frame/name_frame_parts.json`).then(r => r.json()),
-    fetch(`../lang/${lang}/weapon/name_weapon.json`).then(r => r.json()),
-    fetch(`../lang/${lang}/weapon/name_weapon_parts.json`).then(r => r.json()),
-    fetch(`../lang/${lang}/general/dictionary.json`).then(r => r.json())
+    fetch(`./lang/${lang}/frame/name_frame.json`).then(r => r.json()),
+    fetch(`./lang/${lang}/frame/name_frame_parts.json`).then(r => r.json()),
+    fetch(`./lang/${lang}/weapon/name_weapon.json`).then(r => r.json()),
+    fetch(`./lang/${lang}/weapon/name_weapon_parts.json`).then(r => r.json()),
+    fetch(`./lang/${lang}/general/dictionary.json`).then(r => r.json())
   ]);
 
   dict = {

@@ -1,6 +1,6 @@
 
 import { loadPage } from './loadPage.js';
-import { dict, loadLang, applyGeneralLang } from '../lang/lang.js';
+import { dict, loadLang, applyGeneralLang } from './lang/lang.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
 
