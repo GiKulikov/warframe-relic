@@ -30,7 +30,6 @@ body {
     color: #777;
     width: 100%;
 }
-/* === column  === */
 main {
     display: flex;
     flex-wrap: wrap;
@@ -81,7 +80,6 @@ main {
     flex: 1;
 }
 
-/* === grid-column  === */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -105,7 +103,7 @@ main {
   
 }
 
-/* === structure-item  === */
+/* item  */
 .item-background {
   position: relative;
   z-index: 1;
@@ -196,25 +194,7 @@ main {
 
 
 
-footer {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 70px;
-  font-size: 14px;
-  color: #777;
-}
 
-footer a {
-  color: #a9adc9;
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
 
 
 

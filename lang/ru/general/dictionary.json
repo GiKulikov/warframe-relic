@@ -1,0 +1,46 @@
+{
+  "common": {
+    "loading": "Загрузка...",
+    "data_not_updated": "Данные не обновлены",
+    "date_update": "Дата обновления",
+    "back_to_list": "← Назад к списку",
+     "type_all": "Все",
+    "type_filter": "Тип реликвии:",
+    "search_placeholder": "Введите название..."
+  },
+
+  "navigation": {
+    "home": "Главная",
+    "information_about": "Информация о",
+    "menu_current_prime_parts": "Актуальные прайм части",
+    "menu_current_varzia_relics": "Актуальные прайм части Варзии",
+    "menu_actual_relics": "Актуальные реликвии"
+  },
+
+  "footer": {
+    "language": "Язык",
+    "sources_used": "Источники:"
+  },
+
+  "home": {
+    "columinfo_content_relic": "Реликвии",
+    "columinfo_content_prime": "Прайм части",
+    "columinfo_content_varzia": "Варзия"
+  },
+
+  "time": {
+    "days": "д",
+    "hours": "ч",
+    "minutes": "м"
+  },
+
+  "item": {
+    "getting_of_relic": "Выпадает из реликвии",
+    "card_description": "в актуальных реликвиях",
+    "buy_part": "Купить часть",
+    "buy_relic": "Купить реликвию",
+    "source_relic": "Источник реликвии"
+  }
+
+ 
+}

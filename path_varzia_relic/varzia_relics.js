@@ -1,4 +1,11 @@
-function loadFirstAvailable(urls) {
+import { currentLang,dict, loadLang, applyGeneralLang } from '../lang/lang.js';
+import { loadPage } from '../loadPage.js';
+const res = await fetch('../data/frames.json');
+const frames = await res.json();
+export async  function init() {
+    applyGeneralLang(dict, document.getElementById('content'));
+
+    function loadFirstAvailable(urls) {
   return new Promise((resolve) => {
     let i = 0;
     const tryNext = () => {
@@ -44,24 +51,30 @@ function registerLazyCard(card, urls, placeholder) {
 
 const PLACEHOLDER = '../img/placeholder.png';
 
-document.addEventListener('DOMContentLoaded', async () => {
   const container = document.getElementById('primesContainer');
   const searchInput = document.getElementById('searchInput');
   const dateElem = document.getElementById('date');
 
   
 
-  // Загрузка данных  Varzia
+  // Загрузка данных 
  if (container) {
   try {
-    container.innerText = 'Загрузка данных...';
-    const res = await fetch('../public/eventRelic.json');
-    if (!res.ok) throw new Error(`Ошибка HTTP: ${res.status}`);
+    const res = await fetch('../data/eventRelic.json');
+    if (!res.ok) throw new Error(`${res.status}`);
     const primes = await res.json();
 
     if (primes.status === 'NotUpdated') {
-      container.innerText = 'Данные Варзии не обновлены.';
+      container.innerText = dict.general.common.data_not_updated;
       return;
+    }
+
+    function getPrimePartType(name, item) {
+      if (!name || !item) return null;
+      let part = item;
+      part = part.replace(name, '').trim();
+      part = part.replace(/Blueprint$/i, '').trim();
+      return part || 'Blueprint';
     }
 
     const renderPrimes = (filter = '') => {
@@ -69,47 +82,55 @@ document.addEventListener('DOMContentLoaded', async () => {
       const lowerFilter = filter.toLowerCase().trim();
 
       const entries = Object.entries(primes)
-        .filter(([name]) => name !== 'status' && name !== 'varziaPeriod') 
-        .filter(([name]) => {
-          if (lowerFilter === '') return true;
-          return name.toLowerCase().includes(lowerFilter);
+        .filter(([name]) => name !== 'status' && name !== 'varziaPeriod')
+        .filter(([name, parts]) => {
+          if (!lowerFilter) return true;
+
+          const en = name.toLowerCase();
+          const ru =
+            dict.frame?.name_frame?.[name]?.toLowerCase() ||
+            dict.weapon?.name_weapon?.[name]?.toLowerCase() ||
+            '';
+
+          return (
+            en.includes(lowerFilter) ||
+            ru.includes(lowerFilter) ||
+            parts.some(p => p.relic?.toLowerCase().includes(lowerFilter))
+          );
         });
 
-      if (entries.length === 0) {
-        container.innerHTML = '<p>Ничего не найдено.</p>';
-        return;
-      }
-       
-      entries.forEach(([name, parts], i) => {
-        const item = document.createElement('div');
+      if (!entries.length) return;
 
-        function getPrimePartType(name, item) {
-        if (!name || !item) return null;
-        let part = item;
-        part = part.replace(name, '').trim();
-        part = part.replace(/Blueprint$/i, '').trim();
-        return part || 'Blueprint';
-      }
+      entries.forEach(([name, parts]) => {
+
         const frameParts = new Set();
-        console.log(parts);
         parts.forEach(p => {
           const type = getPrimePartType(name, p.item);
           if (type) frameParts.add(type);
         });
         const frameCount = frameParts.size;
-  
-        let part = '';
-        if(parts.length<5){
-          part = 'части';
+
+        const isWarframe = frames.frames.includes(name);
+        const displayName = isWarframe
+          ? (dict.frame.name_frame[name] ?? name)
+          : (dict.weapon.name_weapon[name] ?? name);
+
+        let part;
+        if (currentLang === 'ru') {
+          part = frameCount < 5 ? 'части' : 'частей';
+        } else {
+          part = 'parts';
         }
-        else{
-          part = 'частей';
-        }
+
+        const item = document.createElement('div');
         item.className = 'grid-item';
+
         item.innerHTML = `
           <div class="description-card">
-            <label class="name-card">${name}</label>
-            <label class="addition">${frameCount} ${part} в актуальных реликвиях</label>
+            <label class="name-card">${displayName}</label>
+            <label class="addition">
+              ${frameCount} ${part} ${dict.general.item.card_description}
+            </label>
           </div>
         `;
 
@@ -124,8 +145,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         item.appendChild(bg);
 
         item.addEventListener('click', () => {
-          const encoded = encodeURIComponent(name);
-          window.location.href = `varzia_details.html?name=${encoded}`;
+          sessionStorage.setItem('selectedPrime', name);
+          loadPage('path_varzia_relic/varzia_details');
+          window.location.hash = `#/path_varzia_relic/varzia_details`;
         });
 
         container.appendChild(item);
@@ -137,48 +159,43 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     };
 
-    
     renderPrimes();
 
-    // Поиск
-    searchInput.addEventListener('input', () => {
-      renderPrimes(searchInput.value);
-    });
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        renderPrimes(searchInput.value);
+      });
+    }
 
   } catch (err) {
-    container.innerText = 'Ошибка загрузки данных.';
     console.error(err);
   }
 }
-});
+
 //Vazar timer/////////////////////////////////////////////////////////////////////////////////////////////////////
-document.addEventListener('DOMContentLoaded', () => {
   const timerElem = document.getElementById('content_varzia');
   
   if (timerElem) {
     (async () => {
       try {
-        const response = await fetch('../public/eventRelic.json');
+        const response = await fetch('../data/eventRelic.json');
         const data = await response.json();
         
         const varziaPeriod = data.varziaPeriod;
         if (!Array.isArray(varziaPeriod) || varziaPeriod.length === 0) {
-          throw new Error('Данные о периоде отсутствуют');
+          throw new Error('Invalid varziaPeriod data');
         }
         
         const endDateStr = varziaPeriod[0].endDate;
         const endDate = new Date(endDateStr);
         
-        if (isNaN(endDate.getTime())) {
-          throw new Error('Дата некорректна');
-        }
+        
 
         function updateTimer() {
           const now = new Date();
           const diffMs = endDate - now;
 
           if (diffMs <= 0) {
-            timerElem.textContent = "Вазария — срок 30 дней истёк";
             clearInterval(intervalId);
             return;
           }
@@ -187,7 +204,9 @@ document.addEventListener('DOMContentLoaded', () => {
           const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
           const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
 
-          timerElem.textContent = `Вазария ещё ${days}д, ${hours}ч, ${minutes}м`;
+          
+      timerElem.textContent = ` ${dict.general.home.columinfo_content_varzia} ${days}${dict.general.time.days},  ${hours}${dict.general.time.hours},   ${minutes}${dict.general.time.minutes}`;
+ 
         }
 
         updateTimer();
@@ -195,8 +214,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       } catch (e) {
         console.error(e);
-        timerElem.textContent = "Ошибка загрузки даты";
       }
     })();
   }
-});
+
+     return {
+    destroy() {
+      document.removeEventListener('click', onClick);
+    }
+  }
+}

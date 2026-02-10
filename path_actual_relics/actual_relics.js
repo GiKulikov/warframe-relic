@@ -1,3 +1,10 @@
+import { currentLang,dict, loadLang, applyGeneralLang } from '../lang/lang.js';
+import { loadPage } from '../loadPage.js';
+const res = await fetch('../data/frames.json');
+const frames = await res.json();
+export async  function init() {
+    applyGeneralLang(dict, document.getElementById('content'));
+
 const PLACEHOLDER = '../img/placeholder.png';
 let uniqueRelics = [];
 
@@ -88,38 +95,33 @@ function renderRelics(filterType, newRelicNames, relicGrid) {
     registerLazyCard(item, [`../img/relic/${relic.tier}.png`], PLACEHOLDER);
   });
 
-  if (filteredRelics.length === 0) {
-    relicGrid.innerText = 'Нет доступных реликвий для выбранного типа.';
-  }
+ 
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
   const relicGrid = document.getElementById('relicGrid');
   const typeFilter = document.getElementById('typeFilter');
   const dateElem = document.getElementById('date');
 
-  // Загружаем дату обновления
   try {
-    const res = await fetch('../public/last_update.json');
+    const res = await fetch('../data/last_update.json');
     const data = await res.json();
-    if (dateElem) dateElem.textContent = `Дата обновления: ${data.date || 'неизвестна'}`;
+    if (dateElem) dateElem.textContent = `${dict.general.common.date_update}: ${data.date }`;
   } catch (err) {
-    console.error('❌ Ошибка при получении даты:', err);
-    if (dateElem) dateElem.textContent = 'Дата обновления: неизвестна';
+    console.error( err);
+    if (dateElem) dateElem.textContent = `${dict.general.common.loading}`;
   }
 
-  // Проверка видимости контента
   try {
-    const res1 = await fetch('../public/VisibleContent.json');
-    const visibleContent = await res1.json();
+        const res1 = await fetch('../data/VisibleContent.json');
+        const visibleContent = await res1.json();
 
-    if (visibleContent.status === false || visibleContent.status === 'false') {
-      if (relicGrid) relicGrid.innerText = 'Данные не обновлены.';
-    } else {
-      // Загружаем реликвии
+        if (visibleContent.status === false || visibleContent.status === 'false') {
+        if (relicGrid) relicGrid.innerText = `${dict.general.common.data_not_updated}`;
+        } else {
+        // Загружаем реликвии
       if (relicGrid) {
         try {
-          const res = await fetch('../public/relics.json');
+          const res = await fetch('../data/relics.json');
           const relicsData = await res.json();
 
           const allRelics = [...(relicsData.added || []), ...(relicsData.current || [])];
@@ -143,13 +145,19 @@ document.addEventListener('DOMContentLoaded', async () => {
           }
 
         } catch (err) {
-          relicGrid.innerText = 'Ошибка загрузки реликвий.';
           console.error(err);
         }
       }
     }
   } catch (err) {
-    console.error('Ошибка загрузки VisibleContent.json:', err);
+    console.error( err);
   }
 
-});
+
+
+     return {
+    destroy() {
+      document.removeEventListener('click', onClick);
+    }
+  }
+}

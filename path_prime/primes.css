@@ -54,6 +54,7 @@ font-size: 14px;
   font-size: 13px;
   border: none;
 }
+
 main{
   display: flex;
   justify-content: center;
@@ -82,8 +83,6 @@ main{
 }
 
 
-
-
 .item-background {
   position: relative;
   z-index: 1;
@@ -97,9 +96,6 @@ main{
   display: flex;
   flex-direction: column;
   text-align: center;
-  
-
- 
 }
 
 .item-img{
@@ -146,9 +142,6 @@ background-color: rgba(0, 0, 0, 0);
 
 }
 
-
-
-
 .new-badge {
   color: #c7afec;
   font-size: 16px;
@@ -172,14 +165,12 @@ background-color: rgba(0, 0, 0, 0);
     transition: color 0.6s ease-out;
 
 }
+
 .addition{
   color: #a4a4a4;
      transition: color 0.6s ease-out;
 
 }
-
-
-
 
 
 footer {

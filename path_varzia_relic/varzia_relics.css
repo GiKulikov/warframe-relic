@@ -182,25 +182,6 @@ background-color: rgba(0, 0, 0, 0);
 
 
 
-footer {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 70px;
-  font-size: 14px;
-  color: #777;
- 
-}
 
-footer a {
-  color: #a9adc9;
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
 
 

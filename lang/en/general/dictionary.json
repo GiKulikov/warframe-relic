@@ -1,0 +1,45 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "data_not_updated": "Data not updated",
+    "date_update": "Update date",
+    "back_to_list": "← Back to list",
+    "search_placeholder": "Enter name...",
+    "type_relic": "All",
+    "type_filter": "Type of relic:"
+  },
+
+  "navigation": {
+    "home": "Home",
+    "information_about": "Information about",
+    "menu_current_prime_parts": "Current Prime Parts",
+    "menu_current_varzia_relics": "Current Varzia Prime Parts",
+    "menu_actual_relics": "Actual Relics"
+  },
+
+  "footer": {
+    "language": "Language",
+    "sources_used": "Sources:"
+  },
+
+  "home": {
+    "columinfo_content_relic": "Relics",
+    "columinfo_content_prime": "Prime Parts",
+    "columinfo_content_varzia": "Varzia"
+  },
+
+  "time": {
+    "days": "d",
+    "hours": "h",
+    "minutes": "m"
+  },
+
+  "item":{
+    "getting_of_relic": "Falls out of the relic",
+      "card_description": "in current relics",
+      "buy_part": "Buy a part",
+      "buy_relic": "Buy a relic",
+      "source_relic": "Source of relic"
+  }
+
+}

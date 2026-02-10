@@ -1,8 +1,21 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  const frameName = new URLSearchParams(window.location.search).get('name');
-const frameTitle =  document.getElementById('frameTitle');
+const res = await fetch('../data/frames.json');
+const frames = await res.json();
+import { dict, loadLang, applyGeneralLang } from '../lang/lang.js';
+export async function init() {
+  applyGeneralLang(dict, document.getElementById('content'));
 
-  const res = await fetch('../public/primes.json');
+  const decodedName = sessionStorage.getItem('selectedPrime');
+
+
+  const title = document.getElementById('primeTitle');
+  if (title) title.textContent = decodedName;
+
+  const frameName = decodedName;
+  const frameTitle =  document.getElementById('frameTitle');
+
+
+
+  const res = await fetch('../data/primes.json');
   const rawPrimes = await res.json();
 
   const currentParts = rawPrimes.current[frameName] || [];
@@ -50,10 +63,7 @@ const frameTitle =  document.getElementById('frameTitle');
   const container = document.getElementById('partsContainer');
   container.innerHTML = '';
 
-  if (parts.length === 0) {
-    container.innerHTML = '<p>Нет данных о частях этого прайм-объекта.</p>';
-    return;
-  }
+  
 
   parts.forEach(({ item, relic }) => {
     const card = document.createElement('div');
@@ -89,26 +99,41 @@ const frameTitle =  document.getElementById('frameTitle');
         }
         
       }
-   
-      frameTitle.textContent = frameName;
+      // Проверяем, является ли объект фреймом или оружием и языки
+      const isWarframe = frames.frames.includes(frameName);
+
+      const frameDict = isWarframe
+        ? dict.frame
+        : dict.weapon;
+
+      frameTitle.textContent =
+        frameDict.name_frame?.[frameName] ??
+        frameDict.name_weapon?.[frameName] ??
+        frameName;
+
+      const displayNamePart =
+        frameDict.name_frame_parts?.[partDisplayName] ??
+        frameDict.name_weapon_parts?.[partDisplayName] ??
+        partDisplayName;
+
     card.innerHTML = `
       <div>
-      <span class="frame-name">${partDisplayName }</span>
+      <span class="frame-name">${frameTitle.textContent}: ${displayNamePart}</span>
       ${isNewPart ? '<span class="isNew">NEW</span>' : ''}
       </div><br>
-      Выпадает из реликвии: <b><span class="relic-name">${relic}</span>
+     ${dict.general.item.getting_of_relic}:       <b><span class="relic-name">${relic}</span>
       ${isNewRelic ? '<span class="isNew">NEW</span>' : ''}
       </b><br><br>
       <div class="contBtn">
         <button class="market-btn" onclick="window.open('https://warframe.market/items/${marketSetSlug}', '_blank')">
-          Купить часть
+          ${dict.general.item.buy_part}
         </button>
         <div>
           <button class="relic-btn" onclick="window.open('https://warframe.market/items/${relicSlug}', '_blank')">
-            Купить реликвию
+            ${dict.general.item.buy_relic}
           </button>
           <button class="wiki-btn" onclick="window.open('https://wiki.warframe.com/w/${relic}', '_blank')">
-            Источник реликвии
+            ${dict.general.item.source_relic}
           </button>
         </div>
       </div>
@@ -140,4 +165,10 @@ const frameTitle =  document.getElementById('frameTitle');
 
     container.appendChild(card);
   });
-});
+
+
+  return {
+    destroy() {
+    }
+  };
+}

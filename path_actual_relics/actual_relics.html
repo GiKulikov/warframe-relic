@@ -1,42 +1,33 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Реликвии Warframe — Актуальные</title>
   <link rel="stylesheet" href="actual_relics.css" />
   <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
 
 </head>
 <body>
  <div class="top-banner">
-    <span id="date">Загрузка даты...</span></span>
+    <span id="date"></span></span>
 </div>
 
-  <section id="filters">
-    <label for="typeFilter">Тип реликвии:</label>
+  <div id="filters">
+    <span  data-i18n="general.common.type_filter"></span>
     <select id="typeFilter">
-      <option value="all">Все</option>
+      <option value="all" data-i18n="general.common.type_relic" ></option>
       <option value="Lith">Lith</option>
       <option value="Meso">Meso</option>
       <option value="Neo">Neo</option>
       <option value="Axi">Axi</option>
     </select> 
-  </section>
+  </div>
 
 <main>
   <div class="grid" id="relicGrid"></div>
 </main>
-<script src="actual_relics.js" ></script>
+<script type="module" src="actual_relics.js" ></script>
 </body>
- <hr style="border: none; height: 1px; background-color: #413e4a; width: 95%; margin: 20px auto;" >
- <footer>
-    <p>Источники данных: 
-      <a href="https://warframe.market" target="_blank" style="color: #3498db;">Warframe Market API</a>, 
-      <a href="https://wiki.warframe.com" target="_blank" style="color: #3498db;">wiki warframe</a>,
-      <a href="https://warframe-web-assets.nyc3.cdn.digitaloceanspaces.com/uploads/cms/hnfvc0o3jnfvc873njb03enrf56.html" target="_blank" style="color: #3498db;">warframe-web-assets</a>.
-    </p>
-    <p>© 2025 Warframe Relic</p>
- </footer>
+ 
 </html>

@@ -1,4 +1,9 @@
-/* ========= Общие хелперы для ленивой загрузки ========= */
+import { currentLang,dict, loadLang, applyGeneralLang } from '../lang/lang.js';
+import { loadPage } from '../loadPage.js';
+const res = await fetch('../data/frames.json');
+const frames = await res.json();
+export async  function init() {
+  applyGeneralLang(dict, document.getElementById('content'));
 function loadFirstAvailable(urls) {
   return new Promise((resolve) => {
     let i = 0;
@@ -45,64 +50,55 @@ function registerLazyCard(card, urls, placeholder) {
 
 const PLACEHOLDER = '../img/placeholder.png';
 
-document.addEventListener('DOMContentLoaded', async () => {
   
 
   // Установка даты
   const dateElem = document.getElementById('date');
   try {
-    const res = await fetch('../public/last_update.json');
-    if (!res.ok) throw new Error('Не удалось загрузить last_update.json');
+    const res = await fetch('../data/last_update.json');
     const data = await res.json();
-    if (dateElem) dateElem.textContent = `Дата обновления: ${data.date}`;
+    if (dateElem) dateElem.textContent = `${dict.general.common.date_update} ${data.date}`;
   } catch (err) {
-    console.error('❌ Ошибка при получении даты:', err);
-    if (dateElem) dateElem.textContent = 'Дата обновления: неизвестна';
+    if (dateElem) dateElem.textContent = `${dict.general.common.loading}`;
   }
 
   // Таймер Варзии
  const timerElem = document.getElementById('columinfo-content_varzia');
 if (timerElem) {
   try {
-    const response = await fetch('../public/eventRelic.json');
+    const response = await fetch('../data/eventRelic.json');
     const data = await response.json();
     const varziaPeriod = data.varziaPeriod;
-    if (!Array.isArray(varziaPeriod) || varziaPeriod.length === 0) {
-      throw new Error('Данные о периоде отсутствуют');
-    }
+    
     const endDateStr = varziaPeriod[0].endDate;
     const endDate = new Date(endDateStr);
-    if (isNaN(endDate)) {
-      throw new Error('Дата некорректна');
-    }
+   
 
     function updateTimer() {
       const now = new Date();
       const diffMs = endDate - now;
       if (diffMs <= 0) {
-        timerElem.textContent = 'Вазария — срок истёк';
         clearInterval(intervalId);
         return;
       }
       const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
-      timerElem.textContent = `Вазария  ${days}д,  ${hours}ч,   ${minutes}м`;
+      timerElem.textContent = ` ${dict.general.home.columinfo_content_varzia} ${days}${dict.general.time.days},  ${hours}${dict.general.time.hours},   ${minutes}${dict.general.time.minutes}`;
     }
 
     updateTimer();
     const intervalId = setInterval(updateTimer, 60000);
   } catch (e) {
     console.error(e);
-    timerElem.textContent = 'Ошибка загрузки даты';
   }
 }
-      const res1 = await fetch('../public/VisibleContent.json');
+      const res1 = await fetch('../data/VisibleContent.json');
       const visibleContent =await res1.json();
       
       const relicGrid = document.getElementById('relicGrid');
  if (visibleContent.status === false) {
-      relicGrid.innerText = 'Данные не обновлены.';
+      relicGrid.innerText = dict.general.common.data_not_updated;
       
   }
   else{
@@ -110,7 +106,7 @@ if (timerElem) {
     const relicGrid = document.getElementById('relicGrid');
     if (relicGrid) {
       try {
-    const res = await fetch('../public/relics.json');
+    const res = await fetch('../data/relics.json');
     const relicsData = await res.json();
 
     // Группируем реликвии по типам
@@ -125,20 +121,17 @@ if (timerElem) {
       return acc;
     }, {});
 
-    // Выбираем новые реликвии по типам
     const desiredTiers = ['Lith', 'Meso', 'Neo', 'Axi'];
     const newRelics = desiredTiers
       .map(tier => (newByTier[tier] || [])[Math.floor(Math.random() * (newByTier[tier] || []).length)] || null)
       .filter(r => r);
 
-    // Выбираем старые реликвии по оставшимся типам
     const usedTiers = newRelics.map(r => r.tier);
     const remainingTiers = desiredTiers.filter(tier => !usedTiers.includes(tier));
     const oldRelicsByType = remainingTiers
       .map(tier => (oldByTier[tier] || [])[Math.floor(Math.random() * (oldByTier[tier] || []).length)] || null)
       .filter(r => r);
 
-    // Заполняем до 8 реликвий, избегая дубликатов
     let selectedRelics = [...newRelics, ...oldRelicsByType];
     let usedNames = selectedRelics.map(r => r.name);
     let needed = 8 - selectedRelics.length;
@@ -197,11 +190,8 @@ if (timerElem) {
       registerLazyCard(item, [`../img/relic/${relic.tier}.png`], PLACEHOLDER);
     });
 
-    if (selectedRelics.length === 0) {
-      relicGrid.innerText = 'Нет доступных реликвий.';
-    }
+    
   } catch (err) {
-    relicGrid.innerText = 'Ошибка загрузки реликвий.';
     console.error(err);
   }
 }
@@ -210,19 +200,16 @@ if (timerElem) {
   const primeGrid = document.getElementById('relicGrid2');
   if (primeGrid) {
     try {
-      primeGrid.innerText = 'Загрузка прайм частей...';
-      const res = await fetch('../public/primes.json');
+      const res = await fetch('../data/primes.json');
       const primes = await res.json();
 
 
    
 
-      // Новые прайм-объекты 
       const newPrimes = Object.entries(primes.added).filter(([name]) => {
         return !(name in primes.current) && !(name in primes.removed);
       }).slice(0, 4);
 
-      // Старые прайм-объекты 
       const oldPrimes = Object.entries(primes.current)
         .sort(([, a], [, b]) => b.length - a.length);
 
@@ -258,13 +245,7 @@ if (timerElem) {
         });
         
         const frameCount = frameParts.size;
-        let part = '';
-        if(frameCount<5){
-          part = 'части';
-        }
-        else{
-          part = 'частей';
-        }
+        
          // определение статусов
         const inCurr = addedParts.filter(added =>
           currentParts.some(current => current.item === added.item)
@@ -279,11 +260,22 @@ if (timerElem) {
         else if(removedParts.length>0 &&addedParts.length>0){
           boolupdate = true;
         }
+        const isWarframe = frames.frames.includes(name);
+               
+        const displayName = isWarframe
+        ? (dict.frame.name_frame[name] ?? name)
+        : (dict.weapon.name_weapon[name] ?? name);
+        let part;
+        if (currentLang === 'ru') {
+          part = frameCount < 5 ? 'части' : 'частей';
+        } else {
+          part = frameCount < 5 ? 'parts' : 'parts'; 
+        }
         item.className = 'grid-item';
         item.innerHTML = `
        <div class="description-card">
 
-          <label class="name-card">${name}</label>
+          <label class="name-card">${displayName}</label>
           <label class="addition">${frameCount} ${part}</label>
           ${boolNew ? '<label class="new-badge">NEW</label>' :  boolupdate ?'<label class="new-badge">UPDATED</label>' :''}
 
@@ -305,10 +297,13 @@ if (timerElem) {
         bg.appendChild(overlay);
         item.appendChild(bg);
 
-        item.addEventListener('click', () => {
-          const encoded = encodeURIComponent(name);
-          window.location.href = `../path_prime/prime_details.html?name=${encoded}`;
-        });
+          item.addEventListener('click', () => {
+            sessionStorage.setItem('selectedPrime', name);
+            loadPage('path_prime/prime_details');
+            
+
+            window.location.hash = `#/path_prime/prime_details`;
+         });
 
         primeGrid.appendChild(item);
 
@@ -318,11 +313,7 @@ if (timerElem) {
         ], PLACEHOLDER);
       });
 
-      if (selectedPrimes.length === 0) {
-        primeGrid.innerText = 'Нет доступных прайм-частей.';
-      }
     } catch (err) {
-      primeGrid.innerText = 'Ошибка загрузки прайм частей.';
       console.error(err);
     }
     
@@ -335,12 +326,11 @@ if (timerElem) {
 const varziaGrid = document.getElementById('relicGrid3');
 if (varziaGrid) {
   try {
-    varziaGrid.innerText = 'Загрузка данных Вазарии...';
-    const res = await fetch('../public/eventRelic.json');
+    const res = await fetch('../data/eventRelic.json');
     const events = await res.json();
 
     if (events.status === 'NotUpdated') {
-      varziaGrid.innerText = 'Данные Варзии не обновлены.';
+      varziaGrid.innerText = dict.general.common.data_not_updated;
       return;
     }
 
@@ -371,17 +361,21 @@ if (varziaGrid) {
         const frameCount = frameParts.size;
   
 
-       let part = '';
-        if(parts.length<5){
-          part = 'части';
-        }
-        else{
-          part = 'частей';
+     const isWarframe = frames.frames.includes(name);
+               
+        const displayName = isWarframe
+        ? (dict.frame.name_frame[name] ?? name)
+        : (dict.weapon.name_weapon[name] ?? name);
+        let part;
+        if (currentLang === 'ru') {
+          part = frameCount < 5 ? 'части' : 'частей';
+        } else {
+          part = frameCount < 5 ? 'parts' : 'parts'; 
         }
       item.className = 'grid-item';
       item.innerHTML = `
         <div class="description-card">
-          <label class="name-card">${name}</label>
+          <label class="name-card">${displayName}</label>
           <label class="addition">${frameCount} ${part}</label>
         </div>
       `;
@@ -398,10 +392,12 @@ if (varziaGrid) {
       item.appendChild(bg);
 
       item.addEventListener('click', () => {
-        const encoded = encodeURIComponent(name);
-        window.location.href = `../path_varzia_relic/varzia_details.html?name=${encoded}`;
-      });
+            sessionStorage.setItem('selectedPrime', name);
+            loadPage('path_varzia_relic/varzia_details');
+            
 
+            window.location.hash = `#/path_varzia_relic/varzia_details`;
+         });
       varziaGrid.appendChild(item);
 
       registerLazyCard(item, [
@@ -410,9 +406,14 @@ if (varziaGrid) {
       ], PLACEHOLDER);
     });
   } catch (err) {
-    varziaGrid.innerText = 'Ошибка загрузки данных Вазарии.';
     console.error(err);
   }
 }
 
-});
+
+  return {
+    destroy() {
+      document.removeEventListener('click', onClick);
+    }
+  }
+}

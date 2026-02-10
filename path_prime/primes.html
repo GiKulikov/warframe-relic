@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html >
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
 
 
-  <title>Актуальные Прайм Фреймы</title>
+  <title></title>
   <link rel="stylesheet" href="primes.css">
     
   
 </head>
 <body>
   <div class="top-banner">
-    <span id="date">Загрузка даты...</span>
+    <span id="date" data-i18n="general.common.loading"></span>
 </div>
 
 <section  id="searchSection">
-    <input type="text" id="searchInput" placeholder="Введите название...">
+    <input type="text" id="searchInput" data-i18n-placeholder="general.common.search_placeholder">
     
   </section>
   <main>
-  <div class="grid" id="primesContainer">Загрузка...</div>
+  <div class="grid" id="primesContainer" data-i18n="general.common.loading"></div>
 
   </main>
 
@@ -33,13 +33,5 @@
    
   </script>
 </body>
-<hr style="border: none; height: 1px; background-color: #413e4a; width: 95%; margin: 20px auto;">
-<footer>
-   <p class="footer">Источники данных: 
-      <a href="https://warframe.market" target="_blank" style="color: #3498db;">Warframe Market API</a>, 
-      <a href="https://wiki.warframe.com" target="_blank" style="color: #3498db;">wiki warframe</a>,
-      <a href="https://warframe-web-assets.nyc3.cdn.digitaloceanspaces.com/uploads/cms/hnfvc0o3jnfvc873njb03enrf56.html" target="_blank" style="color: #3498db;">warframe-web-assets</a>.
-    </p>
-    <p>© 2025 Warframe Relic</p>
- </footer>
+
 </html>

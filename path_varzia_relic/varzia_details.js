@@ -1,36 +1,56 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  const frameName = new URLSearchParams(window.location.search).get('name');
-  document.getElementById('frameTitle').innerText = frameName || 'Прайм персонаж';
+import { currentLang,dict, loadLang, applyGeneralLang } from '../lang/lang.js';
+import { loadPage } from '../loadPage.js';
+const res = await fetch('../data/frames.json');
+const frames = await res.json();
+export async  function init() {
+    applyGeneralLang(dict, document.getElementById('content'));
 
-  const res = await fetch('../public/eventRelic.json');
+    
+
+  const decodedName = sessionStorage.getItem('selectedPrime');
+
+  document.getElementById('frameTitle').innerText = decodedName ;
+
+  const res = await fetch('../data/eventRelic.json');
   const primes = await res.json();
 
-  const parts = primes[frameName] || [];
+  const parts = primes[decodedName] || [];
 
   const container = document.getElementById('partsContainer');
   container.innerHTML = '';
 
-  if (parts.length === 0) {
-    container.innerHTML = '<p>Нет данных о частях этого прайм-фрейма.</p>';
-    return;
-  }
-
+   
   parts.forEach(({ item, relic }) => {
     const card = document.createElement('div');
     card.className = 'part-card';
+    const isWarframe = frames.frames.includes(decodedName);
+      const frameDict = isWarframe
+        ? dict.frame
+        : dict.weapon;
+         const partDisplayName = item.replace(`${decodedName} `, '');
+
+      frameTitle.textContent =
+        frameDict.name_frame?.[decodedName] ??
+        frameDict.name_weapon?.[decodedName] ??
+        decodedName;
+
+      const displayNamePart =
+        frameDict.name_frame_parts?.[partDisplayName] ??
+        frameDict.name_weapon_parts?.[partDisplayName] ??
+        item;
 
     const marketSetSlug = item.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '');
     const relicSlug = relic.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '') + '_relic';
 
     card.innerHTML = `
-      <strong><span class="frame-name">${item}</span></strong><br>
-      Выпадает из реликвии: <b><span class="relic-name">${relic}</span></b><br><br>
+      <strong><span class="frame-name">${frameTitle.textContent}: ${displayNamePart}</span></strong><br>
+      ${dict.general.item.getting_of_relic}: <b><span class="relic-name"> ${relic}</span></b><br><br>
 
       <button class="market-btn" onclick="window.open('https://warframe.market/items/${marketSetSlug}', '_blank')">
-        Купить часть
+        ${dict.general.item.buy_part}
       </button>
       <button class="relic-btn" onclick="window.open('https://warframe.market/items/${relicSlug}', '_blank')">
-       Купить реликвию
+       ${dict.general.item.buy_relic}
       </button>
     `;
 
@@ -56,4 +76,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     container.appendChild(card);
   });
-});
+       return {
+    destroy() {
+      document.removeEventListener('click', onClick);
+    }
+  }
+}

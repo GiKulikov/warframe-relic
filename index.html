@@ -1,38 +1,57 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Warframe</title>
   <link rel="stylesheet" href="style.css" />
+  
+
 </head>
-<body  onload="loadIframe('home/home.html')">
-  <header class="top-bar">
+<body >
+  <header class="top-bar" >
     <div class="header-blur"></div>
       <div class="logo">Warframe</div>
       <nav>
-        <a href="#"   onclick="loadIframe('home/home.html');resetCombobox()" class="linkHome">Главная</a>
+        <a href="#"   id="homeLink" class="linkHome" data-i18n="general.navigation.home"></a>
         <div class="combobox">
-          <button type="button" class="combobox-toggle">
-            Информация о <span class="arrow">▼</span>
+          <button type="button" class="combobox-toggle" data-i18n="general.navigation.information_about">
+            <span class="arrow">▼</span>
           </button>
 
-          <div class="dropdown">
-            <a href="#" onclick="loadIframe('path_actual_relics/actual_relics.html')">Актуальные реликвии</a>
-            <a href="#" onclick="loadIframe('path_prime/primes.html')">Актуальные прайм части</a>
-            <a href="#" onclick="loadIframe('path_varzia_relic/varzia_relics.html')">Реликвии у Вазарии</a>
+          <div class="dropdown" >
+            <a href="#" id="primesLink" data-i18n="general.navigation.menu_current_prime_parts"></a>
+            <a href="#" id="varziaLink" data-i18n="general.navigation.menu_current_varzia_relics"></a>
+            <a href="#" id="actualRelicsLink" data-i18n="general.navigation.menu_actual_relics"></a>
           </div>
         </div>
       </nav>
   </header>
  
 
-  <div class="content">
-    <iframe id="pageFrame" frameborder="0"></iframe>
+  <div class="content" id="content" >
   </div>
-
-  <script src="script.js"></script>
- 
 </body>
+
+
+ <footer>
+  <hr style="border: none; height: 1px; background-color: #413e4a; width: 95%;margin: 20px auto;">
+   <p>
+  <span data-i18n="general.footer.sources_used"></span>
+  <a href="https://warframe.market" target="_blank">Warframe Market API</a>, 
+  <a href="https://wiki.warframe.com" target="_blank">wiki warframe</a>
+  </p>
+      <section >
+    <label data-i18n="general.footer.language"></label>
+    <select id="typelang" class="typelang">
+      <option value="en">English</option>
+      <option value="ru">Русский</option>
+     
+    </select> 
+  </section>
+    <p>© 2025 Warframe Relic</p>
+ </footer>
+ <script type="module" src="script.js"></script>
+ <script type="module" src="./lang/lang.js"></script>
+ 
 
 </html>
