@@ -1,6 +1,6 @@
 import { currentLang,dict, loadLang, applyGeneralLang } from '../lang/lang.js';
-import { loadPage } from '../loadPage.js';
-const res = await fetch('../data/frames.json');
+import { loadPage,BASE } from '../loadPage.js';
+const res = await fetch(`${BASE}data/frames.json`);
 const frames = await res.json();
 export async  function init() {
   applyGeneralLang(dict, document.getElementById('content'));
@@ -48,14 +48,14 @@ function registerLazyCard(card, urls, placeholder) {
   __io.observe(card);
 }
 
-const PLACEHOLDER = '../img/placeholder.png';
+const PLACEHOLDER = `${BASE}img/placeholder.png`;
 
   
 
   // Установка даты
   const dateElem = document.getElementById('date');
   try {
-    const res = await fetch('../data/last_update.json');
+    const res = await fetch(`${BASE}data/last_update.json`);
     const data = await res.json();
     if (dateElem) dateElem.textContent = `${dict.general.common.date_update} ${data.date}`;
   } catch (err) {
@@ -66,7 +66,7 @@ const PLACEHOLDER = '../img/placeholder.png';
  const timerElem = document.getElementById('columinfo-content_varzia');
 if (timerElem) {
   try {
-    const response = await fetch('../data/eventRelic.json');
+    const response = await fetch(`${BASE}data/eventRelic.json`);
     const data = await response.json();
     const varziaPeriod = data.varziaPeriod;
     
@@ -93,7 +93,7 @@ if (timerElem) {
     console.error(e);
   }
 }
-      const res1 = await fetch('../data/VisibleContent.json');
+      const res1 = await fetch(`${BASE}data/VisibleContent.json`);
       const visibleContent =await res1.json();
       
       const relicGrid = document.getElementById('relicGrid');
@@ -106,7 +106,7 @@ if (timerElem) {
     const relicGrid = document.getElementById('relicGrid');
     if (relicGrid) {
       try {
-    const res = await fetch('../data/relics.json');
+    const res = await fetch(`${BASE}data/relics.json`);
     const relicsData = await res.json();
 
     // Группируем реликвии по типам
@@ -187,7 +187,7 @@ if (timerElem) {
 
       relicGrid.appendChild(item);
 
-      registerLazyCard(item, [`../img/relic/${relic.tier}.png`], PLACEHOLDER);
+      registerLazyCard(item, [`${BASE}img/relic/${relic.tier}.png`], PLACEHOLDER);
     });
 
     
@@ -200,7 +200,7 @@ if (timerElem) {
   const primeGrid = document.getElementById('relicGrid2');
   if (primeGrid) {
     try {
-      const res = await fetch('../data/primes.json');
+      const res = await fetch(`${BASE}data/primes.json`);
       const primes = await res.json();
 
 
@@ -308,8 +308,8 @@ if (timerElem) {
         primeGrid.appendChild(item);
 
         registerLazyCard(item, [
-          `../img/frame/${name}.png`,
-          `../img/weapon/${name}.png`
+          `${BASE}img/frame/${name}.png`,
+          `${BASE}img/weapon/${name}.png`
         ], PLACEHOLDER);
       });
 
@@ -326,7 +326,7 @@ if (timerElem) {
 const varziaGrid = document.getElementById('relicGrid3');
 if (varziaGrid) {
   try {
-    const res = await fetch('../data/eventRelic.json');
+    const res = await fetch(`${BASE}data/eventRelic.json`);
     const events = await res.json();
 
     if (events.status === 'NotUpdated') {
@@ -401,8 +401,8 @@ if (varziaGrid) {
       varziaGrid.appendChild(item);
 
       registerLazyCard(item, [
-        `../img/frame/${name}.png`,
-        `../img/weapon/${name}.png`
+        `${BASE}img/frame/${name}.png`,
+        `${BASE}img/weapon/${name}.png`
       ], PLACEHOLDER);
     });
   } catch (err) {

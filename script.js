@@ -1,5 +1,5 @@
 
-import { loadPage } from './loadPage.js';
+import { loadPage, BASE } from './loadPage.js';
 import { dict, loadLang, applyGeneralLang } from './lang/lang.js';
 
 document.addEventListener('DOMContentLoaded', async () => {

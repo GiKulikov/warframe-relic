@@ -1,6 +1,6 @@
 import { currentLang,dict, loadLang, applyGeneralLang } from '../lang/lang.js';
-import { loadPage } from '../loadPage.js';
-const res = await fetch('../data/frames.json');
+import { loadPage,BASE } from '../loadPage.js';
+const res = await fetch(`${BASE}data/frames.json`);
 const frames = await res.json();
 export async  function init() {
     applyGeneralLang(dict, document.getElementById('content'));
@@ -49,22 +49,19 @@ export async  function init() {
       __io.observe(card);
     }
 
-    const PLACEHOLDER = '../img/placeholder.png';
-
-
-      
+    const PLACEHOLDER = `${BASE}img/placeholder.png`;
 
       // Установка даты
       const dateElem = document.getElementById('date');
       try {
-        const res = await fetch('../data/last_update.json');
+        const res = await fetch(`${BASE}data/last_update.json`);
         const data = await res.json();
         if (dateElem) dateElem.textContent = `${dict.general.common.date_update}: ${data.date}`;
       } catch (err) {
         console.error( err);
       }
 
-      const res1 = await fetch('../data/VisibleContent.json');
+      const res1 = await fetch(`${BASE}data/VisibleContent.json`);
           const visibleContent =await res1.json();
           
           const primesGrid = document.getElementById('primesContainer');
@@ -79,7 +76,7 @@ export async  function init() {
     const primeGrid = content.querySelector('#primesContainer');
       if (primeGrid) {
         try {
-          const res = await fetch('../data/primes.json');
+          const res = await fetch(`${BASE}data/primes.json`);
           const primes = await res.json();
 
 
@@ -198,8 +195,8 @@ export async  function init() {
             primeGrid.appendChild(item);
 
             registerLazyCard(item, [
-              `../img/frame/${name}.png`,
-              `../img/weapon/${name}.png`
+              `${BASE}img/frame/${name}.png`,
+              `${BASE}img/weapon/${name}.png`
             ], PLACEHOLDER);
           });
 
@@ -220,7 +217,7 @@ export async  function init() {
 
       let primes = {};
       try {
-        const res = await fetch('../data/primes.json');
+        const res = await fetch(`${BASE}data/primes.json`);
         if (!res.ok) throw new Error(`${res.status}`);
         primes = await res.json();
       } catch (err) {
@@ -344,8 +341,8 @@ export async  function init() {
 
             container.appendChild(item);
             registerLazyCard(item, [
-                `../img/frame/${name}.png`,
-                `../img/weapon/${name}.png`
+                `${BASE}img/frame/${name}.png`,
+                `${BASE}img/weapon/${name}.png`
               ], PLACEHOLDER);
           };
       }

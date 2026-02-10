@@ -1,11 +1,11 @@
 import { currentLang,dict, loadLang, applyGeneralLang } from '../lang/lang.js';
-import { loadPage } from '../loadPage.js';
-const res = await fetch('../data/frames.json');
+import { loadPage,BASE } from '../loadPage.js';
+const res = await fetch(`${BASE}data/frames.json`);
 const frames = await res.json();
 export async  function init() {
     applyGeneralLang(dict, document.getElementById('content'));
 
-const PLACEHOLDER = '../img/placeholder.png';
+const PLACEHOLDER = `${BASE}img/placeholder.png`;
 let uniqueRelics = [];
 
 async function loadFirstAvailable(urls) {
@@ -92,7 +92,7 @@ function renderRelics(filterType, newRelicNames, relicGrid) {
     });
 
     relicGrid.appendChild(item);
-    registerLazyCard(item, [`../img/relic/${relic.tier}.png`], PLACEHOLDER);
+    registerLazyCard(item, [`${BASE}img/relic/${relic.tier}.png`], PLACEHOLDER);
   });
 
  
@@ -103,7 +103,7 @@ function renderRelics(filterType, newRelicNames, relicGrid) {
   const dateElem = document.getElementById('date');
 
   try {
-    const res = await fetch('../data/last_update.json');
+    const res = await fetch(`${BASE}data/last_update.json`);
     const data = await res.json();
     if (dateElem) dateElem.textContent = `${dict.general.common.date_update}: ${data.date }`;
   } catch (err) {
@@ -112,7 +112,7 @@ function renderRelics(filterType, newRelicNames, relicGrid) {
   }
 
   try {
-        const res1 = await fetch('../data/VisibleContent.json');
+        const res1 = await fetch(`${BASE}data/VisibleContent.json`);
         const visibleContent = await res1.json();
 
         if (visibleContent.status === false || visibleContent.status === 'false') {
@@ -121,7 +121,7 @@ function renderRelics(filterType, newRelicNames, relicGrid) {
         // Загружаем реликвии
       if (relicGrid) {
         try {
-          const res = await fetch('../data/relics.json');
+          const res = await fetch(`${BASE}data/relics.json`);
           const relicsData = await res.json();
 
           const allRelics = [...(relicsData.added || []), ...(relicsData.current || [])];

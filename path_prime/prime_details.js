@@ -1,4 +1,6 @@
-const res = await fetch('../data/frames.json');
+import { loadPage,BASE } from '../loadPage.js';
+
+const res = await fetch(`${BASE}data/frames.json`);
 const frames = await res.json();
 import { dict, loadLang, applyGeneralLang } from '../lang/lang.js';
 export async function init() {
@@ -15,7 +17,7 @@ export async function init() {
 
 
 
-  const res = await fetch('../data/primes.json');
+  const res = await fetch(`${BASE}data/primes.json`);
   const rawPrimes = await res.json();
 
   const currentParts = rawPrimes.current[frameName] || [];
