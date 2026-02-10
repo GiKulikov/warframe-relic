@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function resetCombobox() {
     toggleBtn.innerHTML =
-      `${dict.general.index.information_about} <span class="arrow">▼</span>`;
+      `${dict.general.navigation.information_about} <span class="arrow">▼</span>`;
   }
 
   function syncComboboxWithHash() {
