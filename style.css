@@ -59,6 +59,7 @@ footer a:hover {
   user-select: none;
   position: relative;
   color: #fff;
+  
   font-size: 38px;
   font-weight: bold;
   font-family: "Crimson Text", serif;
@@ -108,7 +109,9 @@ nav .combobox-toggle,
 nav .linkHome{
   font-size: 16px;
   color: #fff;
-  padding: 8px 12px;
+  padding:  8px;
+  margin: 2px;
+  
 
 
 }
@@ -123,7 +126,6 @@ nav .linkHome{
   border: none;
   color: #fff;
   font-family: 'IBM Plex Mono', monospace;
-  padding: 8px 12px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
 
@@ -193,6 +195,9 @@ nav .linkHome{
   nav .combobox-toggle,
   nav .linkHome{
     font-size: 14px;
+  }
+  header{
+    padding: 2%;
   }
 }
 
