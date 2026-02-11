@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (hash) {
       loadPage(hash);
     } else {
-      loadPage('Home/home');
+      loadPage('home/home');
     }
 
     syncComboboxWithHash();
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.querySelector('#homeLink').addEventListener('click', e => {
     e.preventDefault();
-    window.location.hash = '#/Home/home';
+    window.location.hash = '#/home/home';
   });
   document.querySelector('#actualRelicsLink').addEventListener('click', e => {
     e.preventDefault();

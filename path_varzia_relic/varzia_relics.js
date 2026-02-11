@@ -1,6 +1,6 @@
 import { currentLang,dict, loadLang, applyGeneralLang } from '../lang/lang.js';
-import { loadPage } from '../loadPage.js';
-const res = await fetch('../data/frames.json');
+import { loadPage,BASE } from '../loadPage.js';
+const res = await fetch(`${BASE}data/frames.json`);
 const frames = await res.json();
 export async  function init() {
     applyGeneralLang(dict, document.getElementById('content'));
@@ -49,7 +49,7 @@ function registerLazyCard(card, urls, placeholder) {
   __io.observe(card);
 }
 
-const PLACEHOLDER = '../img/placeholder.png';
+const PLACEHOLDER = `${BASE}img/placeholder.png`;
 
   const container = document.getElementById('primesContainer');
   const searchInput = document.getElementById('searchInput');
@@ -60,7 +60,7 @@ const PLACEHOLDER = '../img/placeholder.png';
   // Загрузка данных 
  if (container) {
   try {
-    const res = await fetch('../data/eventRelic.json');
+    const res = await fetch(`${BASE}data/eventRelic.json`);
     if (!res.ok) throw new Error(`${res.status}`);
     const primes = await res.json();
 
@@ -153,8 +153,8 @@ const PLACEHOLDER = '../img/placeholder.png';
         container.appendChild(item);
 
         registerLazyCard(item, [
-          `../img/frame/${name}.png`,
-          `../img/weapon/${name}.png`
+          `${BASE}img/frame/${name}.png`,
+          `${BASE}img/weapon/${name}.png`
         ], PLACEHOLDER);
       });
     };
@@ -178,7 +178,7 @@ const PLACEHOLDER = '../img/placeholder.png';
   if (timerElem) {
     (async () => {
       try {
-        const response = await fetch('../data/eventRelic.json');
+        const response = await fetch(`${BASE}data/eventRelic.json`);
         const data = await response.json();
         
         const varziaPeriod = data.varziaPeriod;

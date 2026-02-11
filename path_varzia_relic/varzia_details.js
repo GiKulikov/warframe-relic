@@ -1,6 +1,6 @@
 import { currentLang,dict, loadLang, applyGeneralLang } from '../lang/lang.js';
-import { loadPage } from '../loadPage.js';
-const res = await fetch('../data/frames.json');
+import { loadPage,BASE } from '../loadPage.js';
+const res = await fetch(`${BASE}data/frames.json`);
 const frames = await res.json();
 export async  function init() {
     applyGeneralLang(dict, document.getElementById('content'));
@@ -11,7 +11,7 @@ export async  function init() {
 
   document.getElementById('frameTitle').innerText = decodedName ;
 
-  const res = await fetch('../data/eventRelic.json');
+  const res = await fetch(`${BASE}data/eventRelic.json`);
   const primes = await res.json();
 
   const parts = primes[decodedName] || [];
