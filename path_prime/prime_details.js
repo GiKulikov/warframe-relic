@@ -120,7 +120,7 @@ export async function init() {
 
     card.innerHTML = `
       <div>
-      <span class="frame-name">${frameTitle.textContent}: ${displayNamePart}</span>
+      <span class="frame-name"> ${displayNamePart}</span>
       ${isNewPart ? '<span class="isNew">NEW</span>' : ''}
       </div><br>
      ${dict.general.item.getting_of_relic}:       <b><span class="relic-name">${relic}</span>

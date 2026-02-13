@@ -41,9 +41,9 @@ export async  function init() {
 
     const marketSetSlug = item.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '');
     const relicSlug = relic.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '') + '_relic';
-
+    console.log(displayNamePart)
     card.innerHTML = `
-      <strong><span class="frame-name">${frameTitle.textContent}: ${displayNamePart}</span></strong><br>
+      <strong><span class="frame-name"> ${displayNamePart}</span></strong><br>
       ${dict.general.item.getting_of_relic}: <b><span class="relic-name"> ${relic}</span></b><br><br>
 
       <button class="market-btn" onclick="window.open('https://warframe.market/items/${marketSetSlug}', '_blank')">

@@ -218,21 +218,36 @@ async function parseEventRelics() {
 
   let varziaPeriod = [];
 
-  try {
-    const traderData = await fetch("https://api.warframestat.us/pc/vaultTrader")
-      .then(res => res.json());
-
-    if (traderData?.character?.toLowerCase().includes('varzia') &&
-        traderData.activation && traderData.expiry) {
-      
-      varziaPeriod = [{
-        startDate: traderData.activation,
-        endDate: traderData.expiry
-      }];
+try {
+  const response = await fetch("https://api.warframestat.us/pc/vaultTrader", {
+    headers: {
+      "User-Agent": "Mozilla/5.0",
+      "Accept": "application/json"
     }
-  } catch (err) {
-    console.warn('Не удалось получить даты Варзии:', err.message);
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`HTTP ${response.status}: ${text.slice(0, 200)}`);
   }
+
+  const traderData = await response.json();
+
+  if (
+    traderData?.character?.toLowerCase().includes('varzia') &&
+    traderData.activation &&
+    traderData.expiry
+  ) {
+    varziaPeriod = [{
+      startDate: traderData.activation,
+      endDate: traderData.expiry
+    }];
+  }
+
+} catch (err) {
+  console.warn('Не удалось получить даты Варзии:', err.message);
+}
+
 
   const filePath = path.join('data', 'eventRelic.json');
   let previousData = {};

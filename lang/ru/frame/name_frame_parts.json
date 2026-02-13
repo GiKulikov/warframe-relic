@@ -2,5 +2,14 @@
     "Blueprint":"Чертёж",
     "Neuroptics Blueprint":"Нейрооптика",
     "Chassis Blueprint":"Каркас",
-    "Systems Blueprint":"Система"
-}
+    "Systems Blueprint":"Система",
+    "Sentinel": "Чертёж Стража",
+    "Carapace": "Чертёж корпуса",
+    "Cerebrum": "Чертёж церебрума",
+
+
+    "Neuroptics":"Нейрооптика",
+    "Chassis":"Каркас",
+    "Systems":"Система"
+  
+    }

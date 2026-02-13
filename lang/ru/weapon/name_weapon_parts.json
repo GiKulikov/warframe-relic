@@ -12,5 +12,12 @@
     "String":"Тетива",
     "Stock":"Приклад",
     "Gauntlet":"Перчатка",
-    "Blades":"Лезвия"
+    "Blades":"Лезвия",
+    "Link":"Cвязь",
+    "Wings Blueprint":"Крылья (Чертеж)",
+    "Harness Blueprint":"Упряжь (Чертеж)",
+    "Systems Blueprint":"Система (Чертёж)"
+
+
+
 }
