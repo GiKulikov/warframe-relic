@@ -78,9 +78,9 @@ jobs:
       - name: Run update scripts
         if: steps.should_update.outputs.update_needed == 'true'
         run: |
-          node data/update_data.js
-          node data/prime_img_frame.js
-          node data/prime_img_weapon.js
+          node updatingData/update_data.js
+          node updatingData/prime_img_frame.js
+          node updatingData/prime_img_weapon.js
 
       - name: Commit changes + marker file
         if: steps.should_update.outputs.update_needed == 'true'
