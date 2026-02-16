@@ -4,20 +4,30 @@ const res = await fetch(`${BASE}data/frames.json`);
 const frames = await res.json();
 export async  function init() {
     applyGeneralLang(dict, document.getElementById('content'));
-    
-    function loadFirstAvailable(urls) {
-      return new Promise((resolve) => {
-        let i = 0;
-        const tryNext = () => {
-          if (i >= urls.length) return resolve('');
-          const testImg = new Image();
-          const url = urls[i++];
-          testImg.onload = () => resolve(url);
-          testImg.onerror = tryNext;
-          testImg.src = url;
-        };
-        tryNext();
-      });
+    const imageUrlCache = new Map();
+
+    async function loadFirstAvailable(urls) {
+      for (const url of urls) {
+
+        if (imageUrlCache.has(url)) {
+          const cached = imageUrlCache.get(url);
+          if (cached) return cached;
+          continue;
+        }
+
+        const result = await new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve(url);
+          img.onerror = () => resolve(null);
+          img.src = url;
+        });
+
+        imageUrlCache.set(url, result);
+
+        if (result) return result;
+      }
+
+      return '';
     }
 
     const __lazyCards = new WeakMap();
