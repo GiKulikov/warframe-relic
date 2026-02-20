@@ -35,6 +35,7 @@ async function hasPrimeVersion(name) {
 async function downloadPrimeImage(name) {
   const imageUrl = `https://wiki.warframe.com/images/${name}PrimeFull.png`;
   const filePath = path.join(saveDir, `${name} Prime.png`);
+
   if (fs.existsSync(filePath)) {
     return;
   }
@@ -44,7 +45,9 @@ async function downloadPrimeImage(name) {
     return;
   }
 
-  const buffer = await res.buffer();
+  const arrayBuffer = await res.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
   fs.writeFileSync(filePath, buffer);
 }
 

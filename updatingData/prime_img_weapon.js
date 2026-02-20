@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
 
@@ -57,7 +56,9 @@ async function processFile(filePath) {
         continue;
       }
 
-      const buffer = await res.buffer();
+      const arrayBuffer = await res.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
       fs.writeFileSync(weaponPath, buffer);
     } catch (error) {
       console.log(`${weaponName}: ${error.message}`);
