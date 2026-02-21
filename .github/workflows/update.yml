@@ -5,7 +5,7 @@ permissions:
 
 on:
   schedule:
-    - cron: '0 0 * * *'    
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
@@ -26,51 +26,44 @@ jobs:
       - name: Install dependencies
         run: npm ci || npm install
 
-     
-      - name: Check if this is the right moment for update
+      - name: Check if update is needed
         id: should_update
         shell: bash
         run: |
           EVENT_FILE="data/eventRelic.json"
           UPDATE_NEEDED="false"
-          MARKER_FILE=".update-markers"
 
-          if [ ! -f "$EVENT_FILE" ] || [ "$(jq '.varziaPeriod | length' "$EVENT_FILE")" -eq 0 ]; then
-          echo "No periods → full update"
-          UPDATE_NEEDED="true"
+          PERIODS_COUNT=$(jq '.varziaPeriod | length' "$EVENT_FILE" 2>/dev/null || echo 0)
+
+          if [ ! -f "$EVENT_FILE" ] || [ "$PERIODS_COUNT" -eq 0 ]; then
+            echo "No periods → full update"
+            UPDATE_NEEDED="true"
           else
             NOW=$(date +%s)
-            
-            # Читаем все периоды
+
             while IFS= read -r period; do
               start=$(echo "$period" | jq -r '.startDate')
               end=$(echo "$period" | jq -r '.endDate')
-              
+
               [ -z "$start" ] || [ -z "$end" ] && continue
-              
+
               start_ts=$(date -d "$start" +%s 2>/dev/null) || continue
-              end_ts=$(date -d "$end" +%s 2>/dev/null)     || continue
-              
-             # Окно начала:
-            if [ $NOW -ge $start_ts ] && [ $NOW -le $((start_ts + 43200)) ]; then
-              if ! grep -q "start:${start}" "$MARKER_FILE" 2>/dev/null; then
-                echo "→ Start window detected ($start), not updated yet"
+              end_ts=$(date -d "$end" +%s 2>/dev/null) || continue
+
+              # start window (12h)
+              if [ $NOW -ge $start_ts ] && [ $NOW -le $((start_ts + 43200)) ]; then
+                echo "Start window detected"
                 UPDATE_NEEDED="true"
-                echo "start:${start}" >> "$MARKER_FILE"
                 break
               fi
-            fi
 
-            # Окно конца: 
-           if [ $NOW -ge $end_ts ] && [ $NOW -le $((end_ts + 43200)) ]; then
-            if ! grep -q "end:${end}" "$MARKER_FILE" 2>/dev/null; then
-              echo "→ End window detected ($end), not updated yet"
-              UPDATE_NEEDED="true"
-              echo "end:${end}" >> "$MARKER_FILE"
-              break
-            fi
-          fi
-            done < <(jq -c '.varziaPeriod[]' "$EVENT_FILE" 2>/dev/null || echo "")
+              # end window (12h)
+              if [ $NOW -ge $end_ts ] && [ $NOW -le $((end_ts + 43200)) ]; then
+                echo "End window detected"
+                UPDATE_NEEDED="true"
+                break
+              fi
+            done < <(jq -c '.varziaPeriod[]' "$EVENT_FILE")
           fi
 
           echo "update_needed=$UPDATE_NEEDED" >> "$GITHUB_OUTPUT"
@@ -82,14 +75,12 @@ jobs:
           node updatingData/prime_img_frame.js
           node updatingData/prime_img_weapon.js
 
-      - name: Commit changes + marker file
+      - name: Commit changes
         if: steps.should_update.outputs.update_needed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          git add data/ img/ .update-markers
-          git commit -m "auto: update at period start/end" --allow-empty || true
-          git push || true
 
-      
+          git add data/ img/
+          git commit -m "auto: update at period start/end" || echo "No changes"
+          git push
