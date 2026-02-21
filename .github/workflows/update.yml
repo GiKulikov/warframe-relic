@@ -35,9 +35,9 @@ jobs:
           UPDATE_NEEDED="false"
           MARKER_FILE=".update-markers"
 
-          if [ ! -f "$EVENT_FILE" ]; then
-            echo "No periods file → full update"
-            UPDATE_NEEDED="true"
+          if [ ! -f "$EVENT_FILE" ] || [ "$(jq '.varziaPeriod | length' "$EVENT_FILE")" -eq 0 ]; then
+          echo "No periods → full update"
+          UPDATE_NEEDED="true"
           else
             NOW=$(date +%s)
             
@@ -51,7 +51,7 @@ jobs:
               start_ts=$(date -d "$start" +%s 2>/dev/null) || continue
               end_ts=$(date -d "$end" +%s 2>/dev/null)     || continue
               
-             # Окно начала: от старта до +12 часов
+             # Окно начала:
             if [ $NOW -ge $start_ts ] && [ $NOW -le $((start_ts + 43200)) ]; then
               if ! grep -q "start:${start}" "$MARKER_FILE" 2>/dev/null; then
                 echo "→ Start window detected ($start), not updated yet"
@@ -61,7 +61,7 @@ jobs:
               fi
             fi
 
-            # Окно конца: последние 36 часов до конца + 12 часов после конца
+            # Окно конца: 
            if [ $NOW -ge $end_ts ] && [ $NOW -le $((end_ts + 43200)) ]; then
             if ! grep -q "end:${end}" "$MARKER_FILE" 2>/dev/null; then
               echo "→ End window detected ($end), not updated yet"
