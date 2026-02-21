@@ -1,11 +1,41 @@
 {
-
   "status": "Updated",
-
-  "varziaPeriod": [],
-  
-  
-
+  "varziaPeriod": [
+    {
+      "startDate": "2026-02-19T19:00:00.000Z",
+      "endDate": "2026-03-19T18:00:00.000Z"
+    }
+  ],
+  "Bronco Prime": [
+    {
+      "item": "Bronco Prime Blueprint",
+      "relic": "Lith A6"
+    }
+  ],
+  "Masseter Prime": [
+    {
+      "item": "Masseter Prime Handle",
+      "relic": "Lith A6"
+    }
+  ],
+  "Hildryn Prime": [
+    {
+      "item": "Hildryn Prime Systems Blueprint",
+      "relic": "Lith A6"
+    }
+  ],
+  "Shade Prime": [
+    {
+      "item": "Shade Prime Systems",
+      "relic": "Lith A6"
+    }
+  ],
+  "Akarius Prime": [
+    {
+      "item": "Akarius Prime Receiver",
+      "relic": "Lith A6"
+    }
+  ],
   "Atlas Prime": [
     {
       "item": "Atlas Prime Blueprint",
