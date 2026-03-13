@@ -14,13 +14,17 @@ body {
   font-family: 'IBM Plex Mono', monospace;
   background-color: #000000ef;
 }
+
+option{
+  background-color: #2d2c33;
+ 
+}
 .top-bar{
     position: fixed;
 }
  .typelang{
   color: #ffffff;
-  background-color: #262529;
-  box-shadow:  0px 3px 7px #38333b67 ;
+  background-color: transparent;
   padding: 3px;
   margin: 3px;
   border: none;
