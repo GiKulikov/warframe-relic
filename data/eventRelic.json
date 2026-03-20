@@ -2,151 +2,100 @@
   "status": "Updated",
   "varziaPeriod": [
     {
-      "startDate": "2026-02-19T19:00:00.000Z",
-      "endDate": "2026-03-19T18:00:00.000Z"
+      "startDate": "2026-03-19T18:00:00.000Z",
+      "endDate": "2026-04-16T18:00:00.000Z"
     }
   ],
-  
-  
-
-  "Atlas Prime": [
+  "Dual Kamas Prime": [
     {
-      "item": "Atlas Prime Blueprint",
-      "relic": "Lith V9"
+      "item": "Dual Kamas Prime Blueprint",
+      "relic": "Lith K4"
     },
     {
-      "item": "Atlas Prime Chassis Blueprint",
-      "relic": "Neo A7"
+      "item": "Dual Kamas Prime Blade",
+      "relic": "Meso D5"
     },
     {
-      "item": "Atlas Prime Systems Blueprint",
-      "relic": "Axi F1"
+      "item": "Dual Kamas Prime Handle",
+      "relic": "Neo N12"
+    }
+  ],
+  "Nova Prime": [
+    {
+      "item": "Nova Prime Neuroptics Blueprint",
+      "relic": "Lith K4"
+    },
+    {
+      "item": "Nova Prime Blueprint",
+      "relic": "Meso D5"
+    },
+    {
+      "item": "Nova Prime Chassis Blueprint",
+      "relic": "Neo N12"
+    },
+    {
+      "item": "Nova Prime Systems Blueprint",
+      "relic": "Axi S7"
+    }
+  ],
+  "Soma Prime": [
+    {
+      "item": "Soma Prime Receiver",
+      "relic": "Lith K4"
+    },
+    {
+      "item": "Soma Prime Barrel",
+      "relic": "Meso D5"
+    },
+    {
+      "item": "Soma Prime Blueprint",
+      "relic": "Neo N12"
+    },
+    {
+      "item": "Soma Prime Stock",
+      "relic": "Axi S7"
+    }
+  ],
+  "Trinity Prime": [
+    {
+      "item": "Trinity Prime Blueprint",
+      "relic": "Lith K4"
+    },
+    {
+      "item": "Trinity Prime Neuroptics Blueprint",
+      "relic": "Meso D5"
+    },
+    {
+      "item": "Trinity Prime Systems Blueprint",
+      "relic": "Neo N12"
+    },
+    {
+      "item": "Trinity Prime Chassis Blueprint",
+      "relic": "Axi S7"
+    }
+  ],
+  "Kavasa Prime": [
+    {
+      "item": "Kavasa Prime Buckle",
+      "relic": "Lith K4"
+    },
+    {
+      "item": "Kavasa Prime Band",
+      "relic": "Neo N12"
     }
   ],
   "Vasto Prime": [
     {
-      "item": "Vasto Prime Receiver",
-      "relic": "Lith V9"
-    },
-    {
       "item": "Vasto Prime Blueprint",
-      "relic": "Meso V8"
-    }
-  ],
-  "Braton Prime": [
-    {
-      "item": "Braton Prime Receiver",
-      "relic": "Lith V9"
+      "relic": "Meso D5"
     },
     {
-      "item": "Braton Prime Barrel",
-      "relic": "Neo A7"
+      "item": "Vasto Prime Receiver",
+      "relic": "Neo N12"
     },
     {
-      "item": "Braton Prime Blueprint",
-      "relic": "Neo D6"
-    },
-    {
-      "item": "Braton Prime Stock",
-      "relic": "Axi F1"
-    }
-  ],
-  "Dethcube Prime": [
-    {
-      "item": "Dethcube Prime Carapace",
-      "relic": "Lith V9"
-    },
-    {
-      "item": "Dethcube Prime Systems",
-      "relic": "Meso T6"
-    },
-    {
-      "item": "Dethcube Prime Cerebrum",
-      "relic": "Neo A7"
-    },
-    {
-      "item": "Dethcube Prime Blueprint",
-      "relic": "Neo D6"
-    }
-  ],
-  "Vauban Prime": [
-    {
-      "item": "Vauban Prime Systems Blueprint",
-      "relic": "Lith V9"
-    },
-    {
-      "item": "Vauban Prime Chassis Blueprint",
-      "relic": "Meso T6"
-    },
-    {
-      "item": "Vauban Prime Neuroptics Blueprint",
-      "relic": "Meso V8"
-    },
-    {
-      "item": "Vauban Prime Blueprint",
-      "relic": "Axi F1"
-    }
-  ],
-  "Fang Prime": [
-    {
-      "item": "Fang Prime Blueprint",
-      "relic": "Meso T6"
-    },
-    {
-      "item": "Fang Prime Blade",
-      "relic": "Meso V8"
-    }
-  ],
-  "Akstiletto Prime": [
-    {
-      "item": "Akstiletto Prime Receiver",
-      "relic": "Meso T6"
-    },
-    {
-      "item": "Akstiletto Prime Blueprint",
-      "relic": "Neo A7"
-    },
-    {
-      "item": "Akstiletto Prime Link",
-      "relic": "Neo D6"
-    }
-  ],
-  "Tekko Prime": [
-    {
-      "item": "Tekko Prime Blade",
-      "relic": "Meso T6"
-    },
-    {
-      "item": "Tekko Prime Blueprint",
-      "relic": "Meso V8"
-    }
-  ],
-  "Fragor Prime": [
-    {
-      "item": "Fragor Prime Head",
-      "relic": "Meso V8"
-    },
-    {
-      "item": "Fragor Prime Handle",
-      "relic": "Neo D6"
-    },
-    {
-      "item": "Fragor Prime Blueprint",
-      "relic": "Axi F1"
-    }
-  ],
-  "Lex Prime": [
-    {
-      "item": "Lex Prime Receiver",
-      "relic": "Neo A7"
-    },
-    {
-      "item": "Lex Prime Barrel",
-      "relic": "Neo D6"
-    },
-    {
-      "item": "Lex Prime Blueprint",
-      "relic": "Axi F1"
+      "item": "Vasto Prime Barrel",
+      "relic": "Axi S7"
     }
   ]
 }
