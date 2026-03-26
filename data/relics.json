@@ -1,174 +1,141 @@
 {
+ 
   "current": [
     {
-      "name": "Axi A20",
-      "tier": "Axi",
-      "slug": "axi_a20_relic"
-    },
-    {
-      "name": "Axi C10",
-      "tier": "Axi",
-      "slug": "axi_c10_relic"
-    },
-    {
-      "name": "Axi N13",
-      "tier": "Axi",
-      "slug": "axi_n13_relic"
-    },
-    {
-      "name": "Axi P8",
-      "tier": "Axi",
-      "slug": "axi_p8_relic"
-    },
-    {
-      "name": "Axi S18",
-      "tier": "Axi",
-      "slug": "axi_s18_relic"
-    },
-    {
-      "name": "Axi S8",
-      "tier": "Axi",
-      "slug": "axi_s8_relic"
-    },
-    {
-      "name": "Axi T13",
-      "tier": "Axi",
-      "slug": "axi_t13_relic"
-    },
-    {
-      "name": "Axi V10",
-      "tier": "Axi",
-      "slug": "axi_v10_relic"
-    },
-    {
-      "name": "Axi Y1",
-      "tier": "Axi",
-      "slug": "axi_y1_relic"
-    },
-    {
-      "name": "Lith C7",
-      "tier": "Lith",
-      "slug": "lith_c7_relic"
+      "name": "Lith C7",
+      "tier": "Lith"
     },
     {
       "name": "Lith D7",
-      "tier": "Lith",
-      "slug": "lith_d7_relic"
+      "tier": "Lith"
     },
     {
       "name": "Lith E2",
-      "tier": "Lith",
-      "slug": "lith_e2_relic"
+      "tier": "Lith"
     },
     {
       "name": "Lith G14",
-      "tier": "Lith",
-      "slug": "lith_g14_relic"
+      "tier": "Lith"
     },
     {
       "name": "Lith K12",
-      "tier": "Lith",
-      "slug": "lith_k12_relic"
+      "tier": "Lith"
     },
     {
       "name": "Lith L7",
-      "tier": "Lith",
-      "slug": "lith_l7_relic"
+      "tier": "Lith"
     },
     {
       "name": "Lith N18",
-      "tier": "Lith",
-      "slug": "lith_n18_relic"
+      "tier": "Lith"
     },
     {
-      "name": "Lith Q2",
-      "tier": "Lith",
-      "slug": "lith_q2_relic"
+      "name": "Lith Q2",
+      "tier": "Lith"
     },
     {
       "name": "Meso A9",
-      "tier": "Meso",
-      "slug": "meso_a9_relic"
+      "tier": "Meso"
     },
     {
-      "name": "Meso N11",
-      "tier": "Meso",
-      "slug": "meso_n11_relic"
+      "name": "Meso N11",
+      "tier": "Meso"
     },
     {
       "name": "Meso P17",
-      "tier": "Meso",
-      "slug": "meso_p17_relic"
+      "tier": "Meso"
     },
     {
       "name": "Meso V11",
-      "tier": "Meso",
-      "slug": "meso_v11_relic"
+      "tier": "Meso"
     },
     {
       "name": "Meso V12",
-      "tier": "Meso",
-      "slug": "meso_v12_relic"
+      "tier": "Meso"
     },
     {
       "name": "Meso V13",
-      "tier": "Meso",
-      "slug": "meso_v13_relic"
+      "tier": "Meso"
     },
     {
       "name": "Meso V14",
-      "tier": "Meso",
-      "slug": "meso_v14_relic"
+      "tier": "Meso"
     },
     {
       "name": "Meso X1",
-      "tier": "Meso",
-      "slug": "meso_x1_relic"
+      "tier": "Meso"
     },
     {
       "name": "Meso Y1",
-      "tier": "Meso",
-      "slug": "meso_y1_relic"
+      "tier": "Meso"
     },
     {
-      "name": "Neo C6",
-      "tier": "Neo",
-      "slug": "neo_c6_relic"
+      "name": "Neo C6",
+      "tier": "Neo"
     },
     {
       "name": "Neo C7",
-      "tier": "Neo",
-      "slug": "neo_c7_relic"
+      "tier": "Neo"
     },
     {
-      "name": "Neo D9",
-      "tier": "Neo",
-      "slug": "neo_d9_relic"
+      "name": "Neo D9",
+      "tier": "Neo"
     },
     {
       "name": "Neo K9",
-      "tier": "Neo",
-      "slug": "neo_k9_relic"
+      "tier": "Neo"
     },
     {
       "name": "Neo O3",
-      "tier": "Neo",
-      "slug": "neo_o3_relic"
+      "tier": "Neo"
     },
     {
       "name": "Neo P9",
-      "tier": "Neo",
-      "slug": "neo_p9_relic"
+      "tier": "Neo"
     },
     {
       "name": "Neo T10",
-      "tier": "Neo",
-      "slug": "neo_t10_relic"
+      "tier": "Neo"
     },
     {
-      "name": "Neo V9",
-      "tier": "Neo",
-      "slug": "neo_v9_relic"
+      "name": "Neo V9",
+      "tier": "Neo"
+    },
+    {
+      "name": "Axi A20",
+      "tier": "Axi"
+    },
+    {
+      "name": "Axi C10",
+      "tier": "Axi"
+    },
+    {
+      "name": "Axi N13",
+      "tier": "Axi"
+    },
+    {
+      "name": "Axi P8",
+      "tier": "Axi"
+    },
+    {
+      "name": "Axi S18",
+      "tier": "Axi"
+    },
+    {
+      "name": "Axi S8",
+      "tier": "Axi"
+    },
+    {
+      "name": "Axi T13",
+      "tier": "Axi"
+    },
+    {
+      "name": "Axi V10",
+      "tier": "Axi"
+    },
+    {
+      "name": "Axi Y1",
+      "tier": "Axi"
     }
   ],
   "added": [],

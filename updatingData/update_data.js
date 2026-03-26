@@ -115,7 +115,6 @@ async function getAllRelics() {
       relics.push({
         name,
         tier,
-        slug: toSlug(name),
         url: BASE + a.getAttribute('href')
       });
     });
@@ -358,7 +357,7 @@ async function main() {
 
   // --- relics.json ---
   const relics = await getAllRelics();
-  const relicsData = relics.map(r => ({ name: r.name, tier: r.tier, slug: r.slug }));
+  const relicsData = relics.map(r => ({ name: r.name, tier: r.tier }));
   const relicsPath = path.join('data', 'relics.json');
   const oldRelicsParsed = loadOldJSON(relicsPath, null);
   const oldRelicsArr = getOldRelicsArray(oldRelicsParsed);
