@@ -37,11 +37,9 @@ export async  function init() {
       const displayNamePart =
         frameDict.name_frame_parts?.[partDisplayName] ??
         frameDict.name_weapon_parts?.[partDisplayName] ??
-        item;
-
+        partDisplayName;
     const marketSetSlug = item.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '');
     const relicSlug = relic.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '') + '_relic';
-    console.log(displayNamePart)
     card.innerHTML = `
       <strong><span class="frame-name"> ${displayNamePart}</span></strong><br>
       ${dict.general.item.getting_of_relic}: <b><span class="relic-name"> ${relic}</span></b><br><br>

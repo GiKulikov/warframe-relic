@@ -117,7 +117,7 @@ export async function init() {
         frameDict.name_frame_parts?.[partDisplayName] ??
         frameDict.name_weapon_parts?.[partDisplayName] ??
         partDisplayName;
-
+        
     card.innerHTML = `
       <div>
       <span class="frame-name"> ${displayNamePart}</span>
