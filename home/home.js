@@ -258,18 +258,15 @@ if (timerElem) {
         const frameCount = frameParts.size;
         
          // определение статусов
-        const inCurr = addedParts.filter(added =>
-          currentParts.some(current => current.item === added.item)
-        );
         
 
         let boolNew = false;
         let boolupdate = false;
-        if(inCurr.length===0 && addedParts.length>0 && removedParts.length===0){
-          boolNew = true;
-        }
-        else if(removedParts.length>0 &&addedParts.length>0){
-          boolupdate = true;
+        if(primes.current[name]===undefined && primes.removed[name]===undefined){
+              boolNew = true;
+
+        }else if(primes.current[name]!==undefined && primes.added[name]!==undefined || primes.removed[name]!==undefined){
+              boolupdate = true;
         }
         const isWarframe = frames.frames.includes(name);
                
