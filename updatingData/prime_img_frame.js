@@ -33,7 +33,7 @@ async function hasPrimeVersion(name) {
 }
 
 async function downloadPrimeImage(name) {
-  const imageUrl = `https://wiki.warframe.com/images/${name}PrimeFull.png`;
+  const imageUrl = `https://wiki.warframe.com/images/${name}Prime_Thumb.png`;
   const filePath = path.join(saveDir, `${name} Prime.png`);
 
   if (fs.existsSync(filePath)) {

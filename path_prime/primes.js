@@ -125,37 +125,26 @@ export async  function init() {
             // подсчёт уникальных частей прайм-объекта
             const currentParts = primes.current[name] || [];
             const addedParts   = primes.added[name] || [];
+            
             const removedParts = primes.removed[name] || [];
             const allParts     = [...currentParts, ...addedParts];
-            
             const frameParts = new Set();
-
+            
             allParts.forEach(p => {
               const type = getPrimePartType(name, p.item);
               if (type) frameParts.add(type);
             });
-
-            const frameCount = frameParts.size;
+           
             // определение статусов
-            const inCurr = addedParts.filter(added =>
-              currentParts.some(current => current.item === added.item)
-            );
-            
-
+           
             let boolNew = false;
             let boolupdate = false;
-            if(inCurr.length===0 && addedParts.length>0 && removedParts.length===0){
+            if(primes.current[name]===undefined && primes.removed[name]===undefined){
               boolNew = true;
-            }
-            else if(removedParts.length>0 &&addedParts.length>0){
+
+            }else if(primes.current[name]!==undefined && primes.added[name]!==undefined && primes.removed[name]!==undefined){
               boolupdate = true;
             }
-            
-
-            
-          
-            
-        
 
             const isWarframe = frames.frames.includes(name);
           
@@ -289,21 +278,16 @@ export async  function init() {
       
 
       // определение статусов
-      const statuscurr = addedParts.filter(added =>
-        currentParts.some(current => current.item === added.item)
-      );
-      const statusaded = currentParts.filter(current =>
-        addedParts.some(added => added.item === current.item)
-      );
+      
 
       let boolNew = false;
       let boolupdate = false;
-      if(statuscurr.length===0 && addedParts.length>0){
-        boolNew = true;
-      }
-      else if(statusaded.length>0 && currentParts.length>0){
-        boolupdate = true;
-      }
+       if(primes.current[name]===undefined && primes.removed[name]===undefined){
+              boolNew = true;
+
+        }else if(primes.current[name]!==undefined && primes.added[name]!==undefined || primes.removed[name]!==undefined){
+              boolupdate = true;
+        }
     
     
 

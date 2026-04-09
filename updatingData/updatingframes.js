@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import { JSDOM } from "jsdom";
 import fs from "fs";
 
-const OUTPUT = "C:/Vscode/WarframeRelic/data/frames.json";
+const OUTPUT = "./data/frames.json";
 
 async function pageExists(url) {
   try {
