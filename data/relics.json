@@ -71,9 +71,7 @@
     {
       "name": "Axi Y1",
       "tier": "Axi"
-    }
-  ],
-  "added": [
+    },
     {
       "name": "Lith C14",
       "tier": "Lith"
@@ -139,70 +137,6 @@
       "tier": "Axi"
     }
   ],
-  "removed": [
-    {
-      "name": "Lith D7",
-      "tier": "Lith"
-    },
-    {
-      "name": "Lith L7",
-      "tier": "Lith"
-    },
-    {
-      "name": "Meso P17",
-      "tier": "Meso"
-    },
-    {
-      "name": "Meso V11",
-      "tier": "Meso"
-    },
-    {
-      "name": "Meso V12",
-      "tier": "Meso"
-    },
-    {
-      "name": "Meso V14",
-      "tier": "Meso"
-    },
-    {
-      "name": "Meso Y1",
-      "tier": "Meso"
-    },
-    {
-      "name": "Neo C6",
-      "tier": "Neo"
-    },
-    {
-      "name": "Neo D9",
-      "tier": "Neo"
-    },
-    {
-      "name": "Neo O3",
-      "tier": "Neo"
-    },
-    {
-      "name": "Neo P9",
-      "tier": "Neo"
-    },
-    {
-      "name": "Axi A20",
-      "tier": "Axi"
-    },
-    {
-      "name": "Axi C10",
-      "tier": "Axi"
-    },
-    {
-      "name": "Axi N13",
-      "tier": "Axi"
-    },
-    {
-      "name": "Axi P8",
-      "tier": "Axi"
-    },
-    {
-      "name": "Axi S18",
-      "tier": "Axi"
-    }
-  ]
+  "added": [],
+  "removed": []
 }
