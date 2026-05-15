@@ -588,10 +588,6 @@
         "relic": "Lith N19"
       },
       {
-        "item": "Nautilus Prime Systems Blueprint",
-        "relic": "Meso A10"
-      },
-      {
         "item": "Nautilus Prime Blueprint",
         "relic": "Neo N24"
       },
@@ -706,10 +702,6 @@
         "relic": "Meso D8"
       },
       {
-        "item": "Yareli Prime Blueprint",
-        "relic": "Neo V11"
-      },
-      {
         "item": "Yareli Prime Neuroptics Blueprint",
         "relic": "Axi Y3"
       }
@@ -783,6 +775,32 @@
       }
     ]
   },
-  "added": {},
-  "removed": {}
+  "added": {
+    "Nautilus Prime": [
+      {
+        "item": "Nautilus Prime Systems",
+        "relic": "Meso A10"
+      }
+    ],
+    "Yareli Prime": [
+      {
+        "item": "Yareli Prime Chassis Blueprint",
+        "relic": "Neo V11"
+      }
+    ]
+  },
+  "removed": {
+    "Nautilus Prime": [
+      {
+        "item": "Nautilus Prime Systems Blueprint",
+        "relic": "Meso A10"
+      }
+    ],
+    "Yareli Prime": [
+      {
+        "item": "Yareli Prime Blueprint",
+        "relic": "Neo V11"
+      }
+    ]
+  }
 }

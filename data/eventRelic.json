@@ -1,145 +1,100 @@
 {
   "status": "Updated",
-  "varziaPeriod": [
+  "varziaPeriod": [],
+  "Ankyros Prime": [
     {
-      "startDate": "2026-04-16T18:00:00.000Z",
-      "endDate": "2026-05-14T18:00:00.000Z"
+      "item": "Ankyros Prime Blueprint",
+      "relic": "Lith B4"
+    },
+    {
+      "item": "Ankyros Prime Gauntlet",
+      "relic": "Neo R1"
+    },
+    {
+      "item": "Ankyros Prime Blade",
+      "relic": "Axi S3"
     }
   ],
-  "Paris Prime": [
+  "Nyx Prime": [
     {
-      "item": "Paris Prime Lower Limb",
-      "relic": "Lith A11"
+      "item": "Nyx Prime Blueprint",
+      "relic": "Lith B4"
     },
     {
-      "item": "Paris Prime Upper Limb",
-      "relic": "Meso A11"
+      "item": "Nyx Prime Neuroptics Blueprint",
+      "relic": "Meso N6"
     },
     {
-      "item": "Paris Prime String",
-      "relic": "Meso Z6"
+      "item": "Nyx Prime Chassis Blueprint",
+      "relic": "Neo R1"
     },
     {
-      "item": "Paris Prime Blueprint",
-      "relic": "Neo G10"
-    },
-    {
-      "item": "Paris Prime Grip",
-      "relic": "Axi G15"
+      "item": "Nyx Prime Systems Blueprint",
+      "relic": "Axi S3"
     }
   ],
-  "Zylok Prime": [
+  "Rhino Prime": [
     {
-      "item": "Zylok Prime Barrel",
-      "relic": "Lith A11"
+      "item": "Rhino Prime Neuroptics Blueprint",
+      "relic": "Lith B4"
     },
     {
-      "item": "Zylok Prime Blueprint",
-      "relic": "Meso Z6"
+      "item": "Rhino Prime Chassis Blueprint",
+      "relic": "Meso N6"
     },
     {
-      "item": "Zylok Prime Receiver",
-      "relic": "Axi G15"
+      "item": "Rhino Prime Blueprint",
+      "relic": "Neo R1"
+    },
+    {
+      "item": "Rhino Prime Systems Blueprint",
+      "relic": "Axi S3"
     }
   ],
-  "Akarius Prime": [
+  "Scindo Prime": [
     {
-      "item": "Akarius Prime Link",
-      "relic": "Lith A11"
+      "item": "Scindo Prime Blueprint",
+      "relic": "Lith B4"
     },
     {
-      "item": "Akarius Prime Blueprint",
-      "relic": "Meso A11"
+      "item": "Scindo Prime Handle",
+      "relic": "Meso N6"
     },
     {
-      "item": "Akarius Prime Receiver",
-      "relic": "Neo G10"
-    },
-    {
-      "item": "Akarius Prime Barrel",
-      "relic": "Neo M6"
+      "item": "Scindo Prime Blade",
+      "relic": "Axi S3"
     }
   ],
-  "Grendel Prime": [
+  "Boltor Prime": [
     {
-      "item": "Grendel Prime Chassis Blueprint",
-      "relic": "Lith A11"
+      "item": "Boltor Prime Blueprint",
+      "relic": "Lith B4"
     },
     {
-      "item": "Grendel Prime Blueprint",
-      "relic": "Neo G10"
+      "item": "Boltor Prime Barrel",
+      "relic": "Meso N6"
     },
     {
-      "item": "Grendel Prime Systems Blueprint",
-      "relic": "Neo M6"
+      "item": "Boltor Prime Receiver",
+      "relic": "Neo R1"
     },
     {
-      "item": "Grendel Prime Neuroptics Blueprint",
-      "relic": "Axi G15"
+      "item": "Boltor Prime Stock",
+      "relic": "Axi S3"
     }
   ],
-  "Acceltra Prime": [
+  "Hikou Prime": [
     {
-      "item": "Acceltra Prime Barrel",
-      "relic": "Lith A11"
+      "item": "Hikou Prime Pouch",
+      "relic": "Meso N6"
     },
     {
-      "item": "Acceltra Prime Stock",
-      "relic": "Meso A11"
+      "item": "Hikou Prime Blueprint",
+      "relic": "Neo R1"
     },
     {
-      "item": "Acceltra Prime Blueprint",
-      "relic": "Meso Z6"
-    },
-    {
-      "item": "Acceltra Prime Receiver",
-      "relic": "Neo M6"
-    }
-  ],
-  "Gauss Prime": [
-    {
-      "item": "Gauss Prime Chassis Blueprint",
-      "relic": "Meso A11"
-    },
-    {
-      "item": "Gauss Prime Neuroptics Blueprint",
-      "relic": "Meso Z6"
-    },
-    {
-      "item": "Gauss Prime Blueprint",
-      "relic": "Neo G10"
-    },
-    {
-      "item": "Gauss Prime Systems Blueprint",
-      "relic": "Axi G15"
-    }
-  ],
-  "Masseter Prime": [
-    {
-      "item": "Masseter Prime Blueprint",
-      "relic": "Meso A11"
-    },
-    {
-      "item": "Masseter Prime Handle",
-      "relic": "Neo G10"
-    },
-    {
-      "item": "Masseter Prime Blade",
-      "relic": "Neo M6"
-    }
-  ],
-  "Bronco Prime": [
-    {
-      "item": "Bronco Prime Barrel",
-      "relic": "Meso Z6"
-    },
-    {
-      "item": "Bronco Prime Receiver",
-      "relic": "Neo M6"
-    },
-    {
-      "item": "Bronco Prime Blueprint",
-      "relic": "Axi G15"
+      "item": "Hikou Prime Stars",
+      "relic": "Axi S3"
     }
   ]
 }
