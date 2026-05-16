@@ -594,6 +594,10 @@
       {
         "item": "Nautilus Prime Carapace",
         "relic": "Neo P10"
+      },
+      {
+        "item": "Nautilus Prime Systems",
+        "relic": "Meso A10"
       }
     ],
     "Voruna Prime": [
@@ -704,6 +708,10 @@
       {
         "item": "Yareli Prime Neuroptics Blueprint",
         "relic": "Axi Y3"
+      },
+      {
+        "item": "Yareli Prime Chassis Blueprint",
+        "relic": "Neo V11"
       }
     ],
     "Sarofang Prime": [
@@ -775,32 +783,6 @@
       }
     ]
   },
-  "added": {
-    "Nautilus Prime": [
-      {
-        "item": "Nautilus Prime Systems",
-        "relic": "Meso A10"
-      }
-    ],
-    "Yareli Prime": [
-      {
-        "item": "Yareli Prime Chassis Blueprint",
-        "relic": "Neo V11"
-      }
-    ]
-  },
-  "removed": {
-    "Nautilus Prime": [
-      {
-        "item": "Nautilus Prime Systems Blueprint",
-        "relic": "Meso A10"
-      }
-    ],
-    "Yareli Prime": [
-      {
-        "item": "Yareli Prime Blueprint",
-        "relic": "Neo V11"
-      }
-    ]
-  }
+  "added": {},
+  "removed": {}
 }
