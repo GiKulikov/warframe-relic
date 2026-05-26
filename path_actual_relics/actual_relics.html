@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <link rel="stylesheet" href="actual_relics.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
-
 </head>
+
 <body>
- <div class="top-banner">
+  <div class="top-banner">
     <span id="date"></span></span>
-</div>
+  </div>
 
   <div id="filters">
-    <span  data-i18n="general.common.type_filter"></span>
+    <span data-i18n="general.common.type_filter"></span>
     <select id="typeFilter">
-      <option value="all" data-i18n="general.common.type_relic" ></option>
+      <option value="all" data-i18n="general.common.type_relic"></option>
       <option value="Lith">Lith</option>
       <option value="Meso">Meso</option>
       <option value="Neo">Neo</option>
       <option value="Axi">Axi</option>
-    </select> 
+    </select>
   </div>
 
-<main>
-  <div class="grid" id="relicGrid"></div>
-</main>
-<script type="module" src="actual_relics.js" ></script>
+  <main>
+    <div class="grid" id="relicGrid"></div>
+  </main>
+  <script type="module" src="actual_relics.js"></script>
 </body>
- 
+
 </html>

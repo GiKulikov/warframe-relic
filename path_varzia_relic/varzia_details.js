@@ -1,15 +1,24 @@
-import { currentLang,dict, loadLang, applyGeneralLang } from '../lang/lang.js';
-import { loadPage,BASE } from '../loadPage.js';
-const res = await fetch(`${BASE}data/frames.json`);
-const frames = await res.json();
-export async  function init() {
-    applyGeneralLang(dict, document.getElementById('content'));
+import { currentLang, dict, loadLang, applyGeneralLang } from '../lang/lang.js';
+import { loadPage, BASE } from '../loadPage.js';
+export async function init() {
+  applyGeneralLang(dict, document.getElementById('content'));
 
-    
+  const [framesData, weaponsData] = await Promise.all([
+    fetch(`${BASE}data/frames.json`).then(r => r.json()),
+    fetch(`${BASE}data/weapons.json`).then(r => r.json())
+  ]);
+  function Isitem(name) {
+    const isFrame = framesData.frames?.includes(name) || framesData.sentinels?.includes(name);
+    const isWeapon = weaponsData.weapons?.includes(name);
+    if (isFrame) return `${BASE}img/frame/${name}.png`;
+    if (isWeapon) return `${BASE}img/weapon/${name}.png`;
+    return null;
+  }
+
 
   const decodedName = sessionStorage.getItem('selectedPrime');
 
-  document.getElementById('frameTitle').innerText = decodedName ;
+  document.getElementById('frameTitle').innerText = decodedName;
 
   const res = await fetch(`${BASE}data/eventRelic.json`);
   const primes = await res.json();
@@ -19,25 +28,27 @@ export async  function init() {
   const container = document.getElementById('partsContainer');
   container.innerHTML = '';
 
-   
+
   parts.forEach(({ item, relic }) => {
     const card = document.createElement('div');
     card.className = 'part-card';
-    const isWarframe = frames.frames.includes(decodedName);
-      const frameDict = isWarframe
-        ? dict.frame
-        : dict.weapon;
-         const partDisplayName = item.replace(`${decodedName} `, '');
+    const isFrameEntity = framesData.frames?.includes(decodedName) || framesData.sentinels?.includes(decodedName);
 
-      frameTitle.textContent =
-        frameDict.name_frame?.[decodedName] ??
-        frameDict.name_weapon?.[decodedName] ??
-        decodedName;
 
-      const displayNamePart =
-        frameDict.name_frame_parts?.[partDisplayName] ??
-        frameDict.name_weapon_parts?.[partDisplayName] ??
-        partDisplayName;
+    const frameDict = isFrameEntity
+      ? dict.frame
+      : dict.weapon;
+    const partDisplayName = item.replace(`${decodedName} `, '');
+
+    frameTitle.textContent =
+      frameDict.name_frame?.[decodedName] ??
+      frameDict.name_weapon?.[decodedName] ??
+      decodedName;
+
+    const displayNamePart =
+      frameDict.name_frame_parts?.[partDisplayName] ??
+      frameDict.name_weapon_parts?.[partDisplayName] ??
+      partDisplayName;
     const marketSetSlug = item.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '');
     const relicSlug = relic.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '') + '_relic';
     card.innerHTML = `
@@ -62,19 +73,19 @@ export async  function init() {
       frameEl.style.color = '';
     });
 
-     card.querySelector('.relic-btn').addEventListener('mouseenter', () => {
+    card.querySelector('.relic-btn').addEventListener('mouseenter', () => {
       relicEl.style.color = '#aa62ecff';
     });
-     card.querySelector('.relic-btn').addEventListener('mouseleave', () => {
+    card.querySelector('.relic-btn').addEventListener('mouseleave', () => {
       relicEl.style.color = '';
     });
 
 
-    
+
 
     container.appendChild(card);
   });
-       return {
+  return {
     destroy() {
       document.removeEventListener('click', onClick);
     }

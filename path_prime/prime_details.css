@@ -1,35 +1,37 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
+
 html {
-  scrollbar-width: none; 
+  scrollbar-width: none;
 }
+
 html::-webkit-scrollbar {
   display: none;
 }
 
 body {
   font-family: 'IBM Plex Mono', monospace;
-    color: white;
+  color: white;
 }
 
 
-    
-.top-banner-d{
- position: relative;
- display: flex;
- align-items: center;
- justify-content: center;
- margin: 0 auto;
- padding: 5vh; 
- width: 95%;
- min-width: 320px;
- 
+
+.top-banner-d {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 5vh;
+  width: 95%;
+  min-width: 320px;
+
 }
 
-.back-link{
+.back-link {
   position: absolute;
   left: 0;
   text-decoration: none;
@@ -41,25 +43,27 @@ body {
   color: #c9b3ff;
 }
 
-main{
+main {
   display: flex;
   justify-content: center;
   min-width: 320px;
 
 }
+
 .grid {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  width: 95%; 
+  width: 95%;
 
 
 }
+
 .part-card {
   background-color: #1a1a1c;
   border-radius: 12px;
   font-size: 18px;
-  border:  #ffffff19 1px solid;
+  border: #ffffff19 1px solid;
   padding: 15px 15px;
   display: flex;
   flex: 1 1 300px;
@@ -68,14 +72,15 @@ main{
   box-shadow: 0 1px 10px #38333b00;
   transition: box-shadow 0.3s ease;
 }
+
 .isNew {
-   color: #c7afec;
+  color: #c7afec;
   font-size: 15px;
   text-shadow: 1px 1px 10px #a26aadbc;
 }
 
 .part-card:hover {
-    box-shadow: 0 1px 10px #38333B;
+  box-shadow: 0 1px 10px #38333B;
 
 }
 
@@ -116,14 +121,15 @@ main{
   transition: background-color 0.3s ease;
 }
 
-.contBtn > div {
+.contBtn>div {
   display: flex;
   flex-direction: row;
   gap: 8px;
   width: 100%;
 }
 
-.relic-btn, .wiki-btn {
+.relic-btn,
+.wiki-btn {
   flex: 1;
   padding: 8px 12px;
   box-sizing: border-box;
@@ -148,8 +154,9 @@ footer {
   min-height: 70px;
   font-size: 14px;
   color: #777;
- 
+
 }
+
 footer a {
   color: #a9adc9;
   text-decoration: none;
@@ -163,11 +170,13 @@ footer a:hover {
 .relic-name {
   transition: color 0.2s ease;
 }
+
 @media (max-width: 524px) {
-  .back-link{
+  .back-link {
     font-size: 14px;
   }
-  .top-banner-d{
+
+  .top-banner-d {
     font-size: 10px;
     justify-content: right;
   }

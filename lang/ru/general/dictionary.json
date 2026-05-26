@@ -14,7 +14,7 @@
     "information_about": "Информация о",
     "menu_current_prime_parts": "Текущие основные части",
     "menu_current_varzia_relics": "Текущая ротация Varzia",
-    "menu_actual_relics": "Актуальные реликвии"
+    "menu_actual_relics": "Текущие реликвии"
   },
 
   "footer": {
@@ -40,6 +40,28 @@
     "buy_part": "Купить часть",
     "buy_relic": "Купить реликвию",
     "source_relic": "Источник реликвии"
+  },
+  "title": {
+    "prime_details": "Части | {name}"
+  },
+  "meta": {
+    "home":
+      "Отслеживайте текущие Prime части, ротации реликвий и предложения Varzia. Получайте актуальную информацию по Warframe.",
+
+    "primes":
+      "Просматривайте полный каталог доступных Prime частей Warframe и находите компоненты для создания Prime экипировки.",
+
+    "varzia_relics":
+      "Проверяйте текущие ротации реликвий Varzia и доступные Prime награды и контент из хранилища.",
+
+    "actual_relics":
+      "Просматривайте все активные релики Warframe, включая ротации Lith, Meso, Neo и Axi.",
+
+    "prime_details":
+      "Просмотрите все части {name}, необходимые компоненты и связанную информацию о реликвиях Warframe.",
+
+    "varzia_details":
+      "Изучите награды, Prime части и информацию о дропе из реликвии {name} в Warframe."
   }
 
  

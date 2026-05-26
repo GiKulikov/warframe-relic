@@ -1,19 +1,27 @@
-import { loadPage,BASE } from '../loadPage.js';
+import { loadPage, BASE } from '../loadPage.js';
 
-const res = await fetch(`${BASE}data/frames.json`);
-const frames = await res.json();
-import { dict, loadLang, applyGeneralLang } from '../lang/lang.js';
+import { dict, loadLang, applyGeneralLang,} from '../lang/lang.js';
 export async function init() {
   applyGeneralLang(dict, document.getElementById('content'));
-
   const decodedName = sessionStorage.getItem('selectedPrime');
 
+  const [framesData, weaponsData] = await Promise.all([
+    fetch(`${BASE}data/frames.json`).then(r => r.json()),
+    fetch(`${BASE}data/weapons.json`).then(r => r.json())
+  ]);
+  function Isitem(name) {
+    const isFrame = framesData.frames?.includes(name) || framesData.sentinels?.includes(name);
+    const isWeapon = weaponsData.weapons?.includes(name);
+    if (isFrame) return `${BASE}img/frame/${name}.png`;
+    if (isWeapon) return `${BASE}img/weapon/${name}.png`;
+    return null;
+  }
 
-  const title = document.getElementById('primeTitle');
-  if (title) title.textContent = decodedName;
+
+
 
   const frameName = decodedName;
-  const frameTitle =  document.getElementById('frameTitle');
+  const frameTitle = document.getElementById('frameTitle');
 
 
 
@@ -21,9 +29,9 @@ export async function init() {
   const rawPrimes = await res.json();
 
   const currentParts = rawPrimes.current[frameName] || [];
-  const addedParts   = rawPrimes.added[frameName] || [];
+  const addedParts = rawPrimes.added[frameName] || [];
   const removedParts = rawPrimes.removed[frameName] || [];
- 
+
   const primes = {};
   Object.keys(rawPrimes.current).forEach(key => {
     primes[key] = [...(rawPrimes.current[key] || [])];
@@ -35,20 +43,20 @@ export async function init() {
       primes[key] = [...(rawPrimes.added[key] || [])];
     }
   });
-  
 
-  const warframeParts = ['Chassis', 'Neuroptics', 'Systems']; 
+
+  const warframeParts = ['Chassis', 'Neuroptics', 'Systems'];
   const allParts = primes[frameName] || [];
   const partTypes = allParts.map(part => part.item.split(' ').pop());
   const warframeCount = partTypes.filter(p => warframeParts.includes(p)).length;
-  const isWarframe = warframeCount > (partTypes.length - warframeCount); 
+  const isWarframe = warframeCount > (partTypes.length - warframeCount);
 
 
   let parts = allParts.filter(part => {
     const partName = part.item.split(' ').pop();
     return isWarframe
-      ? ['Blueprint', 'Chassis', 'Neuroptics', 'Systems'].includes(partName) 
-      : true; 
+      ? ['Blueprint', 'Chassis', 'Neuroptics', 'Systems'].includes(partName)
+      : true;
   });
 
   if (isWarframe) {
@@ -65,7 +73,7 @@ export async function init() {
   const container = document.getElementById('partsContainer');
   container.innerHTML = '';
 
-  
+
 
   parts.forEach(({ item, relic }) => {
     const card = document.createElement('div');
@@ -75,49 +83,55 @@ export async function init() {
     const relicSlug = relic.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '') + '_relic';
 
     const partDisplayName = item.replace(`${frameName} `, '');
+
+    var isNewPrime = false;
+    var isNewPart = false;
+    var isNewRelic = false;
+
+    if (currentParts.length === 0 && removedParts.length === 0) {
+      isNewPrime = true;
+    }
+    if (frameName in rawPrimes.added) {
+      const addedPart = rawPrimes.added[frameName] || [];
+      const currentPart = rawPrimes.current[frameName] || [];
+      const removedPart = rawPrimes.removed[frameName] || [];
+      const realIsNeWPart = !removedPart.some(p => p.item === item);
+
+      const isNeWparts = !currentPart.some(p => p.item === item);
+      if (isNeWparts && realIsNeWPart) {
+        isNewPart = true;
+      }
+
+      if (addedPart.some(p => p.relic === relic)) {
+
+        isNewRelic = true;
+
+      }
+
+    }
+    // Проверяем, является ли объект фреймом или оружием и языки
+
+    const isFrameEntity = framesData.frames?.includes(frameName) || framesData.sentinels?.includes(frameName);
+
+
+    const frameDict = isFrameEntity
+      ? dict.frame
+      : dict.weapon;
+
+    const translatedName =
+      frameDict.name_frame?.[frameName] ??
+      frameDict.name_weapon?.[frameName] ??
+      frameName;
+    frameTitle.textContent = translatedName;
     
-     var isNewPrime = false;
-     var isNewPart = false;
-     var isNewRelic = false;
 
-      if (currentParts.length===0 && removedParts.length===0){
-        isNewPrime = true;
-      }
-      if(frameName in rawPrimes.added){
-        const addedPart = rawPrimes.added[frameName] || [];
-        const currentPart = rawPrimes.current[frameName] || [];
-        const removedPart = rawPrimes.removed[frameName] || [];
-        const realIsNeWPart= !removedPart.some(p => p.item === item);
-        
-        const isNeWparts= !currentPart.some(p => p.item === item);
-        if(isNeWparts && realIsNeWPart){
-          isNewPart = true;
-        }
-       
-        if(addedPart.some(p => p.relic === relic)){
-          
-          isNewRelic = true;
 
-        }
-        
-      }
-      // Проверяем, является ли объект фреймом или оружием и языки
-      const isWarframe = frames.frames.includes(frameName);
+    const displayNamePart =
+      frameDict.name_frame_parts?.[partDisplayName] ??
+      frameDict.name_weapon_parts?.[partDisplayName] ??
+      partDisplayName;
 
-      const frameDict = isWarframe
-        ? dict.frame
-        : dict.weapon;
 
-      frameTitle.textContent =
-        frameDict.name_frame?.[frameName] ??
-        frameDict.name_weapon?.[frameName] ??
-        frameName;
-
-      const displayNamePart =
-        frameDict.name_frame_parts?.[partDisplayName] ??
-        frameDict.name_weapon_parts?.[partDisplayName] ??
-        partDisplayName;
-        
     card.innerHTML = `
       <div>
       <span class="frame-name"> ${displayNamePart}</span>
@@ -161,7 +175,7 @@ export async function init() {
     card.querySelector('.wiki-btn').addEventListener('mouseenter', () => {
       relicEl.style.color = '#aa62ecff';
     });
-     card.querySelector('.wiki-btn').addEventListener('mouseleave', () => {
+    card.querySelector('.wiki-btn').addEventListener('mouseleave', () => {
       relicEl.style.color = '';
     });
 

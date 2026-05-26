@@ -37,9 +37,31 @@ export function applyGeneralLang(dict, container = document) {
     const value = key.split('.').reduce((o, k) => o?.[k], dict);
     if (value) el.textContent = value;
   });
-    container.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+  container.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
     const key = el.dataset.i18nPlaceholder;
     const value = key.split('.').reduce((o, k) => o?.[k], dict);
     if (value) el.placeholder = value;
   });
+}
+export function t(key, params = {}) {
+
+    let value = key
+      .split('.')
+      .reduce((o,k)=>o?.[k], dict);
+
+    if (!value)
+      return key;
+
+    for(const [name,val]
+      of Object.entries(params)){
+
+        value =
+        value.replaceAll(
+            `{${name}}`,
+            val
+        );
+
+    }
+
+    return value;
 }

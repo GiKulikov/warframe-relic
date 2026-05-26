@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -15,14 +14,16 @@ body {
   background-color: #000000ef;
 }
 
-option{
+option {
   background-color: #2d2c33;
- 
+
 }
-.top-bar{
-    position: fixed;
+
+.top-bar {
+  position: fixed;
 }
- .typelang{
+
+.typelang {
   color: #ffffff;
   background-color: transparent;
   padding: 3px;
@@ -30,7 +31,8 @@ option{
   border: none;
 
 }
-footer{
+
+footer {
   text-align: center;
   position: relative;
   display: flex;
@@ -41,6 +43,7 @@ footer{
   font-size: 14px;
   color: #777;
 }
+
 footer a {
   color: #a9adc9;
   text-decoration: none;
@@ -56,20 +59,21 @@ footer a:hover {
   top: 60px;
   width: 100%;
   border: none;
-   
+
 }
 
-.logo{
+.logo {
   user-select: none;
   position: relative;
   color: #fff;
-  
+
   font-size: 38px;
   font-weight: bold;
   font-family: "Crimson Text", serif;
 
 }
-.header-blur{
+
+.header-blur {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -81,7 +85,8 @@ footer a:hover {
   z-index: -1;
 
 }
-header{
+
+header {
 
   z-index: 1000;
   min-height: 70px;
@@ -90,7 +95,7 @@ header{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
+
 }
 
 nav {
@@ -110,12 +115,12 @@ nav a {
 }
 
 nav .combobox-toggle,
-nav .linkHome{
+nav .linkHome {
   font-size: 16px;
   color: #fff;
-  padding:  8px;
+  padding: 8px;
   margin: 2px;
-  
+
 
 
 }
@@ -193,16 +198,16 @@ nav .linkHome{
 }
 
 @media (max-width: 414px) {
-  .logo{
+  .logo {
     font-size: 28px;
   }
+
   nav .combobox-toggle,
-  nav .linkHome{
+  nav .linkHome {
     font-size: 14px;
   }
-  header{
+
+  header {
     padding: 2%;
   }
 }
-
-

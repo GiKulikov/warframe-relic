@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function syncComboboxWithHash() {
     const hash = location.hash;
-  
+
 
     if (hash.includes('path_prime')) {
       toggleBtn.innerHTML =
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       toggleBtn.innerHTML =
         `${dict.general.navigation.menu_actual_relics} <span class="arrow">▼</span>`;
     }
-    else  {
+    else {
       resetCombobox();
     }
   }
@@ -83,11 +83,27 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   /* ========= LANGUAGE CHANGE ========= */
+ async function rerenderApp() {
 
-  langSelect.addEventListener('change', () => {
-    sessionStorage.setItem('lang', langSelect.value);
-    location.reload();
-  });
+  syncComboboxWithHash();
+
+  await loadFromHash();
+
+  applyGeneralLang(dict, document);
+
+}
+
+ langSelect.addEventListener('change', async () => {
+
+  const lang = langSelect.value;
+
+  sessionStorage.setItem('lang', lang);
+
+  await loadLang(lang);
+
+  await rerenderApp();
+
+});
 
   /* ========= ROUTER ========= */
 

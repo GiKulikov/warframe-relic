@@ -1,33 +1,35 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
+
 html {
-  scrollbar-width: none; 
+  scrollbar-width: none;
 }
+
 html::-webkit-scrollbar {
   display: none;
 }
 
 body {
   font-family: 'IBM Plex Mono', monospace;
-    color: white;
+  color: white;
 }
 
-.top-banner{
- position: relative;
- display: flex;
- align-items: center;
- justify-content: center;
- margin: 0 auto;
- padding: 5vh; 
- width: 95%;
- min-width: 320px;
+.top-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 5vh;
+  width: 95%;
+  min-width: 320px;
 
 }
 
-.back-link{
+.back-link {
   position: absolute;
   left: 0;
   text-decoration: none;
@@ -41,17 +43,18 @@ body {
   color: #c9b3ff;
 }
 
-main{
+main {
   display: flex;
   justify-content: center;
   min-width: 320px;
 
 }
+
 .grid {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  width: 95%; 
+  width: 95%;
 
 }
 
@@ -59,18 +62,18 @@ main{
   background-color: #1a1a1c;
   border-radius: 12px;
   font-size: 18px;
-  border:  #ffffff19 1px solid;
+  border: #ffffff19 1px solid;
   padding: 15px 15px;
   display: flex;
   flex: 1 1 300px;
   flex-direction: column;
   justify-content: space-between;
- box-shadow: 0 1px 10px #38333b00;
+  box-shadow: 0 1px 10px #38333b00;
   transition: box-shadow 0.3s ease;
 }
 
 .part-card:hover {
-    box-shadow: 0 1px 10px #38333B;
+  box-shadow: 0 1px 10px #38333B;
 
 
 }
@@ -90,7 +93,7 @@ main{
   background-color: #514a6d;
 }
 
-.part-card > *:not(button) {
+.part-card>*:not(button) {
   margin-top: 0;
 }
 
@@ -99,11 +102,13 @@ main{
 .relic-name {
   transition: color 0.2s ease;
 }
+
 @media (max-width: 524px) {
-  .back-link{
+  .back-link {
     font-size: 14px;
   }
-  .top-banner{
+
+  .top-banner {
     font-size: 10px;
     justify-content: right;
   }

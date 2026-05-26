@@ -72,8 +72,8 @@ jobs:
         if: steps.should_update.outputs.update_needed == 'true'
         run: |
           node updatingData/update_data.js
-          node updatingData/prime_img_frame.js
-          node updatingData/prime_img_weapon.js
+          node updatingData/separation_Frame_Weapon.js
+          node updatingData/update_Img.js
 
       - name: Commit changes
         if: steps.should_update.outputs.update_needed == 'true'
