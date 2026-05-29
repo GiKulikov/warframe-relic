@@ -1,7 +1,6 @@
 let currentPage = null;
 let currentCss = null;
-import { currentLang, dict, loadLang, applyGeneralLang } from '../lang/lang.js';
-import { t } from "./lang/lang.js";
+import { currentLang, dict, loadLang, applyGeneralLang, t } from './lang/lang.js';
 export const BASE = location.hostname.endsWith('github.io')
   ? '/' + location.pathname.split('/')[1] + '/'
   : '/';
