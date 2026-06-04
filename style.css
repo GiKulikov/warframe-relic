@@ -197,17 +197,18 @@ nav .linkHome {
   transition: background-color 0.4s ease;
 }
 
-@media (max-width: 414px) {
+@media (max-width: 500px) {
   .logo {
-    font-size: 28px;
+    font-size: 48px;
+    text-align: center;
   }
+  
 
-  nav .combobox-toggle,
-  nav .linkHome {
-    font-size: 14px;
-  }
+  
 
   header {
     padding: 2%;
+  justify-content: space-around;
+
   }
 }

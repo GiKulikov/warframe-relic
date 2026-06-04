@@ -3,6 +3,19 @@ import { loadPage, BASE } from './loadPage.js';
 import { dict, loadLang, applyGeneralLang } from './lang/lang.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+ const logo = document.getElementById('logo');
+
+function updateLogo() {
+    if (window.innerWidth <= 500) {
+        logo.textContent = 'W';
+    } else {
+        logo.textContent = 'Warframe';
+    }
+}
+
+updateLogo();
+
+window.addEventListener('resize', updateLogo);
 
 
   const combobox = document.querySelector('.combobox');
