@@ -783,6 +783,13 @@
       }
     ]
   },
-  "added": {},
+  "added": {
+    "Sevagoth Prime": [
+      {
+        "item": "Sevagoth Prime Neuroptics Blueprint",
+        "relic": "Meso L4"
+      }
+    ]
+  },
   "removed": {}
 }
