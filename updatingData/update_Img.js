@@ -34,6 +34,7 @@ async function getImageUrl(pageName) {
   try {
     const noSpaces = pageName.replace(/\s+/g, '');
     const withUnderscores = pageName.replace(/\s+/g, '_');
+    const nameParts = pageName.toLowerCase().split(' ');
 
     // Стратегия 1: прямой поиск файла
     const candidates = [
@@ -41,6 +42,10 @@ async function getImageUrl(pageName) {
       `File:${withUnderscores}.png`,
       `File:${noSpaces}ProfilePic.png`,
       `File:${withUnderscores}ProfilePic.png`,
+      `File:${noSpaces}_Thumb.png`,
+      `File:${withUnderscores}_Thumb.png`,
+      `File:${noSpaces}Icon272.png`,
+      `File:${withUnderscores}Icon272.png`,
     ];
 
     const titlesParam = candidates.join('|');
@@ -49,8 +54,14 @@ async function getImageUrl(pageName) {
     const filePages = infoRes.data.query.pages;
 
     for (const p of Object.values(filePages)) {
-      if (p.imageinfo?.[0]?.thumburl) return p.imageinfo[0].thumburl;
-      if (p.imageinfo?.[0]?.url) return p.imageinfo[0].url;
+      if (p.imageinfo?.[0]?.thumburl) {
+        console.log(`    Direct file found: ${p.title}`);
+        return p.imageinfo[0].thumburl;
+      }
+      if (p.imageinfo?.[0]?.url) {
+        console.log(`    Direct file found: ${p.title}`);
+        return p.imageinfo[0].url;
+      }
     }
 
     // Стратегия 2: ищем страницу, если не найдена — пробуем без "Prime"
@@ -60,7 +71,7 @@ async function getImageUrl(pageName) {
     }
 
     for (const pageTitle of pagesToTry) {
-      const pageUrl = `${WIKI_API}?action=query&titles=${encodeURIComponent(pageTitle)}&prop=images&imlimit=20&redirects=1&format=json`;
+      const pageUrl = `${WIKI_API}?action=query&titles=${encodeURIComponent(pageTitle)}&prop=images&imlimit=100&redirects=1&format=json`;
       const pageRes = await axiosInstance.get(pageUrl);
       const pages = pageRes.data.query.pages;
       const page = Object.values(pages)[0];
@@ -69,19 +80,55 @@ async function getImageUrl(pageName) {
 
       if (!page.images?.length) continue;
 
-      const nameParts = pageName.toLowerCase().split(' ');
       const pngFiles = page.images
         .map(img => img.title)
         .filter(t => t.toLowerCase().endsWith('.png'));
 
+      console.log(`    Found ${pngFiles.length} PNG files on page "${pageTitle}"`);
+
+      // Фильтруем только файлы, которые содержат части названия фрейма
+      const relevantFiles = pngFiles.filter(f => {
+        const lower = f.toLowerCase();
+        return nameParts.some(part => lower.includes(part));
+      });
+
+      console.log(`    Relevant files:`, relevantFiles);
+
       const best =
-        pngFiles.find(f => nameParts.every(part => f.toLowerCase().includes(part))) ||
-        pngFiles.find(f => f.toLowerCase().includes(nameParts[0])) ||
-        pngFiles[0];
+        // 1. Ищем Thumb-версию со всеми частями
+        relevantFiles.find(f => {
+          const lower = f.toLowerCase();
+          return lower.includes('thumb') && nameParts.every(part => lower.includes(part));
+        }) ||
+        // 2. Ищем файл со всеми частями названия
+        relevantFiles.find(f => {
+          const lower = f.toLowerCase();
+          return nameParts.every(part => lower.includes(part));
+        }) ||
+        // 3. Ищем Thumb-версию первого слова
+        relevantFiles.find(f => {
+          const lower = f.toLowerCase();
+          return lower.includes(nameParts[0]) && lower.includes('thumb');
+        }) ||
+        // 4. Файл с первым словом
+        relevantFiles.find(f => f.toLowerCase().includes(nameParts[0])) ||
+        // 5. Любой релевантный файл
+        relevantFiles[0];
 
-      if (!best) continue;
+      if (best) {
+        console.log(`    Selected: ${best}`);
+      } else {
+        console.log(`    No relevant files found, trying first PNG...`);
+        // Если релевантных нет, берем первый PNG
+        if (pngFiles.length > 0) {
+          console.log(`    Selected: ${pngFiles[0]}`);
+        }
+      }
 
-      const bestInfoUrl = `${WIKI_API}?action=query&titles=${encodeURIComponent(best)}&prop=imageinfo&iiprop=url&iiurlwidth=500&format=json`;
+      if (!best && pngFiles.length === 0) continue;
+
+      const fileToUse = best || pngFiles[0];
+      const bestInfoUrl = `${WIKI_API}?action=query&titles=${encodeURIComponent(fileToUse)}&prop=imageinfo&iiprop=url&iiurlwidth=500&format=json`;
       const bestRes = await axiosInstance.get(bestInfoUrl);
       const bestPages = bestRes.data.query.pages;
       const bestPage = Object.values(bestPages)[0];

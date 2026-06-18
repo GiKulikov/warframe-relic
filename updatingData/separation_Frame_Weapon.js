@@ -37,28 +37,47 @@ function separateItems() {
   const primesData = readJSON(PRIMES_FILE);
   const eventRelicData = readJSON(EVENT_RELIC_FILE);
 
+  // Собери все parts каждого предмета из ВСЕХ источников
+  const allItemsParts = {};
+
+  // Обработай current
+  Object.entries(primesData.current || {}).forEach(([name, items]) => {
+    if (Array.isArray(items)) {
+      if (!allItemsParts[name]) allItemsParts[name] = [];
+      allItemsParts[name].push(...items);
+    }
+  });
+
+  // Обработай added
+  Object.entries(primesData.added || {}).forEach(([name, items]) => {
+    if (Array.isArray(items)) {
+      if (!allItemsParts[name]) allItemsParts[name] = [];
+      allItemsParts[name].push(...items);
+    }
+  });
+
+  // Обработай eventRelic
+  Object.entries(eventRelicData).forEach(([name, items]) => {
+    if (name === 'status' || name === 'varziaPeriod' || !Array.isArray(items)) return;
+    if (!allItemsParts[name]) allItemsParts[name] = [];
+    allItemsParts[name].push(...items);
+  });
+
+  // Теперь классифицируй каждый предмет один раз, используя ВСЕ его parts
   const frames = new Set();
   const sentinels = new Set();
   const weapons = new Set();
 
-  [primesData.current || {}, eventRelicData].forEach(dataSource => {
-    Object.entries(dataSource).forEach(([name, items]) => {
-      if (name === 'status' || name === 'varziaPeriod') return;
-      if (!Array.isArray(items)) return;
+  Object.entries(allItemsParts).forEach(([name, items]) => {
+    const partCount = countFrameParts(items);
 
-      const partCount = countFrameParts(items);
-
-      if (partCount >= 3) {
-        // 3 или 4 уникальных части — это фрейм
-        frames.add(name);
-      } else if (partCount === 2) {
-        // Ровно 2 уникальных части — это сентинель
-        sentinels.add(name);
-      } else {
-        // 0 или 1 часть — оружие
-        weapons.add(name);
-      }
-    });
+    if (partCount >= 3) {
+      frames.add(name);
+    } else if (partCount === 2) {
+      sentinels.add(name);
+    } else {
+      weapons.add(name);
+    }
   });
 
   const existingFrames = readJSON(FRAMES_OUTPUT);
