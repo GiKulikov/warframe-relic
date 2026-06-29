@@ -36,8 +36,11 @@ jobs:
       - name: Restore
         run: dotnet restore --locked-mode
 
-      - name: Run updater (Release)
-        run: dotnet run -c Release --no-build
+      - name: Publish
+        run: dotnet publish -c Release -o out
+
+      - name: Run updater
+        run: dotnet out/warframeInfo.dll
 
       - name: Commit changes
         run: |
