@@ -30,13 +30,13 @@ namespace updateImg
 
     static class StoragePath
     {
-        public static readonly string PrimesFile = "./data/primes.json";
-        public static readonly string EventRelicFile = "./data/varziaRelic.json";
-        public static readonly string FramesOutput = "./data/frames.json";
-        public static readonly string WeaponsOutput = "./data/weapons.json";
+        public static readonly string PrimesFile = "../data/primes.json";
+        public static readonly string EventRelicFile = "../data/varziaRelic.json";
+        public static readonly string FramesOutput = "../data/frames.json";
+        public static readonly string WeaponsOutput = "../data/weapons.json";
         public static readonly string pathFrameImg = "./img/frame";
-        public static readonly string pathSentinelsImg = "./img/frame";
-        public static readonly string pathWeaponsImg = "./img/weapon";
+        public static readonly string pathSentinelsImg = ".,/img/frame";
+        public static readonly string pathWeaponsImg = "../img/weapon";
 
         
 

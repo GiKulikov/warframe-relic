@@ -10,7 +10,6 @@ var services = new ServiceCollection()
     .AddSingleton<SemanticGroupsService>()
     .AddSingleton<JsonDataBuilder>()
     .AddSingleton<JsonStorageService>()
-    .AddSingleton<DateService>()
 
     .AddSingleton<DataJson>()
     .AddSingleton<HttpService>()
@@ -20,10 +19,12 @@ var services = new ServiceCollection()
     .AddSingleton<WriteJsonDownloadImg>()
     .BuildServiceProvider();
 
+Console.WriteLine($"CurrentDirectory = {Environment.CurrentDirectory}");
+
 var jsonStorage = services.GetRequiredService<JsonStorageService>();
 var dataRelics = services.GetRequiredService<DataRelic>();
 var jsonDataBuilder = services.GetRequiredService<JsonDataBuilder>();
-var dateService = services.GetRequiredService<DateService>();
+var dateService = new DateService();
 var writeJsonDownloadImg = services.GetRequiredService<WriteJsonDownloadImg>();
 
 var date = await dateService.ReadingDateMain();
@@ -31,7 +32,7 @@ var updateVarzia = await dateService.ReadingDateVarzia();
 
 
 
-if (DateTime.UtcNow > updateVarzia)
+if (DateTime.Now > updateVarzia)
 {
     Console.WriteLine("Обновление варзии");
     await jsonStorage.Update(JsonStorageService.UpdateTarget.Varzia);
@@ -47,9 +48,8 @@ else
 }
 
 
-Console.WriteLine("проверка на обновление");
 
-if (DateTime.UtcNow.Date >= date)
+if (DateTime.Now.Date >= date)
 {
     await dateService.RecordDate();
 
@@ -57,7 +57,7 @@ if (DateTime.UtcNow.Date >= date)
     jsonDataBuilder.UpdateRelicsJson();
 
 
-    if (jsonDataBuilder._NewRelic == null || jsonDataBuilder._NewRelic.Count == 0)
+    if (jsonDataBuilder._NewRelic ==null ||jsonDataBuilder._NewRelic.Count == 0)
     {
         Console.WriteLine("Нет новых реликвий");
         await jsonDataBuilder.UpdatingStatusRelic();

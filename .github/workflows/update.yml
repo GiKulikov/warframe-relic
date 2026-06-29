@@ -40,7 +40,7 @@ jobs:
         run: dotnet publish -c Release -o out
 
       - name: Run updater
-        run: dotnet out/warframeInfo.dll
+        run: dotnet out/updatingData.dll
 
       - name: Commit changes
         run: |

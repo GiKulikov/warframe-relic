@@ -18,10 +18,10 @@ namespace updatingDataRelic
         public static readonly string varziaDateUrl =
         "https://api.warframestat.us/pc/vaultTrader";
 
-        public static readonly string primesJson = "./data/primes.json";
-        public static readonly string relicsJson = "./data/relics.json";
-        public static readonly string varziaJson = "./data/varziaRelic.json";
-        public static readonly string dateJson = "./data/last_update.json";
+        public static readonly string primesJson = "../data/primes.json";
+        public static readonly string relicsJson = "../data/relics.json";
+        public static readonly string varziaJson = "../data/varziaRelic.json";
+        public static readonly string dateJson = "../data/last_update.json";
 
 
 
@@ -119,7 +119,8 @@ namespace updatingDataRelic
                 }
             }
             Console.WriteLine($"Найдено реликвий: {_relicState.currentRelics.Count}");
-            
+            foreach (var r in _relicState.currentRelics.OrderBy(r => r))
+                Console.WriteLine(r);
 
         }
 
@@ -162,7 +163,10 @@ namespace updatingDataRelic
 
             Console.WriteLine($"Найдено: {_relicState.varziaRelics.Count}");
 
-            
+            foreach (string relic in _relicState.varziaRelics.OrderBy(x => x))
+            {
+                Console.WriteLine(relic);
+            }
         }
 
     }
