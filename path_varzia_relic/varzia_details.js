@@ -20,7 +20,7 @@ export async function init() {
 
   document.getElementById('frameTitle').innerText = decodedName;
 
-  const res = await fetch(`${BASE}data/eventRelic.json`);
+  const res = await fetch(`${BASE}data/varziaRelic.json`);
   const primes = await res.json();
 
   const parts = primes[decodedName] || [];

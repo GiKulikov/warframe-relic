@@ -1,212 +1,39 @@
 {
   "current": [
-    {
-      "name": "Lith C7",
-      "tier": "Lith"
-    },
-    {
-      "name": "Lith G14",
-      "tier": "Lith"
-    },
-    {
-      "name": "Lith K12",
-      "tier": "Lith"
-    },
-    {
-      "name": "Meso N11",
-      "tier": "Meso"
-    },
-    {
-      "name": "Meso V13",
-      "tier": "Meso"
-    },
-    {
-      "name": "Meso X1",
-      "tier": "Meso"
-    },
-    {
-      "name": "Neo C7",
-      "tier": "Neo"
-    },
-    {
-      "name": "Neo V9",
-      "tier": "Neo"
-    },
-    {
-      "name": "Axi S8",
-      "tier": "Axi"
-    },
-    {
-      "name": "Axi T13",
-      "tier": "Axi"
-    },
-    {
-      "name": "Axi V10",
-      "tier": "Axi"
-    },
-    {
-      "name": "Meso D8",
-      "tier": "Meso"
-    },
-    {
-      "name": "Meso V15",
-      "tier": "Meso"
-    },
-    {
-      "name": "Neo V11",
-      "tier": "Neo"
-    },
-    {
-      "name": "Axi D6",
-      "tier": "Axi"
-    },
-    {
-      "name": "Axi S20",
-      "tier": "Axi"
-    },
-    {
-      "name": "Axi V14",
-      "tier": "Axi"
-    }
+    "Lith Q3",
+    "Lith A12",
+    "Lith K12",
+    "Lith T14",
+    "Lith G14",
+    "Lith S18",
+    "Lith V11",
+    "Meso D8",
+    "Meso X1",
+    "Meso A12",
+    "Meso V13",
+    "Meso Y2",
+    "Meso V15",
+    "Meso K8",
+    "Meso L5",
+    "Lith C7",
+    "Meso N11",
+    "Neo C7",
+    "Neo A16",
+    "Neo T11",
+    "Neo C8",
+    "Neo Y1",
+    "Axi S20",
+    "Axi D6",
+    "Axi V14",
+    "Axi V10",
+    "Neo V9",
+    "Neo V12",
+    "Axi P10",
+    "Axi A22",
+    "Axi S8",
+    "Axi T13",
+    "Axi A21",
+    "Neo C9"
   ],
-  "added": [
-    {
-      "name": "Lith A12",
-      "tier": "Lith"
-    },
-    {
-      "name": "Lith Q3",
-      "tier": "Lith"
-    },
-    {
-      "name": "Lith S18",
-      "tier": "Lith"
-    },
-    {
-      "name": "Lith T14",
-      "tier": "Lith"
-    },
-    {
-      "name": "Lith V11",
-      "tier": "Lith"
-    },
-    {
-      "name": "Meso A12",
-      "tier": "Meso"
-    },
-    {
-      "name": "Meso K8",
-      "tier": "Meso"
-    },
-    {
-      "name": "Meso L5",
-      "tier": "Meso"
-    },
-    {
-      "name": "Meso Y2",
-      "tier": "Meso"
-    },
-    {
-      "name": "Neo A16",
-      "tier": "Neo"
-    },
-    {
-      "name": "Neo C8",
-      "tier": "Neo"
-    },
-    {
-      "name": "Neo C9",
-      "tier": "Neo"
-    },
-    {
-      "name": "Neo T11",
-      "tier": "Neo"
-    },
-    {
-      "name": "Neo Y1",
-      "tier": "Neo"
-    },
-    {
-      "name": "Axi A21",
-      "tier": "Axi"
-    },
-    {
-      "name": "Axi A22",
-      "tier": "Axi"
-    },
-    {
-      "name": "Axi P10",
-      "tier": "Axi"
-    }
-  ],
-  "removed": [
-    {
-      "name": "Lith E2",
-      "tier": "Lith"
-    },
-    {
-      "name": "Lith N18",
-      "tier": "Lith"
-    },
-    {
-      "name": "Lith Q2",
-      "tier": "Lith"
-    },
-    {
-      "name": "Meso A9",
-      "tier": "Meso"
-    },
-    {
-      "name": "Neo K9",
-      "tier": "Neo"
-    },
-    {
-      "name": "Neo T10",
-      "tier": "Neo"
-    },
-    {
-      "name": "Axi Y1",
-      "tier": "Axi"
-    },
-    {
-      "name": "Lith C14",
-      "tier": "Lith"
-    },
-    {
-      "name": "Lith N19",
-      "tier": "Lith"
-    },
-    {
-      "name": "Meso A10",
-      "tier": "Meso"
-    },
-    {
-      "name": "Meso E7",
-      "tier": "Meso"
-    },
-    {
-      "name": "Meso L4",
-      "tier": "Meso"
-    },
-    {
-      "name": "Neo N24",
-      "tier": "Neo"
-    },
-    {
-      "name": "Neo P10",
-      "tier": "Neo"
-    },
-    {
-      "name": "Neo S20",
-      "tier": "Neo"
-    },
-    {
-      "name": "Axi C11",
-      "tier": "Axi"
-    },
-    {
-      "name": "Axi Y3",
-      "tier": "Axi"
-    }
-  ]
+  "added": []
 }

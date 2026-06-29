@@ -56,44 +56,43 @@ export async function init() {
 
   function renderRelics(filterType, newRelicNames, relicGrid) {
     if (!relicGrid) return;
-    relicGrid.innerHTML = '';
+    relicGrid.innerHTML = "";
 
-    const filteredRelics = filterType === 'all'
+    const filteredRelics = filterType === "all"
       ? uniqueRelics
-      : uniqueRelics.filter(r => r.tier === filterType);
+      : uniqueRelics.filter(r => r.split(" ")[0] === filterType);
 
     filteredRelics.forEach((relic) => {
-      if (!relic) return;
+      const tier = relic.split(" ")[0];
 
-      const item = document.createElement('div');
-      item.className = 'grid-item';
+      const item = document.createElement("div");
+      item.className = "grid-item";
       item.innerHTML = `
       <div class="description-card">
-        <label class="name-card">${relic.name}</label>
-        <label class="addition">${relic.tier} Relic</label>
-        ${newRelicNames.has(relic.name) ? '<label class="new-badge">NEW</label>' : ''}
+        <label class="name-card">${relic}</label>
+        <label class="addition">${tier} Relic</label>
+        ${newRelicNames.has(relic) ? '<label class="new-badge">NEW</label>' : ""}
       </div>
     `;
 
-      const bg = document.createElement('div');
-      bg.className = 'item-background';
-      bg.textContent = relic.name;
+      const bg = document.createElement("div");
+      bg.className = "item-background";
+      bg.textContent = relic;
 
-      const overlay = document.createElement('div');
-      overlay.className = 'item-img';
+      const overlay = document.createElement("div");
+      overlay.className = "item-img";
 
       bg.appendChild(overlay);
       item.appendChild(bg);
 
-      item.addEventListener('click', () => {
-        window.open(`https://wiki.warframe.com/w/${relic.name}`, '_blank');
+      item.addEventListener("click", () => {
+        window.open(`https://wiki.warframe.com/w/${relic}`, "_blank");
       });
 
       relicGrid.appendChild(item);
-      registerLazyCard(item, [`${BASE}img/relic/${relic.tier}.png`], PLACEHOLDER);
+
+      registerLazyCard(item, [`${BASE}img/relic/${tier}.png`], PLACEHOLDER);
     });
-
-
   }
 
   const relicGrid = document.getElementById('relicGrid');
@@ -122,18 +121,14 @@ export async function init() {
           const res = await fetch(`${BASE}data/relics.json`);
           const relicsData = await res.json();
 
-          const allRelics = [...(relicsData.added || []), ...(relicsData.current || [])];
-          const newRelicNames = new Set((relicsData.added || []).map(r => r.name));
+          const allRelics = [
+            ...(relicsData.added || []),
+            ...(relicsData.current || [])
+          ];
 
-          const usedNames = new Set();
-          uniqueRelics = allRelics.filter(r => {
-            if (!usedNames.has(r.name)) {
-              usedNames.add(r.name);
-              return true;
-            }
-            return false;
-          });
+          const newRelicNames = new Set(relicsData.added || []);
 
+          uniqueRelics = [...new Set(allRelics)];
           renderRelics('all', newRelicNames, relicGrid);
 
           if (typeFilter) {

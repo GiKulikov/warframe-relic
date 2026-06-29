@@ -5,82 +5,35 @@ permissions:
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 jobs:
   update:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          node-version: 20
-          cache: 'npm'
+          dotnet-version: "9.0.x"
+          cache: true
 
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Restore
+        run: dotnet restore
 
-      - name: Install dependencies
-        run: npm ci || npm install
-
-      - name: Check if update is needed
-        id: should_update
-        shell: bash
-        run: |
-          EVENT_FILE="data/eventRelic.json"
-          UPDATE_NEEDED="false"
-
-          PERIODS_COUNT=$(jq '.varziaPeriod | length' "$EVENT_FILE" 2>/dev/null || echo 0)
-
-          if [ ! -f "$EVENT_FILE" ] || [ "$PERIODS_COUNT" -eq 0 ]; then
-            echo "No periods → full update"
-            UPDATE_NEEDED="true"
-          else
-            NOW=$(date +%s)
-
-            while IFS= read -r period; do
-              start=$(echo "$period" | jq -r '.startDate')
-              end=$(echo "$period" | jq -r '.endDate')
-
-              [ -z "$start" ] || [ -z "$end" ] && continue
-
-              start_ts=$(date -d "$start" +%s 2>/dev/null) || continue
-              end_ts=$(date -d "$end" +%s 2>/dev/null) || continue
-
-              # start window (12h)
-              if [ $NOW -ge $start_ts ] && [ $NOW -le $((start_ts + 43200)) ]; then
-                echo "Start window detected"
-                UPDATE_NEEDED="true"
-                break
-              fi
-
-              # end window (12h)
-              if [ $NOW -ge $end_ts ] && [ $NOW -le $((end_ts + 43200)) ]; then
-                echo "End window detected"
-                UPDATE_NEEDED="true"
-                break
-              fi
-            done < <(jq -c '.varziaPeriod[]' "$EVENT_FILE")
-          fi
-
-          echo "update_needed=$UPDATE_NEEDED" >> "$GITHUB_OUTPUT"
-
-      - name: Run update scripts
-        if: steps.should_update.outputs.update_needed == 'true'
-        run: |
-          node updatingData/update_data.js
-          node updatingData/separation_Frame_Weapon.js
-          node updatingData/update_Img.js
+      - name: Run updater
+        run: dotnet run --project updatingData
 
       - name: Commit changes
-        if: steps.should_update.outputs.update_needed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add data/ img/
-          git commit -m "auto: update at period start/end" || echo "No changes"
+          git add -A
+          git diff --cached --quiet || git commit -m "auto: update relic data"
           git push

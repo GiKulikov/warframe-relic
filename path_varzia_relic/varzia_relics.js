@@ -80,7 +80,7 @@ export async function init() {
   // Загрузка данных 
   if (container) {
     try {
-      const res = await fetch(`${BASE}data/eventRelic.json`);
+      const res = await fetch(`${BASE}data/varziaRelic.json`);
       if (!res.ok) throw new Error(`${res.status}`);
       const primes = await res.json();
 
@@ -197,16 +197,16 @@ export async function init() {
   if (timerElem) {
     (async () => {
       try {
-        const response = await fetch(`${BASE}data/eventRelic.json`);
+        const response = await fetch(`${BASE}data/varziaRelic.json`);
         const data = await response.json();
 
         const varziaPeriod = data.varziaPeriod;
-        if (!Array.isArray(varziaPeriod) || varziaPeriod.length === 0) {
-          throw new Error('Invalid varziaPeriod data');
+
+        if (!varziaPeriod || !varziaPeriod.endDate) {
+          throw new Error("Invalid varziaPeriod data");
         }
 
-        const endDateStr = varziaPeriod[0].endDate;
-        const endDate = new Date(endDateStr);
+        const endDate = new Date(varziaPeriod.endDate);
 
 
 

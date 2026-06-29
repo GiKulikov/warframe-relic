@@ -87,12 +87,11 @@ export async function init() {
   const timerElem = document.getElementById('columinfo-content_varzia');
   if (timerElem) {
     try {
-      const response = await fetch(`${BASE}data/eventRelic.json`);
+      const response = await fetch(`${BASE}data/varziaRelic.json`);
       const data = await response.json();
       const varziaPeriod = data.varziaPeriod;
 
-      const endDateStr = varziaPeriod[0].endDate;
-      const endDate = new Date(endDateStr);
+      const endDate = new Date(varziaPeriod.endDate)
 
 
       function updateTimer() {
@@ -124,47 +123,64 @@ export async function init() {
   }
   else {
     // Загрузка реликвий
-    const relicGrid = document.getElementById('relicGrid');
+    const relicGrid = document.getElementById("relicGrid");
+
     if (relicGrid) {
       try {
         const res = await fetch(`${BASE}data/relics.json`);
         const relicsData = await res.json();
 
-        // Группируем реликвии по типам
-        const newByTier = (relicsData.added || []).reduce((acc, r) => {
-          acc[r.tier] = acc[r.tier] || [];
-          acc[r.tier].push(r);
-          return acc;
-        }, {});
-        const oldByTier = (relicsData.current || []).reduce((acc, r) => {
-          acc[r.tier] = acc[r.tier] || [];
-          acc[r.tier].push(r);
-          return acc;
-        }, {});
+        const groupByTier = relics =>
+          relics.reduce((acc, relic) => {
+            const tier = relic.split(" ")[0];
+            (acc[tier] ??= []).push(relic);
+            return acc;
+          }, {});
 
-        const desiredTiers = ['Lith', 'Meso', 'Neo', 'Axi'];
+        const newByTier = groupByTier(relicsData.added || []);
+        const oldByTier = groupByTier(relicsData.current || []);
+
+        const desiredTiers = ["Lith", "Meso", "Neo", "Axi"];
+
         const newRelics = desiredTiers
-          .map(tier => (newByTier[tier] || [])[Math.floor(Math.random() * (newByTier[tier] || []).length)] || null)
-          .filter(r => r);
+          .map(tier => {
+            const list = newByTier[tier] || [];
+            return list[Math.floor(Math.random() * list.length)] || null;
+          })
+          .filter(Boolean);
 
-        const usedTiers = newRelics.map(r => r.tier);
-        const remainingTiers = desiredTiers.filter(tier => !usedTiers.includes(tier));
+        const usedTiers = newRelics.map(r => r.split(" ")[0]);
+
+        const remainingTiers = desiredTiers.filter(
+          tier => !usedTiers.includes(tier)
+        );
+
         const oldRelicsByType = remainingTiers
-          .map(tier => (oldByTier[tier] || [])[Math.floor(Math.random() * (oldByTier[tier] || []).length)] || null)
-          .filter(r => r);
+          .map(tier => {
+            const list = oldByTier[tier] || [];
+            return list[Math.floor(Math.random() * list.length)] || null;
+          })
+          .filter(Boolean);
 
         let selectedRelics = [...newRelics, ...oldRelicsByType];
-        let usedNames = selectedRelics.map(r => r.name);
+        let usedNames = [...selectedRelics];
+
         let needed = 8 - selectedRelics.length;
 
         while (needed > 0) {
           for (const tier of desiredTiers) {
             if (needed <= 0) break;
-            const available = (oldByTier[tier] || []).filter(r => !usedNames.includes(r.name));
-            if (available.length > 0) {
-              const selected = available[Math.floor(Math.random() * available.length)];
-              selectedRelics.push(selected);
-              usedNames.push(selected.name);
+
+            const available = (oldByTier[tier] || []).filter(
+              relic => !usedNames.includes(relic)
+            );
+
+            if (available.length) {
+              const relic =
+                available[Math.floor(Math.random() * available.length)];
+
+              selectedRelics.push(relic);
+              usedNames.push(relic);
               needed--;
             }
           }
@@ -172,46 +188,49 @@ export async function init() {
 
         selectedRelics = selectedRelics.slice(0, 8);
 
-        relicGrid.innerHTML = '';
+        relicGrid.innerHTML = "";
 
         selectedRelics.forEach((relic, i) => {
-          if (!relic) return;
-          const item = document.createElement('div');
-          item.className = 'grid-item';
+          const tier = relic.split(" ")[0];
+
+          const item = document.createElement("div");
+          item.className = "grid-item";
+
           item.innerHTML = `
         <div class="description-card">
-        ${i < newRelics.length ? '<label class="new-badge">NEW</label>' : ''}
-          <label class="name-card">${relic.name}</label>
-          <label class="addition">${relic.tier} Relic</label>
-          
+          ${i < newRelics.length ? '<label class="new-badge">NEW</label>' : ""}
+          <label class="name-card">${relic}</label>
+          <label class="addition">${tier} Relic</label>
         </div>
       `;
-          if (i < newRelics.length) item.classList.add('new');
-          item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
 
-          const bg = document.createElement('div');
-          bg.className = 'item-background';
-          bg.textContent = relic.name;
+          if (i < newRelics.length)
+            item.classList.add("new");
 
+          item.style.setProperty("--span", i % 3 === 0 ? 25 : 20);
 
-          const overlay = document.createElement('div');
-          overlay.className = 'item-img';
+          const bg = document.createElement("div");
+          bg.className = "item-background";
+          bg.textContent = relic;
 
-
+          const overlay = document.createElement("div");
+          overlay.className = "item-img";
 
           bg.appendChild(overlay);
           item.appendChild(bg);
 
-          item.addEventListener('click', () => {
-            window.open(`https://wiki.warframe.com/w/${relic.name}`, '_blank');
+          item.addEventListener("click", () => {
+            window.open(`https://wiki.warframe.com/w/${relic}`, "_blank");
           });
 
           relicGrid.appendChild(item);
 
-          registerLazyCard(item, [`${BASE}img/relic/${relic.tier}.png`], PLACEHOLDER);
+          registerLazyCard(
+            item,
+            [`${BASE}img/relic/${tier}.png`],
+            PLACEHOLDER
+          );
         });
-
-
       } catch (err) {
         console.error(err);
       }
@@ -344,7 +363,7 @@ export async function init() {
   const varziaGrid = document.getElementById('relicGrid3');
   if (varziaGrid) {
     try {
-      const res = await fetch(`${BASE}data/eventRelic.json`);
+      const res = await fetch(`${BASE}data/varziaRelic.json`);
       const events = await res.json();
 
       if (events.status === 'NotUpdated') {
