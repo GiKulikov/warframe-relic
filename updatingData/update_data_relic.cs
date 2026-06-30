@@ -368,6 +368,7 @@ namespace updatingDataRelic
             return newRelic.SetEquals(lastRelic);
         }
 
+        
     }
     //сравнивание 
     class JsonDataBuilder
@@ -427,15 +428,15 @@ namespace updatingDataRelic
             var jsonReadRelic = await File.ReadAllTextAsync(_relicsJson);
             if (jsonReadRelic == null) return;
             var parseRelic = JsonNode.Parse(jsonReadRelic);
-            
+
 
             var added = parseRelic?["added"]?.AsArray().Select(x => x?.GetValue<string>()).ToList();
             var current = parseRelic?["current"]?.AsArray().Select(x => x?.GetValue<string>()).ToList();
 
-            
+
             var dict = new Dictionary<string, List<string>>
             {
-                ["current"] =(current?? []).Concat(added?? []).ToList()!,
+                ["current"] = (current ?? []).Concat(added ?? []).ToList()!,
                 ["added"] = new List<string>()
             };
 
@@ -528,7 +529,7 @@ namespace updatingDataRelic
             var group = await _semanticGroup.GetRelicDescription(_relicState.varziaRelics);
             var status = await _varziaService.GetStatus();
 
-            result["status"] = status ? "Update" : "NotUpdate";
+            result["status"] = status ? "Update" : "NotUpdated";
             result["varziaPeriod"] = await _varziaService.GetDate();
             foreach (var item in group)
             {
@@ -577,6 +578,7 @@ namespace updatingDataRelic
             };
 
         }
+
     }
     //проверка даты
     class DateService
@@ -586,7 +588,7 @@ namespace updatingDataRelic
         JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
 
 
-         public async Task RecordDate()
+        public async Task RecordDate()
         {
             var result = new Dictionary<string, object>();
 
@@ -632,7 +634,15 @@ namespace updatingDataRelic
         {
             _jsonDataBuilder = jsonDataBuilder;
         }
+        public async Task RecordStatusVarzia()
+        {
+            var json = await File.ReadAllTextAsync(_varziaJson);
+            var node = JsonNode.Parse(json);
+        
+            node!["status"] = "NotUpdated";
+             await File.WriteAllTextAsync(_varziaJson, JsonSerializer.Serialize(node, options));
 
+        }
         public async Task RecordRelicJson()
         {
             var result = _jsonDataBuilder.UpdateRelicsJson();
@@ -648,7 +658,7 @@ namespace updatingDataRelic
             var result = await _jsonDataBuilder.UpdateVarziaJson();
             await File.WriteAllTextAsync(_varziaJson, JsonSerializer.Serialize(result, options));
         }
-       
+
 
 
         public enum UpdateTarget

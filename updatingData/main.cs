@@ -26,6 +26,7 @@ var dataRelics = services.GetRequiredService<DataRelic>();
 var jsonDataBuilder = services.GetRequiredService<JsonDataBuilder>();
 var dateService = new DateService();
 var writeJsonDownloadImg = services.GetRequiredService<WriteJsonDownloadImg>();
+var varziaService = services.GetRequiredService<VarziaService>();
 
 var date = await dateService.ReadingDateMain();
 var updateVarzia = await dateService.ReadingDateVarzia();
@@ -34,9 +35,19 @@ var updateVarzia = await dateService.ReadingDateVarzia();
 
 if (DateTime.Now > updateVarzia)
 {
-    Console.WriteLine("Обновление варзии");
-    await jsonStorage.Update(JsonStorageService.UpdateTarget.Varzia);
-    await writeJsonDownloadImg.Run();
+    Console.WriteLine("Проверка наличия обновлений реликвий");
+
+    bool statusVarzia = await varziaService.GetStatus();
+    if (statusVarzia)
+    {
+        Console.WriteLine("Обновление варзии");
+        await jsonStorage.Update(JsonStorageService.UpdateTarget.Varzia);
+        await writeJsonDownloadImg.Run();
+    }
+    await jsonStorage.RecordStatusVarzia();
+    Console.WriteLine("нет обновления");
+
+
 
 
 }
@@ -57,7 +68,7 @@ if (DateTime.Now.Date >= date)
     jsonDataBuilder.UpdateRelicsJson();
 
 
-    if (jsonDataBuilder._NewRelic ==null ||jsonDataBuilder._NewRelic.Count == 0)
+    if (jsonDataBuilder._NewRelic == null || jsonDataBuilder._NewRelic.Count == 0)
     {
         Console.WriteLine("Нет новых реликвий");
         await jsonDataBuilder.UpdatingStatusRelic();
