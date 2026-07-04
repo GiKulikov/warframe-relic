@@ -31,15 +31,16 @@ Provides preview sections from all categories:
 - Russian
 
 ## Data Sources
-- Warframe Wiki (public data)
-- Warframe Market (pricing and item data)
+- Warframe Wiki 
+- Warframe Market
+- Warframe Droptables
 
 
 ## Technologies
 - HTML
 - CSS
 - JavaScript
-- Node.js
+- C#
 
 ## Disclaimer
 Warframe Relic is an unofficial fan-made project created for informational purposes and player convenience.
