@@ -365,7 +365,7 @@ namespace updatingDataRelic
 
             }
 
-            return newRelic.SetEquals(lastRelic);
+            return !newRelic.SetEquals(lastRelic);
         }
 
         
@@ -524,7 +524,6 @@ namespace updatingDataRelic
         }
         public async Task<Dictionary<string, object>> UpdateVarziaJson()
         {
-            await _dataRelic.GetVarziaRelics();
             var result = new Dictionary<string, object>();
             var group = await _semanticGroup.GetRelicDescription(_relicState.varziaRelics);
             var status = await _varziaService.GetStatus();

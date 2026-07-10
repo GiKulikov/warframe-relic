@@ -35,7 +35,7 @@ namespace updateImg
         public static readonly string FramesOutput = "../data/frames.json";
         public static readonly string WeaponsOutput = "../data/weapons.json";
         public static readonly string pathFrameImg = "./img/frame";
-        public static readonly string pathSentinelsImg = ".,/img/frame";
+        public static readonly string pathSentinelsImg = "../img/frame";
         public static readonly string pathWeaponsImg = "../img/weapon";
 
         

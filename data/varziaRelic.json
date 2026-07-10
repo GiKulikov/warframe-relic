@@ -1,157 +1,167 @@
 {
   "status": "Updated",
   "varziaPeriod": {
-    "startDate": "2026-06-11T18:00:00.000Z",
-    "endDate": "2026-07-09T18:00:00.000Z"
+    "startDate": "2026-07-09T18:00:00.000Z",
+    "endDate": "2026-08-06T18:00:00.000Z"
   },
-  "Tipedo Prime": [
+  "Corinth Prime": [
     {
-      "item": "Tipedo Prime Handle",
-      "relic": "Axi T9"
+      "item": "Corinth Prime Stock",
+      "relic": "Axi C8"
     },
     {
-      "item": "Tipedo Prime Ornament",
-      "relic": "Lith N13"
+      "item": "Corinth Prime Receiver",
+      "relic": "Lith G11"
     },
     {
-      "item": "Tipedo Prime Blueprint",
-      "relic": "Meso W2"
+      "item": "Corinth Prime Blueprint",
+      "relic": "Meso A6"
+    },
+    {
+      "item": "Corinth Prime Barrel",
+      "relic": "Meso C10"
     }
   ],
-  "Equinox Prime": [
+  "Pangolin Prime": [
     {
-      "item": "Equinox Prime Neuroptics Blueprint",
-      "relic": "Axi T9"
+      "item": "Pangolin Prime Blade",
+      "relic": "Axi C8"
     },
     {
-      "item": "Equinox Prime Blueprint",
-      "relic": "Lith S13"
+      "item": "Pangolin Prime Handle",
+      "relic": "Axi V11"
     },
     {
-      "item": "Equinox Prime Systems Blueprint",
-      "relic": "Neo E3"
-    },
-    {
-      "item": "Equinox Prime Chassis Blueprint",
-      "relic": "Neo Z9"
+      "item": "Pangolin Prime Blueprint",
+      "relic": "Neo P5"
     }
   ],
-  "Zhuge Prime": [
+  "Volnus Prime": [
     {
-      "item": "Zhuge Prime Blueprint",
-      "relic": "Axi T9"
+      "item": "Volnus Prime Head",
+      "relic": "Axi C8"
     },
     {
-      "item": "Zhuge Prime Grip",
-      "relic": "Lith S13"
+      "item": "Volnus Prime Handle",
+      "relic": "Axi V11"
     },
     {
-      "item": "Zhuge Prime Receiver",
-      "relic": "Meso W2"
-    },
-    {
-      "item": "Zhuge Prime String",
-      "relic": "Neo E3"
-    },
-    {
-      "item": "Zhuge Prime Barrel",
-      "relic": "Neo Z9"
+      "item": "Volnus Prime Blueprint",
+      "relic": "Neo P5"
     }
   ],
-  "Ninkondi Prime": [
+  "Gara Prime": [
     {
-      "item": "Ninkondi Prime Blueprint",
-      "relic": "Axi T9"
+      "item": "Gara Prime Systems Blueprint",
+      "relic": "Axi C8"
     },
     {
-      "item": "Ninkondi Prime Handle",
-      "relic": "Lith N13"
+      "item": "Gara Prime Blueprint",
+      "relic": "Lith G11"
     },
     {
-      "item": "Ninkondi Prime Chain",
-      "relic": "Neo Z9"
-    }
-  ],
-  "Fang Prime": [
-    {
-      "item": "Fang Prime Blade",
-      "relic": "Axi T9"
+      "item": "Gara Prime Neuroptics Blueprint",
+      "relic": "Meso C10"
     },
     {
-      "item": "Fang Prime Blueprint",
-      "relic": "Lith N13"
-    },
-    {
-      "item": "Fang Prime Handle",
-      "relic": "Meso W2"
-    }
-  ],
-  "Lex Prime": [
-    {
-      "item": "Lex Prime Receiver",
-      "relic": "Axi T9"
-    },
-    {
-      "item": "Lex Prime Barrel",
-      "relic": "Lith N13"
-    },
-    {
-      "item": "Lex Prime Blueprint",
-      "relic": "Neo E3"
-    }
-  ],
-  "Wukong Prime": [
-    {
-      "item": "Wukong Prime Chassis Blueprint",
-      "relic": "Lith N13"
-    },
-    {
-      "item": "Wukong Prime Neuroptics Blueprint",
-      "relic": "Lith S13"
-    },
-    {
-      "item": "Wukong Prime Blueprint",
-      "relic": "Meso W2"
-    },
-    {
-      "item": "Wukong Prime Systems Blueprint",
-      "relic": "Neo Z9"
-    }
-  ],
-  "Stradavar Prime": [
-    {
-      "item": "Stradavar Prime Stock",
-      "relic": "Lith N13"
-    },
-    {
-      "item": "Stradavar Prime Blueprint",
-      "relic": "Lith S13"
-    },
-    {
-      "item": "Stradavar Prime Receiver",
-      "relic": "Meso W2"
-    },
-    {
-      "item": "Stradavar Prime Barrel",
-      "relic": "Neo E3"
+      "item": "Gara Prime Chassis Blueprint",
+      "relic": "Neo P5"
     }
   ],
   "Burston Prime": [
     {
-      "item": "Burston Prime Barrel",
-      "relic": "Lith S13"
-    },
-    {
-      "item": "Burston Prime Stock",
-      "relic": "Meso W2"
+      "item": "Burston Prime Blueprint",
+      "relic": "Axi C8"
     },
     {
       "item": "Burston Prime Receiver",
-      "relic": "Neo E3"
+      "relic": "Axi V11"
     },
     {
-      "item": "Burston Prime Blueprint",
-      "relic": "Neo Z9"
+      "item": "Burston Prime Barrel",
+      "relic": "Neo P5"
+    },
+    {
+      "item": "Burston Prime Stock",
+      "relic": "Neo P5"
+    }
+  ],
+  "Titania Prime": [
+    {
+      "item": "Titania Prime Blueprint",
+      "relic": "Axi V11"
+    },
+    {
+      "item": "Titania Prime Chassis Blueprint",
+      "relic": "Lith G11"
+    },
+    {
+      "item": "Titania Prime Systems Blueprint",
+      "relic": "Lith T11"
+    },
+    {
+      "item": "Titania Prime Neuroptics Blueprint",
+      "relic": "Meso A6"
+    }
+  ],
+  "Astilla Prime": [
+    {
+      "item": "Astilla Prime Stock",
+      "relic": "Axi V11"
+    },
+    {
+      "item": "Astilla Prime Blueprint",
+      "relic": "Lith T11"
+    },
+    {
+      "item": "Astilla Prime Barrel",
+      "relic": "Meso A6"
+    },
+    {
+      "item": "Astilla Prime Receiver",
+      "relic": "Meso C10"
+    }
+  ],
+  "Fang Prime": [
+    {
+      "item": "Fang Prime Handle",
+      "relic": "Lith G11"
+    },
+    {
+      "item": "Fang Prime Blade",
+      "relic": "Lith T11"
+    },
+    {
+      "item": "Fang Prime Blueprint",
+      "relic": "Meso C10"
+    }
+  ],
+  "Vasto Prime": [
+    {
+      "item": "Vasto Prime Receiver",
+      "relic": "Lith G11"
+    },
+    {
+      "item": "Vasto Prime Barrel",
+      "relic": "Lith T11"
+    },
+    {
+      "item": "Vasto Prime Blueprint",
+      "relic": "Meso A6"
+    }
+  ],
+  "Lex Prime": [
+    {
+      "item": "Lex Prime Blueprint",
+      "relic": "Lith T11"
+    },
+    {
+      "item": "Lex Prime Receiver",
+      "relic": "Meso A6"
+    },
+    {
+      "item": "Lex Prime Barrel",
+      "relic": "Meso C10"
     }
   ]
 }
