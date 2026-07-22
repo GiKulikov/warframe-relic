@@ -1,9 +1,13 @@
-import { loadPage, BASE } from '../loadPage.js';
 
-import { dict, loadLang, applyGeneralLang,} from '../lang/lang.js';
+import { loadPage, BASE,getItemData} from '../loadPage.js';
+
+import { dict, loadLang, applyGeneralLang, } from '../lang/lang.js';
 export async function init() {
+
   applyGeneralLang(dict, document.getElementById('content'));
   const decodedName = sessionStorage.getItem('selectedPrime');
+  const frameName = decodedName;
+  const frameTitle = document.getElementById('frameTitle');
 
   const [framesData, weaponsData] = await Promise.all([
     fetch(`${BASE}data/frames.json`).then(r => r.json()),
@@ -18,13 +22,6 @@ export async function init() {
   }
 
 
-
-
-  const frameName = decodedName;
-  const frameTitle = document.getElementById('frameTitle');
-
-
-
   const res = await fetch(`${BASE}data/primes.json`);
   const rawPrimes = await res.json();
 
@@ -32,56 +29,137 @@ export async function init() {
   const addedParts = rawPrimes.added[frameName] || [];
   const removedParts = rawPrimes.removed[frameName] || [];
 
-  const primes = {};
-  Object.keys(rawPrimes.current).forEach(key => {
-    primes[key] = [...(rawPrimes.current[key] || [])];
-  });
-  Object.keys(rawPrimes.added).forEach(key => {
-    if (primes[key]) {
-      primes[key] = [...primes[key], ...(rawPrimes.added[key] || [])];
-    } else {
-      primes[key] = [...(rawPrimes.added[key] || [])];
-    }
-  });
+  
+  const partOrder = ['Blueprint', 'Chassis', 'Neuroptics', 'Systems'];
+
+  const isWarframe = framesData.frames?.includes(frameName)
+    || framesData.sentinels?.includes(frameName);
+
+  const removedItems = new Set((rawPrimes.removed[frameName] || []).map(p => p.item));
+
+  const allParts = [
+    ...(rawPrimes.current[frameName] || []),
+    ...(rawPrimes.added[frameName] || [])
+  ].filter(p => !removedItems.has(p.item));
+
+  const getPartType = (item) => item.split(' ').pop();
+
+  let parts = isWarframe
+    ? allParts.filter(p => partOrder.includes(getPartType(p.item)))
+    : [...allParts];
+
+    
+  parts.sort((a, b) => isWarframe
+    ? partOrder.indexOf(getPartType(a.item)) - partOrder.indexOf(getPartType(b.item))
+    : a.item.localeCompare(b.item)
+  );
 
 
-  const warframeParts = ['Chassis', 'Neuroptics', 'Systems'];
-  const allParts = primes[frameName] || [];
-  const partTypes = allParts.map(part => part.item.split(' ').pop());
-  const warframeCount = partTypes.filter(p => warframeParts.includes(p)).length;
-  const isWarframe = warframeCount > (partTypes.length - warframeCount);
 
-
-  let parts = allParts.filter(part => {
-    const partName = part.item.split(' ').pop();
-    return isWarframe
-      ? ['Blueprint', 'Chassis', 'Neuroptics', 'Systems'].includes(partName)
-      : true;
-  });
-
-  if (isWarframe) {
-    const partOrder = ['Blueprint', 'Chassis', 'Neuroptics', 'Systems'];
-    parts.sort((a, b) => {
-      const partNameA = a.item.split(' ').pop();
-      const partNameB = b.item.split(' ').pop();
-      return partOrder.indexOf(partNameA) - partOrder.indexOf(partNameB);
-    });
-  } else {
-    parts.sort((a, b) => a.item.localeCompare(b.item));
-  }
 
   const container = document.getElementById('partsContainer');
+  const containerForCost = document.getElementsByClassName('contWithPartsWithCost')[0];
+  containerForCost.innerHTML = '';
   container.innerHTML = '';
+
+
+ 
+
+  function createPartCard(name, data) {
+    const card = document.createElement('div');
+    card.className = 'partWithCost';
+
+    const isFrameEntity = framesData.frames?.includes(frameName) || framesData.sentinels?.includes(frameName);
+
+
+
+
+    var result = name.replaceAll('_', ' ');
+
+    var replacedName = result.replace(/^.*\bprime\b\s*/i, '').trim();
+    var upName = replacedName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    if (data.error != null) {
+      upName += ": " + data.error;
+    }
+    const frameDict = isFrameEntity
+      ? dict.frame.name_frame_parts[upName]
+      : dict.weapon.name_weapon_parts[upName];
+    card.innerHTML = `
+    <div  class="itemName">
+      <span>${frameDict || upName}</span>
+    </div>
+   <div class="contForPrice">
+      <div class="ForPrice"> 
+       
+        <span >${dict.general.item.for} 48${dict.general.time.hours}</span>
+        <div class="NamePrice">
+           ${dict.general.item.minimum_trade_price}
+          <span >${data.minPrice_48h}</span>
+        </div>
+        
+        <div class="NamePrice">
+          ${dict.general.item.maximum_trade_price}
+          <span >${data.maxPrice_48h}</span>
+        </div>
+         <div class="NamePrice">
+          ${dict.general.item.trade_volume}
+
+          <span >${data.volume_48h}</span>
+        </div>
+      </div>
+      <div class="ForPrice">
+        <span >${dict.general.item.for} 1${dict.general.time.hours}</span>
+        <div class="NamePrice">
+          ${dict.general.item.buy_price}
+          <span >${data.buyPrice_1h}</span>
+        </div>
+        <div class="NamePrice">
+          ${dict.general.item.sell_price}
+          <span >${data.sellPrice_1h}</span>
+        </div>
+        <div class="NamePrice">
+            ${dict.general.item.trade_volume}
+          <span >${data.volume_1h}</span>
+        </div>
+      </div>
+      
+    </div> 
+    <div class="NameAveragePricePrice">
+      ${dict.general.item.average_price}
+      <span  >${data.averagePrice_48h}</span>
+    </div>
+  `;
+    return card;
+  }
+  async function loadAndDisplayItem(itemPath, container) {
+    const data = await getItemData(itemPath);
+    if (!data) return;
+
+    Object.entries(data).forEach(([partName, partData]) => {
+      const card = createPartCard(partName, partData);
+      container.appendChild(card);
+    });
+  }
+
+
+  const allPartName = new Set();
+  var itemNameSlug = null;
+  var partNameSlug = null;
 
 
 
   parts.forEach(({ item, relic }) => {
+    const contForCard = document.createElement('div');
     const card = document.createElement('div');
     card.className = 'part-card';
+    
+    contForCard.className = 'contForCard';
 
+
+    itemNameSlug = decodedName.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '');
+    partNameSlug = item.toLowerCase().replace(/\s+/g, '_').replace(itemNameSlug + '_', '');
     const marketSetSlug = item.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '');
     const relicSlug = relic.toLowerCase().replace(/\s+/g, '_').replace(/'/g, '') + '_relic';
-
     const partDisplayName = item.replace(`${frameName} `, '');
 
     var isNewPrime = false;
@@ -123,7 +201,7 @@ export async function init() {
       frameDict.name_weapon?.[frameName] ??
       frameName;
     frameTitle.textContent = translatedName;
-    
+
 
 
     const displayNamePart =
@@ -132,56 +210,84 @@ export async function init() {
       partDisplayName;
 
 
+
+    let displayPart = displayNamePart;
+    allPartName.add(partNameSlug);
+    if (displayNamePart.trim().split(/\s+/).length >= 2) {
+      displayPart = displayNamePart.replace("Blueprint", "").trim();
+    }
+
+    contForCard.innerHTML = `
+    <div class ="NamePart">
+      <span >${displayPart}</span>
+      ${isNewPart ? '<span class="isNew">NEW PART</span>' : ''}
+    </div>
+   `
     card.innerHTML = `
-      <div>
-      <span class="frame-name"> ${displayNamePart}</span>
-      ${isNewPart ? '<span class="isNew">NEW</span>' : ''}
-      </div><br>
-     ${dict.general.item.getting_of_relic}:       <b><span class="relic-name">${relic}</span>
-      ${isNewRelic ? '<span class="isNew">NEW</span>' : ''}
-      </b><br><br>
+    
+    <div class="descriptionFallRelic">
+      ${dict.general.item.getting_of_relic}:
+      ${isNewRelic ? '<span class="isNew">NEW RELIC</span>' : ''}
+    </div>
+    <span class="relic-name">${relic}</span>
+      <span class="NamePartHidden">${displayPart}</span>
+
+
       <div class="contBtn">
-        <button class="market-btn" onclick="window.open('https://warframe.market/items/${marketSetSlug}', '_blank')">
+        <button class="market-btn"
+          onclick="window.open('https://warframe.market/items/${marketSetSlug}', '_blank')">
           ${dict.general.item.buy_part}
         </button>
-        <div>
-          <button class="relic-btn" onclick="window.open('https://warframe.market/items/${relicSlug}', '_blank')">
+
+        <div class="btns">
+          <button class="relic-btn"
+            onclick="window.open('https://warframe.market/items/${relicSlug}', '_blank')">
             ${dict.general.item.buy_relic}
           </button>
-          <button class="wiki-btn" onclick="window.open('https://wiki.warframe.com/w/${relic}', '_blank')">
+
+          <button class="wiki-btn"
+            onclick="window.open('https://wiki.warframe.com/w/${relic}', '_blank')">
             ${dict.general.item.source_relic}
           </button>
         </div>
+
       </div>
+
+
+
     `;
 
-    const frameEl = card.querySelector('.frame-name');
+
+    const frameEl = card.querySelector('.NamePartHidden');
     const relicEl = card.querySelector('.relic-name');
 
+
     card.querySelector('.market-btn').addEventListener('mouseenter', () => {
-      frameEl.style.color = '#aa62ecff';
+      frameEl.style.textShadow = '0px 0px 5px rgba(255, 255, 255, 0.719)';
     });
     card.querySelector('.market-btn').addEventListener('mouseleave', () => {
-      frameEl.style.color = '';
+      frameEl.style.textShadow = '';
     });
-
     card.querySelector('.relic-btn').addEventListener('mouseenter', () => {
-      relicEl.style.color = '#aa62ecff';
+      relicEl.style.color = '#c7afec';
     });
     card.querySelector('.relic-btn').addEventListener('mouseleave', () => {
       relicEl.style.color = '';
     });
-
     card.querySelector('.wiki-btn').addEventListener('mouseenter', () => {
-      relicEl.style.color = '#aa62ecff';
+      relicEl.style.color = '#c7afec';
     });
     card.querySelector('.wiki-btn').addEventListener('mouseleave', () => {
       relicEl.style.color = '';
     });
 
-    container.appendChild(card);
+    contForCard.appendChild(card)
+    container.appendChild(contForCard);
   });
 
+  var result = [...allPartName].join(';');
+  var patheApi = itemNameSlug + ';' + result;
+  loadAndDisplayItem(patheApi, containerForCost);
 
   return {
     destroy() {

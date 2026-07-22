@@ -1,129 +1,134 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
-html {
-  scrollbar-width: none;
-}
-
-html::-webkit-scrollbar {
-  display: none;
-}
-
-body {
-  font-family: 'IBM Plex Mono', monospace;
-  color: white;
-}
-
+/* top banner*/
 .top-banner {
   background: #262529;
   background: radial-gradient(circle, rgba(38, 37, 41, 1) 0%, rgba(45, 43, 49, 1) 88%, rgba(50, 46, 53, 1) 100%);
   box-shadow: 0px 3px 7px #38333b67;
+  height: 50px;
+  margin-top: -10px;
+  padding: 10px;
   display: flex;
-  font-weight: lighter;
-  justify-content: center;
-  padding: 25px 0px 15px 0px;
-  font-family: IBM Plex Mono, monospace;
+  flex-direction: column;
+  font-weight: 300;
+  justify-content: flex-end;
+  text-align: center;
   font-size: 14px;
   color: #777;
+  width: 100%;
 }
-
-
 
 #date {
   font-size: 14px;
   color: #777;
 }
 
+/*end*/
+
+/*поиск*/
+
 #searchSection {
-  position: relative;
-  max-width: 95%;
-  margin: 0 auto;
+  width: 98%;
+  margin: 10px 0;
 
 }
 
 #searchInput {
   user-select: none;
-
+  background-color: #2d2c33;
+  box-shadow: 0px 3px 7px #38333b67;
   padding: 8px 12px;
   border-radius: 6px;
   color: #ffffff;
-  background-color: #2d2c33;
-  box-shadow: 0px 3px 7px #38333b67;
-  margin: 10px 0;
+
   font-size: 13px;
   border: none;
 }
 
-main {
-  display: flex;
-  justify-content: center;
-}
+/*end*/
 
+
+/*сетка с карточками*/
 .grid {
-  user-select: none;
-
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  width: 95%;
-
+  width: 98%;
 }
 
+/*карточка*/
 .grid-item {
-  flex: 1 400px;
+  user-select: none;
+  flex: 1 1 400px;
   height: 200px;
-  border-radius: 15px;
+  border-radius: 12px;
   border: rgba(78, 77, 77, 0.353) 1px solid;
-  padding: 0;
   display: flex;
   overflow: hidden;
   position: relative;
   box-shadow: 0 0 0 #262529;
+  text-align: center;
+
   transition: box-shadow 0.6s ease;
 }
-
-
 
 
 .item-background {
   position: relative;
   z-index: 1;
   width: 100%;
-  padding: 10px 0px 0px 0px;
   background-color: rgba(0, 0, 0, 0.453);
   color: #ffffff00;
-  font-size: 30px;
-  font-style: 900;
-  font-family: 'Major Mono Display', monospace;
+  font-size: 40px;
+  font-family: 'Major Mono Cyrillic', monospace;
   display: flex;
-  flex-direction: column;
-  text-align: center;
-
-
-
+  justify-content: center;
 }
 
 .item-img {
   position: absolute;
   z-index: 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  justify-content: center;
   width: 100%;
   height: 100%;
   color: #fff;
-  font-family: 'IBM Plex Mono', monospace;
   filter: brightness(0.5);
   transform: scale(1);
   transition: transform 0.6s, brightness 0.3s ease;
 
 }
 
+
+
+.description-card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 3;
+  font-size: 16px;
+  color: #ffffff;
+  transition: color 0.6s ease-out;
+
+
+}
+
+.name-card {
+  font-weight: 500;
+
+}
+
+.addition {
+  color: #ffffffda;
+
+  transition: color 0.6s ease-out;
+  font-weight: 200;
+
+
+}
+
+/*end*/
+/*hover*/
 .grid-item:hover {
   box-shadow: 0 1px 10px #38333B;
 }
@@ -143,46 +148,13 @@ main {
 }
 
 .grid-item:hover .description-card,
-.grid-item:hover .addition {
-  color: #d6d3e000;
-  transition: color 0.1s ease-in;
-
-
-}
-
-.grid-item:hover .description-card,
 .grid-item:hover .addition,
-.grid-item:hover .name-card {
+.grid-item:hover .name-card{
   color: #d6d3e000;
+  text-shadow: 1px 1px 10px #a26aad00;
   transition: color 0.1s ease-in;
 
 
 }
 
-
-
-
-
-
-
-.description-card {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 3;
-  font-size: 16px;
-  font-weight: bold;
-  color: #ffffff;
-  transition: color 0.6s ease-out;
-
-}
-
-.addition {
-  color: #a4a4a4;
-  transition: color 0.6s ease-out;
-
-}
+/*end*/

@@ -183,7 +183,7 @@ export async function init() {
 
         const bg = document.createElement('div');
         bg.className = 'item-background';
-        bg.textContent = name;
+        bg.textContent = displayName;
 
 
         const overlay = document.createElement('div');
@@ -324,7 +324,7 @@ export async function init() {
 
         const bg = document.createElement('div');
         bg.className = 'item-background';
-        bg.textContent = name;
+        bg.textContent = displayName;
 
         const overlay = document.createElement('div');
         overlay.className = 'item-img';

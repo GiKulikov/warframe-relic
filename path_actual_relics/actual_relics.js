@@ -150,7 +150,6 @@ export async function init() {
 
   return {
     destroy() {
-      document.removeEventListener('click', onClick);
     }
   }
 }

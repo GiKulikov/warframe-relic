@@ -2,20 +2,36 @@
 import { loadPage, BASE } from './loadPage.js';
 import { dict, loadLang, applyGeneralLang } from './lang/lang.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
- const logo = document.getElementById('logo');
+let pingPromise = null;
 
-function updateLogo() {
-    if (window.innerWidth <= 500) {
-        logo.textContent = 'W';
-    } else {
-        logo.textContent = 'Warframe';
-    }
+function PingApi() {
+  if (pingPromise)
+    return pingPromise;
+
+  pingPromise = fetch("https://wf-rc-api.onrender.com/api/ping").catch(() => { });
+
+  return pingPromise;
 }
 
-updateLogo();
+document.addEventListener('DOMContentLoaded', async () => {
+  PingApi();
 
-window.addEventListener('resize', updateLogo);
+  const logo = document.getElementById('logo');
+
+  function updateLogo() {
+    if (window.innerWidth <= 500) {
+      logo.textContent = 'W';
+    } else {
+      logo.textContent = 'Warframe';
+    }
+  }
+  let pingPromise = null;
+
+
+
+  updateLogo();
+
+  window.addEventListener('resize', updateLogo);
 
 
   const combobox = document.querySelector('.combobox');
@@ -96,27 +112,27 @@ window.addEventListener('resize', updateLogo);
   });
 
   /* ========= LANGUAGE CHANGE ========= */
- async function rerenderApp() {
+  async function rerenderApp() {
 
-  syncComboboxWithHash();
+    syncComboboxWithHash();
 
-  await loadFromHash();
+    await loadFromHash();
 
-  applyGeneralLang(dict, document);
+    applyGeneralLang(dict, document);
 
-}
+  }
 
- langSelect.addEventListener('change', async () => {
+  langSelect.addEventListener('change', async () => {
 
-  const lang = langSelect.value;
+    const lang = langSelect.value;
 
-  sessionStorage.setItem('lang', lang);
+    sessionStorage.setItem('lang', lang);
 
-  await loadLang(lang);
+    await loadLang(lang);
 
-  await rerenderApp();
+    await rerenderApp();
 
-});
+  });
 
   /* ========= ROUTER ========= */
 

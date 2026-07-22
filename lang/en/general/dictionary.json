@@ -8,7 +8,6 @@
     "type_relic": "All",
     "type_filter": "Type of relic:"
   },
-
   "navigation": {
     "home": "Home",
     "information_about": "Information about",
@@ -16,52 +15,46 @@
     "menu_current_varzia_relics": "Current Varzia Rotation",
     "menu_actual_relics": "Current Relics"
   },
-
   "footer": {
     "language": "Language",
     "sources_used": "Sources:"
   },
-
   "home": {
     "columinfo_content_relic": "Relics",
     "columinfo_content_prime": "Prime Parts",
     "columinfo_content_varzia": "Varzia"
   },
-
   "time": {
     "days": "d",
     "hours": "h",
     "minutes": "m"
   },
-
-  "item":{
+  "item": {
     "getting_of_relic": "Falls out of the relic",
-      "card_description": "in current relics",
-      "buy_part": "Buy a part",
-      "buy_relic": "Buy a relic",
-      "source_relic": "Source of relic"
+    "card_description": "in current relics",
+    "buy_part": "Buy a part",
+    "buy_relic": "Buy a relic",
+    "source_relic": "Source of relic",
+
+
+    
+    "buy_price": "Buy Price",
+    "sell_price": "Sell Price",
+    "trade_volume": "Trade Volume",
+    "average_price": "Average Trade Price",
+    "maximum_trade_price": "Maximum Trade Price",
+    "minimum_trade_price": "Minimum Trade Price",
+    "for": "For"
   },
   "title": {
     "prime_details": "Parts | {name}"
   },
   "meta": {
-    "home":
-      "Track current Prime parts, relic rotations, and Varzia offerings. Stay updated with the latest Warframe content.",
-
-    "primes":
-      "Browse the complete catalog of available Warframe Prime parts and discover required components for Prime equipment.",
-
-    "varzia_relics":
-      "Check current Varzia relic rotations and discover available Prime rewards and vaulted content.",
-
-    "actual_relics":
-      "View all currently active Warframe relics including Lith, Meso, Neo, and Axi rotations.",
-
-    "prime_details":
-      "View all {name} Prime parts, required components, and related relic information in Warframe.",
-
-    "varzia_details":
-      "Explore rewards, Prime parts, and drop information available from {name} relic in Warframe."
+    "home": "Track current Prime parts, relic rotations, and Varzia offerings. Stay updated with the latest Warframe content.",
+    "primes": "Browse the complete catalog of available Warframe Prime parts and discover required components for Prime equipment.",
+    "varzia_relics": "Check current Varzia relic rotations and discover available Prime rewards and vaulted content.",
+    "actual_relics": "View all currently active Warframe relics including Lith, Meso, Neo, and Axi rotations.",
+    "prime_details": "View all {name} Prime parts, required components, and related relic information in Warframe.",
+    "varzia_details": "Explore rewards, Prime parts, and drop information available from {name} relic in Warframe."
   }
-
 }

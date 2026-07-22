@@ -4,11 +4,10 @@
     "data_not_updated": "Данные не обновлены",
     "date_update": "Дата обновления",
     "back_to_list": "← Назад к списку",
-     "type_relic": "Все",
+    "type_relic": "Все",
     "type_filter": "Тип реликвии:",
     "search_placeholder": "Фрейм или реликвия"
   },
-
   "navigation": {
     "home": "Главная",
     "information_about": "Информация о",
@@ -16,53 +15,46 @@
     "menu_current_varzia_relics": "Текущая ротация Варзии",
     "menu_actual_relics": "Текущие реликвии"
   },
-
   "footer": {
     "language": "Язык",
     "sources_used": "Источники:"
   },
-
   "home": {
     "columinfo_content_relic": "Реликвии",
     "columinfo_content_prime": "Прайм части",
     "columinfo_content_varzia": "Варзия"
   },
-
   "time": {
     "days": "д",
     "hours": "ч",
     "minutes": "м"
   },
-
   "item": {
     "getting_of_relic": "Выпадает из реликвии",
-    "card_description": "в актуальных реликвиях",
+    "card_description": "в текущих реликвиях",
     "buy_part": "Купить часть",
     "buy_relic": "Купить реликвию",
-    "source_relic": "Источник реликвии"
+    "source_relic": "Источник реликвии",
+
+
+
+    "buy_price": "Цена покупки",
+    "sell_price": "Цена продажи",
+    "trade_volume": "Объём сделок",
+    "average_price": "Средняя цена сделки",
+    "maximum_trade_price": "Максимальная цена сделки",
+    "minimum_trade_price": "Минимальная цена сделки",
+    "for": "За"
   },
   "title": {
     "prime_details": "Части | {name}"
   },
   "meta": {
-    "home":
-      "Отслеживайте текущие Prime части, ротации реликвий и предложения Varzia. Получайте актуальную информацию по Warframe.",
-
-    "primes":
-      "Просматривайте полный каталог доступных Prime частей Warframe и находите компоненты для создания Prime экипировки.",
-
-    "varzia_relics":
-      "Проверяйте текущие ротации реликвий Varzia и доступные Prime награды и контент из хранилища.",
-
-    "actual_relics":
-      "Просматривайте все активные релики Warframe, включая ротации Lith, Meso, Neo и Axi.",
-
-    "prime_details":
-      "Просмотрите все части {name}, необходимые компоненты и связанную информацию о реликвиях Warframe.",
-
-    "varzia_details":
-      "Изучите награды, Prime части и информацию о дропе из реликвии {name} в Warframe."
+    "home": "Отслеживайте текущие Prime части, ротации реликвий и предложения Varzia. Получайте актуальную информацию по Warframe.",
+    "primes": "Просматривайте полный каталог доступных Prime частей Warframe и находите компоненты для создания Prime экипировки.",
+    "varzia_relics": "Проверяйте текущие ротации реликвий Varzia и доступные Prime награды и контент из хранилища.",
+    "actual_relics": "Просматривайте все активные релики Warframe, включая ротации Lith, Meso, Neo и Axi.",
+    "prime_details": "Просмотрите все части {name}, необходимые компоненты и связанную информацию о реликвиях Warframe.",
+    "varzia_details": "Изучите награды, Prime части и информацию о дропе из реликвии {name} в Warframe."
   }
-
- 
 }

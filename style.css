@@ -1,64 +1,36 @@
+/*разное */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Exo 2", sans-serif;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 70px;
+  border: none;
+}
 
 html::-webkit-scrollbar {
   display: none;
 }
 
 body {
-  font-family: 'IBM Plex Mono', monospace;
   background-color: #000000ef;
 }
 
-option {
-  background-color: #2d2c33;
+/*end*/
 
-}
 
+
+
+/*header*/
 .top-bar {
   position: fixed;
-}
-
-.typelang {
-  color: #ffffff;
-  background-color: transparent;
-  padding: 3px;
-  margin: 3px;
-  border: none;
-
-}
-
-footer {
-  text-align: center;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  top: 60px;
-  font-size: 14px;
-  color: #777;
-}
-
-footer a {
-  color: #a9adc9;
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
-  color: rgba(130, 40, 208, 0.993);
-}
-
-.content {
-  position: relative;
-  top: 60px;
-  width: 100%;
-  border: none;
+  top: 0;
 
 }
 
@@ -87,7 +59,6 @@ footer a:hover {
 }
 
 header {
-
   z-index: 1000;
   min-height: 70px;
   padding: 0 15px;
@@ -97,6 +68,9 @@ header {
   justify-content: space-between;
 
 }
+
+
+/*навигация*/
 
 nav {
   display: flex;
@@ -120,9 +94,6 @@ nav .linkHome {
   color: #fff;
   padding: 8px;
   margin: 2px;
-
-
-
 }
 
 
@@ -134,7 +105,6 @@ nav .linkHome {
   background: rgba(45, 44, 51, 0);
   border: none;
   color: #fff;
-  font-family: 'IBM Plex Mono', monospace;
   border-radius: 4px;
   transition: background-color 0.3s ease;
 
@@ -197,18 +167,54 @@ nav .linkHome {
   transition: background-color 0.4s ease;
 }
 
+/*end навигации*/
+
+/*end*/
+/*подвал*/
+footer {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #777;
+}
+
+.typelang {
+  color: #ffffff;
+  background-color: transparent;
+  padding: 3px;
+  margin: 3px;
+  border: none;
+
+}
+
+footer a {
+  color: #a9adc9;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+  color: rgba(130, 40, 208, 0.993);
+}
+
+option {
+  background-color: #2d2c33;
+}
+
+/*end*/
+
 @media (max-width: 500px) {
   .logo {
     font-size: 48px;
     text-align: center;
   }
-  
-
-  
 
   header {
     padding: 2%;
-  justify-content: space-around;
+    justify-content: space-around;
 
   }
 }

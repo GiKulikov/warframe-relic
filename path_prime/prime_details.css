@@ -1,35 +1,26 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scrollbar-width: none;
-}
-
-html::-webkit-scrollbar {
-  display: none;
-}
-
-body {
-  font-family: 'IBM Plex Mono', monospace;
-  color: white;
-}
-
-
-
-.top-banner-d {
+.container{
   position: relative;
+  display: flex;
+  gap: 20px;
+
+  flex-direction: column;
+  width: 95%;
+
+}
+
+/* top banner*/
+.top-banner-d {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
-  padding: 5vh;
-  width: 95%;
   min-width: 320px;
+  color: #ffffffec;
+  width: 100%;
+  margin-top: 20px;
+
 
 }
+
 
 .back-link {
   position: absolute;
@@ -42,134 +33,219 @@ body {
 .back-link:hover {
   color: #c9b3ff;
 }
+/*end*/
 
-main {
+/*карточки с ценами*/
+.contWithPartsWithCost {
   display: flex;
-  justify-content: center;
-  min-width: 320px;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: #fff;
+}
+
+
+
+
+.partWithCost {
+  flex: 1 1 500px;
+
+  text-transform: capitalize;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  border: #1a1a1c 2px solid;
+
+  background: rgba(26, 26, 28, 0.34);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  padding: 10px;
+  border-radius: 6px;
+
+  font-size: 18px;
+
 
 }
+.contForPrice{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  
+}
+.ForPrice{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 5px;
+  padding: 10px;
+  font-weight: 300;
+}
+
+.itemName {
+  color: #ffffffec;
+
+  font-size: 25px;
+  margin-bottom: 10px;
+  font-weight: 200;
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.NamePrice {
+  color: #d9d5de;
+  font-size: 18px;
+  font-weight: 200;
+  display: flex;
+  justify-content: space-between;
+}
+
+.NameAveragePricePrice {
+  color: #ffffffec;
+
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 300;
+
+  display: flex;
+  justify-content: space-between;
+
+}
+
+/*end*/
+/*контейнер карточек для part*/
 
 .grid {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  width: 95%;
+  color: #ffffffec;
+  
+  
+}
+.contForCard {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1  400px;
+  gap: 10px;
+  height: 240px;
+  position: relative;
+}
 
+.contForCard:hover .NamePart {
+  max-height: 25px;
+  font-size: 18px;
+  color: transparent;
+  background-color: #c7afec40;
 
 }
 
+.contForCard:hover .NamePartHidden {
+  opacity: 1;
+  transition: opacity 0.8s ease-in,text-shadow 0.6s ease-in;
+}
+
+
+/*end*/
+
+/*описание карточек*/
 .part-card {
+  flex: 1;
   background-color: #1a1a1c;
-  border-radius: 12px;
+  border-radius: 0 0 12px 12px;
   font-size: 18px;
-  border: #ffffff19 1px solid;
-  padding: 15px 15px;
+  padding: 10px;
+  font-weight: 200;
   display: flex;
-  flex: 1 1 300px;
   flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.part-card button {
+  flex: 1;
+  margin: 5px 0;
+  padding: 8px 12px;
+  background: rgba(195, 141, 224, 0.066);
+  backdrop-filter: blur(2.8px);
+  -webkit-backdrop-filter: blur(2.8px);
+  color: rgba(255, 255, 255, 0.652);
+  border: 1px solid #333336;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.5s ease;
+}
+
+button:hover {
+  background: rgba(195, 141, 224, 0.141);
+}
+.NamePart {
+  display: flex;
   justify-content: space-between;
-  box-shadow: 0 1px 10px #38333b00;
-  transition: box-shadow 0.3s ease;
+  padding: 10px;
+  background: #1a1a1c;
+  border-radius: 12px 12px 0 0;
+  font-size: 30px;
+  align-items: center;
+  font-weight: 200;
+  overflow: hidden;
+  max-height: 100px;
+  transition: color 0.5s ease, max-height 0.5s ease, background 0.5s ease, font-size 0.7s ease;
+  user-select: none;
+}
+
+
+.relic-name,
+.descriptionFallRelic {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  transition: color 0.3s ease-in;
+  font-weight: 200;
+
+}
+
+.NamePartHidden {
+  display: flex;
+  justify-content: center;
+  font-family: 'Major Mono Cyrillic', sans-serif;
+  font-size: 50px;
+  text-align: center;
+  margin-bottom: -20px;
+  text-shadow: -5px 0px 1px rgba(255, 255, 255, 0.719);
+  opacity: 0;
+  z-index: 0;
 }
 
 .isNew {
   color: #c7afec;
   font-size: 15px;
   text-shadow: 1px 1px 10px #a26aadbc;
-}
-
-.part-card:hover {
-  box-shadow: 0 1px 10px #38333B;
-
-}
-
-
-.part-card button {
-  margin: 5px 0;
-  padding: 8px 12px;
-  background-color: #2f2b38;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.part-card button:hover {
-  background-color: #514a6d;
+  display: flex;
+  font-weight: 200;
 }
 
 .contBtn {
+  user-select: none;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  width: 100%;
+  transition: transform 0.5s ease;
+  
 }
 
-.market-btn {
-  width: 100%;
-  padding: 8px 12px;
-  box-sizing: border-box;
-  text-align: center;
-  background-color: #4a4a4a;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
 
-.contBtn>div {
+.btns {
   display: flex;
-  flex-direction: row;
-  gap: 8px;
-  width: 100%;
+  gap: 10px;
 }
-
-.relic-btn,
-.wiki-btn {
-  flex: 1;
-  padding: 8px 12px;
-  box-sizing: border-box;
-  text-align: center;
-  background-color: #2f2b38;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
+/*end*/
 
 
 
-footer {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 70px;
-  font-size: 14px;
-  color: #777;
-
-}
-
-footer a {
-  color: #a9adc9;
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
-.frame-name,
-.relic-name {
-  transition: color 0.2s ease;
-}
 
 @media (max-width: 524px) {
   .back-link {

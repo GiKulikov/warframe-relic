@@ -3,7 +3,9 @@ import { loadPage, BASE } from '../loadPage.js';
 export async function init() {
   applyGeneralLang(dict, document.getElementById('content'));
   const imageUrlCache = new Map();
-
+  function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
   const [framesData, weaponsData] = await Promise.all([
     fetch(`${BASE}data/frames.json`).then(r => r.json()),
@@ -116,14 +118,14 @@ export async function init() {
   const res1 = await fetch(`${BASE}data/VisibleContent.json`);
   const visibleContent = await res1.json();
 
-  const relicGrid = document.getElementById('relicGrid');
+  const relicGrid = document.getElementById('GridForRelic');
   if (visibleContent.status === false) {
     relicGrid.innerText = dict.general.common.data_not_updated;
 
   }
   else {
     // Загрузка реликвий
-    const relicGrid = document.getElementById("relicGrid");
+    const relicGrid = document.getElementById("GridForRelic");
 
     if (relicGrid) {
       try {
@@ -206,8 +208,15 @@ export async function init() {
 
           if (i < newRelics.length)
             item.classList.add("new");
+          const spans = {
+            Lith: 16,
+            Meso: 18,
+            Neo: 20,
+            Axi: 20
+          };
 
-          item.style.setProperty("--span", i % 3 === 0 ? 25 : 20);
+          item.style.setProperty("--span", spans[tier]);
+
 
           const bg = document.createElement("div");
           bg.className = "item-background";
@@ -237,7 +246,7 @@ export async function init() {
     }
 
     // Загрузка прайм-частей///////////////////////////////////////////////////////////////////////////////
-    const primeGrid = document.getElementById('relicGrid2');
+    const primeGrid = document.getElementById('GridForPrime');
     if (primeGrid) {
       try {
         const res = await fetch(`${BASE}data/primes.json`);
@@ -321,11 +330,19 @@ export async function init() {
 
         `;
           if (i < newPrimes.length) item.classList.add('new');
-          item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
+          if (isFrameEntity) {
+            item.style.setProperty('--span', randomInt(30, 35));
+          }
+          else {
+            item.style.setProperty('--span', randomInt(10, 20));
+
+          }
+
+
 
           const bg = document.createElement('div');
           bg.className = 'item-background';
-          bg.textContent = name;
+          bg.textContent = displayName;
 
 
           const overlay = document.createElement('div');
@@ -360,7 +377,7 @@ export async function init() {
 
   // Загрузка данных Варзии................................................................................
 
-  const varziaGrid = document.getElementById('relicGrid3');
+  const varziaGrid = document.getElementById('GridForVarzia');
   if (varziaGrid) {
     try {
       const res = await fetch(`${BASE}data/varziaRelic.json`);
@@ -399,7 +416,6 @@ export async function init() {
 
 
         const isFrameEntity = framesData.frames?.includes(name) || framesData.sentinels?.includes(name);
-
         const displayName = isFrameEntity
           ? (dict.frame.name_frame[name] ?? name)
           : (dict.weapon.name_weapon[name] ?? name);
@@ -416,11 +432,17 @@ export async function init() {
           <label class="addition">${frameCount} ${part}</label>
         </div>
       `;
-        item.style.setProperty('--span', (i % 3 === 0) ? 25 : 20);
+        if (isFrameEntity) {
+          item.style.setProperty('--span', randomInt(30, 35));
+        }
+        else {
+          item.style.setProperty('--span', randomInt(10, 20));
+
+        }
 
         const bg = document.createElement('div');
         bg.className = 'item-background';
-        bg.textContent = name;
+        bg.textContent = displayName;
 
         const overlay = document.createElement('div');
         overlay.className = 'item-img';

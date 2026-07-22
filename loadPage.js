@@ -16,13 +16,15 @@ function unloadCurrentPage() {
   document.getElementById('content').innerHTML = '';
   currentPage = null;
 }
-
+let loadToken = 0;
 export async function loadPage(name) {
+  const myToken = ++loadToken;
   unloadCurrentPage();
   setPage(name);
   const content = document.getElementById('content');
 
   const html = await fetch(`${BASE}${name}.html`).then(r => r.text());
+  if (myToken !== loadToken) return;
   content.innerHTML = html;
 
   if (currentCss) currentCss.remove();
@@ -33,8 +35,26 @@ export async function loadPage(name) {
   document.head.append(currentCss);
 
   const module = await import(`${BASE}${name}.js`);
+  if (myToken !== loadToken) return;
   currentPage = module.init ? module.init() : module;
 }
+
+export async function getItemData(itemPath) {
+    try {
+      const response = await fetch(`https://wf-rc-api.onrender.com/api/item/${itemPath}`);
+
+      if (!response.ok) {
+        throw new Error(`Ошибка: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Ошибка запроса:', error);
+      return null;
+    }
+  }
+ 
 function setPage(page) {
   const decodedName = sessionStorage.getItem('selectedPrime');
   const translatedName =
