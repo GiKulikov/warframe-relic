@@ -38,7 +38,7 @@ namespace updateImg
         public static readonly string pathSentinelsImg = "../img/frame";
         public static readonly string pathWeaponsImg = "../img/weapon";
 
-        
+
 
 
     }
@@ -206,7 +206,7 @@ namespace updateImg
                 ["weapons"] = new JsonArray(newWeapons.Select(s => JsonValue.Create(s)).ToArray())
             };
             File.WriteAllText(_weaponsOutput, weaponsJson.ToJsonString(options));
-              
+
 
 
 
@@ -217,14 +217,14 @@ namespace updateImg
         }
 
     }
- 
+
     class GettingImages
     {
         private readonly DataFrameWeapon _dataFrameWeapon;
         private readonly HttpService _client;
         private readonly string _pathFrameImg = StoragePath.pathFrameImg;
-        private readonly string _pathWeaponImg =StoragePath.pathWeaponsImg;
-        private readonly string _pathSentinelsImg =StoragePath.pathSentinelsImg;
+        private readonly string _pathWeaponImg = StoragePath.pathWeaponsImg;
+        private readonly string _pathSentinelsImg = StoragePath.pathSentinelsImg;
 
         public GettingImages(DataFrameWeapon dataFrameWeapon, HttpService httpCl)
         {
@@ -243,17 +243,25 @@ namespace updateImg
                 {
 
                     var nameFrame = frame.Replace(" ", "");
-                    var nameFile = $"{frame}.png";                      
+                    var nameFile = $"{frame}.png";
                     var pathName = Path.Combine(_pathFrameImg, nameFile);
 
-                    var urlImgInfo = $"https://wiki.warframe.com/api.php?action=query&titles=File:{nameFrame}_Thumb.png&prop=imageinfo&iiprop=url&format=json";
+                    string? urlImgInfo = $"https://wiki.warframe.com/api.php?action=query&titles=File:{nameFrame}_Thumb.png&prop=imageinfo&iiprop=url&format=json";
+                    Console.WriteLine("urlImgInfo frame: " + urlImgInfo);
                     var jsonImgInfo = await _client.FetchJson(urlImgInfo);
-                    var url = jsonImgInfo!["query"]!["pages"]!.AsObject().First().Value!["imageinfo"]![0]!["url"]!.GetValue<string>();
+                    var url = jsonImgInfo?["query"]?["pages"]?.AsObject().First().Value?["imageinfo"]?[0]?["url"]?.GetValue<string>();
+                    if (url == null)
+                    {
+                        Console.WriteLine($"Не удалось получить URL изображения для {frame}");
+                        continue;
+                    }
+                    else
+                    {
+                        var imgFrameByte = await _client.DownloadImageAsync(url!);
 
-                    var imgFrameByte = await _client.DownloadImageAsync(url!);
-
-                    await File.WriteAllBytesAsync(pathName, imgFrameByte);
-                    Console.WriteLine("Добавлено изображение frame:" + frame);
+                        await File.WriteAllBytesAsync(pathName, imgFrameByte);
+                        Console.WriteLine("Добавлено изображение frame: " + frame);
+                    }
 
                 }
             }
@@ -270,13 +278,23 @@ namespace updateImg
                     var pathName = Path.Combine(_pathSentinelsImg, nameFile);
 
                     var urlImgInfo = $"https://wiki.warframe.com/api.php?action=query&titles=File:{nameSentinels}.png&prop=imageinfo&iiprop=url&format=json";
+                    Console.WriteLine("urlImgInfo sentinels: " + urlImgInfo);
                     var jsonImgInfo = await _client.FetchJson(urlImgInfo);
-                    var url = jsonImgInfo!["query"]!["pages"]!.AsObject().First().Value!["imageinfo"]![0]!["url"]!.GetValue<string>();
+                    var url = jsonImgInfo?["query"]?["pages"]?.AsObject().First().Value?["imageinfo"]?[0]?["url"]?.GetValue<string>();
+                    if (url == null)
+                    {
+                        Console.WriteLine($"Не удалось получить URL изображения для {Sentinels}");
+                        continue;
+                    }
+                    else
+                    {
+                        var imgFrameByte = await _client.DownloadImageAsync(url!);
 
-                    var imgFrameByte = await _client.DownloadImageAsync(url!);
+                        await File.WriteAllBytesAsync(pathName, imgFrameByte);
+                        Console.WriteLine("Добавлено изображение sentinels: " + Sentinels);
+                    }
 
-                    await File.WriteAllBytesAsync(pathName, imgFrameByte);
-                    Console.WriteLine("Добавлено изображение sentinels: " + Sentinels);
+
 
                 }
             }
@@ -293,13 +311,21 @@ namespace updateImg
                     var pathName = Path.Combine(_pathWeaponImg, nameFile);
 
                     var urlImgInfo = $"https://wiki.warframe.com/api.php?action=query&titles=File:{nameWeapon}.png&prop=imageinfo&iiprop=url&format=json";
+                    Console.WriteLine("urlImgInfo weapon: " + urlImgInfo);
                     var jsonImgInfo = await _client.FetchJson(urlImgInfo);
-                    var url = jsonImgInfo!["query"]!["pages"]!.AsObject().First().Value!["imageinfo"]![0]!["url"]!.GetValue<string>();
+                    var url = jsonImgInfo?["query"]?["pages"]?.AsObject().First().Value?["imageinfo"]?[0]?["url"]?.GetValue<string>();
+                    if (url == null)
+                    {
+                        Console.WriteLine($"Не удалось получить URL изображения для {weapon}");
+                        continue;
+                    }
+                    else
+                    {
+                        var imgFrameByte = await _client.DownloadImageAsync(url!);
 
-                    var imgFrameByte = await _client.DownloadImageAsync(url!);
-
-                    await File.WriteAllBytesAsync(pathName, imgFrameByte);
-                    Console.WriteLine("Добавлено изображение weapon: " + weapon);
+                        await File.WriteAllBytesAsync(pathName, imgFrameByte);
+                        Console.WriteLine("Добавлено изображение weapon: " + weapon);
+                    }
 
                 }
             }
@@ -307,12 +333,12 @@ namespace updateImg
 
     }
 
-//сборка
+    //сборка
     class WriteJsonDownloadImg
     {
         private readonly SeparateCategories _separateCategories;
         private readonly GettingImages _gettingImages;
-        public WriteJsonDownloadImg(SeparateCategories separateCategories,GettingImages gettingImages)
+        public WriteJsonDownloadImg(SeparateCategories separateCategories, GettingImages gettingImages)
         {
             _separateCategories = separateCategories;
             _gettingImages = gettingImages;

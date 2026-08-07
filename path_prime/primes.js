@@ -323,12 +323,17 @@ export async function init() {
 
 
         const bg = document.createElement('div');
+        const spanzBg =document.createElement('span')
         bg.className = 'item-background';
-        bg.textContent = displayName;
+        spanzBg.className='nameItem';
+        spanzBg.textContent = displayName;
+        
 
         const overlay = document.createElement('div');
         overlay.className = 'item-img';
 
+
+        bg.appendChild(spanzBg)
         bg.appendChild(overlay);
         item.appendChild(bg);
 

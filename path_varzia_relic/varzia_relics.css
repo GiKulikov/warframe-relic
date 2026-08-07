@@ -79,9 +79,12 @@
   background-color: rgba(0, 0, 0, 0.453);
   color: #ffffff00;
   font-size: 40px;
-  font-family: 'Major Mono Cyrillic', monospace;
   display: flex;
   justify-content: center;
+}
+.nameItem{
+  font-family: 'Major Mono Cyrillic', monospace;
+  margin-top: 10px;
 }
 
 .item-img {

@@ -235,7 +235,7 @@ export async function init() {
 
       <div class="contBtn">
         <button class="market-btn"
-          onclick="window.open('https://warframe.market/items/${marketSetSlug}', '_blank')">
+          onclick="window.open('https://warframe.market/items/${marketSetSlug.replace('&', 'and')}', '_blank')">
           ${dict.general.item.buy_part}
         </button>
 
