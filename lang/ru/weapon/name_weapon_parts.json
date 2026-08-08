@@ -12,6 +12,7 @@
     "String":"Тетива",
     "Stock":"Приклад",
     "Gauntlet":"Перчатка",
+    "Guard":"Щит",
     "Blades":"Лезвия",
     "Link":"Cвязь",
     "Head":"Молот",
@@ -20,6 +21,7 @@
     "Chain":"Цепь",
     "Ornament":"орнамент",
     "Set":"Полный Комплект",
+    "Hilt":"Рукоять",
     "Wings Blueprint":"Крылья (Чертеж)",
     "Harness Blueprint":"Упряжь (Чертеж)",
     "Systems Blueprint":"Система (Чертёж)"

@@ -58,14 +58,16 @@ export async function init() {
 
 
   const container = document.getElementById('partsContainer');
-  const containerForCost = document.getElementsByClassName('contWithPartsWithCost')[0];
-  containerForCost.innerHTML = '';
-  container.innerHTML = '';
+  const containerForCost = document.getElementById('costContainer');
+  
+ 
+
 
 
  
 
   function createPartCard(name, data) {
+    
     const card = document.createElement('div');
     card.className = 'partWithCost';
 
@@ -84,6 +86,7 @@ export async function init() {
     const frameDict = isFrameEntity
       ? dict.frame.name_frame_parts[upName]
       : dict.weapon.name_weapon_parts[upName];
+
     card.innerHTML = `
     <div  class="itemName">
       <span>${frameDict || upName}</span>
@@ -134,7 +137,7 @@ export async function init() {
   async function loadAndDisplayItem(itemPath, container) {
     const data = await getItemData(itemPath);
     if (!data) return;
-
+    container.textContent = '';
     Object.entries(data).forEach(([partName, partData]) => {
       const card = createPartCard(partName, partData);
       container.appendChild(card);
@@ -283,11 +286,12 @@ export async function init() {
 
     contForCard.appendChild(card)
     container.appendChild(contForCard);
+    
   });
-
   var result = [...allPartName].join(';');
   var patheApi = itemNameSlug + ';' + result;
   loadAndDisplayItem(patheApi, containerForCost);
+
 
   return {
     destroy() {

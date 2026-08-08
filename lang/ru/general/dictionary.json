@@ -6,7 +6,8 @@
     "back_to_list": "← Назад к списку",
     "type_relic": "Все",
     "type_filter": "Тип реликвии:",
-    "search_placeholder": "Фрейм или реликвия"
+    "search_placeholder": "Фрейм или реликвия",
+    "cost_parts": "Цена частей"
   },
   "navigation": {
     "home": "Главная",

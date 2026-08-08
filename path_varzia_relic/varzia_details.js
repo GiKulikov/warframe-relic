@@ -29,9 +29,8 @@ export async function init() {
   const parts = primes[decodedName] || [];
 
   const container = document.getElementById('partsContainer');
-  const containerForCost = document.getElementsByClassName('contWithPartsWithCost')[0];
-  containerForCost.innerHTML = '';
-  container.innerHTML = '';
+  const containerForCost = document.getElementById('costContainer');
+ 
 
   
   function createPartCard(name, data) {
@@ -103,7 +102,7 @@ export async function init() {
   async function loadAndDisplayItem(itemPath, container) {
     const data = await getItemData(itemPath);
     if (!data) return;
-
+    container.textContent = '';
     Object.entries(data).forEach(([partName, partData]) => {
       const card = createPartCard(partName, partData);
       container.appendChild(card);

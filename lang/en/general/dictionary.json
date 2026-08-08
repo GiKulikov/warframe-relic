@@ -6,7 +6,9 @@
     "back_to_list": "← Back to list",
     "search_placeholder": "Search by frame and relic",
     "type_relic": "All",
-    "type_filter": "Type of relic:"
+    "type_filter": "Type of relic:",
+    "cost_parts": "Cost of Parts"
+
   },
   "navigation": {
     "home": "Home",
