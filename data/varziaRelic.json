@@ -1,143 +1,139 @@
 {
   "status": "Update",
   "varziaPeriod": {
-    "startDate": "2026-08-06T18:00:00.000Z",
-    "endDate": "2026-09-03T18:00:00.000Z"
+    "startDate": "2026-09-03T18:00:00.000Z",
+    "endDate": "2026-10-01T18:00:00.000Z"
   },
-  "Baruuk Prime": [
+  "Akbolto Prime": [
     {
-      "item": "Baruuk Prime Blueprint",
-      "relic": "Axi B9"
+      "item": "Akbolto Prime Receiver",
+      "relic": "Axi A12"
     },
     {
-      "item": "Baruuk Prime Neuroptics Blueprint",
-      "relic": "Axi B9"
+      "item": "Akbolto Prime Blueprint",
+      "relic": "Axi H5"
     },
     {
-      "item": "Baruuk Prime Chassis Blueprint",
-      "relic": "Lith T13"
+      "item": "Akbolto Prime Barrel",
+      "relic": "Lith K5"
     },
     {
-      "item": "Baruuk Prime Systems Blueprint",
-      "relic": "Neo P8"
+      "item": "Akbolto Prime Blueprint",
+      "relic": "Lith M7"
+    },
+    {
+      "item": "Akbolto Prime Link",
+      "relic": "Neo B6"
     }
   ],
-  "Cobra \u0026 Crane Prime": [
+  "Helios Prime": [
     {
-      "item": "Cobra \u0026 Crane Prime Blueprint",
-      "relic": "Axi B9"
+      "item": "Helios Prime Systems",
+      "relic": "Axi A12"
     },
     {
-      "item": "Cobra \u0026 Crane Prime Guard",
-      "relic": "Axi C9"
+      "item": "Helios Prime Cerebrum",
+      "relic": "Axi H5"
     },
     {
-      "item": "Cobra \u0026 Crane Prime Hilt",
-      "relic": "Lith A9"
+      "item": "Helios Prime Carapace",
+      "relic": "Lith K5"
     },
     {
-      "item": "Cobra \u0026 Crane Prime Blade",
-      "relic": "Meso R6"
+      "item": "Helios Prime Blueprint",
+      "relic": "Meso E5"
+    },
+    {
+      "item": "Helios Prime Carapace",
+      "relic": "Meso E5"
     }
   ],
-  "Afuris Prime": [
+  "Banshee Prime": [
     {
-      "item": "Afuris Prime Blueprint",
-      "relic": "Axi B9"
+      "item": "Banshee Prime Blueprint",
+      "relic": "Axi A12"
     },
     {
-      "item": "Afuris Prime Receiver",
-      "relic": "Lith A9"
+      "item": "Banshee Prime Neuroptics Blueprint",
+      "relic": "Axi H5"
     },
     {
-      "item": "Afuris Prime Barrel",
-      "relic": "Meso R6"
+      "item": "Banshee Prime Systems Blueprint",
+      "relic": "Lith K5"
     },
     {
-      "item": "Afuris Prime Link",
-      "relic": "Neo P8"
+      "item": "Banshee Prime Neuroptics Blueprint",
+      "relic": "Lith M7"
+    },
+    {
+      "item": "Banshee Prime Blueprint",
+      "relic": "Meso E5"
+    },
+    {
+      "item": "Banshee Prime Chassis Blueprint",
+      "relic": "Neo B6"
     }
   ],
-  "Braton Prime": [
+  "Mirage Prime": [
     {
-      "item": "Braton Prime Blueprint",
-      "relic": "Axi B9"
+      "item": "Mirage Prime Chassis Blueprint",
+      "relic": "Axi A12"
     },
     {
-      "item": "Braton Prime Receiver",
-      "relic": "Axi C9"
+      "item": "Mirage Prime Systems Blueprint",
+      "relic": "Axi H5"
     },
     {
-      "item": "Braton Prime Barrel",
-      "relic": "Lith T13"
+      "item": "Mirage Prime Chassis Blueprint",
+      "relic": "Lith K5"
     },
     {
-      "item": "Braton Prime Stock",
-      "relic": "Meso R6"
+      "item": "Mirage Prime Blueprint",
+      "relic": "Lith M7"
+    },
+    {
+      "item": "Mirage Prime Neuroptics Blueprint",
+      "relic": "Meso E5"
+    },
+    {
+      "item": "Mirage Prime Neuroptics Blueprint",
+      "relic": "Neo B6"
     }
   ],
-  "Tatsu Prime": [
+  "Kogake Prime": [
     {
-      "item": "Tatsu Prime Blade",
-      "relic": "Axi C9"
+      "item": "Kogake Prime Boot",
+      "relic": "Axi A12"
     },
     {
-      "item": "Tatsu Prime Blueprint",
-      "relic": "Lith A9"
+      "item": "Kogake Prime Gauntlet",
+      "relic": "Lith K5"
     },
     {
-      "item": "Tatsu Prime Handle",
-      "relic": "Lith T13"
+      "item": "Kogake Prime Boot",
+      "relic": "Lith M7"
+    },
+    {
+      "item": "Kogake Prime Blueprint",
+      "relic": "Neo B6"
     }
   ],
-  "Phantasma Prime": [
+  "Euphona Prime": [
     {
-      "item": "Phantasma Prime Stock",
-      "relic": "Axi C9"
+      "item": "Euphona Prime Blueprint",
+      "relic": "Axi H5"
     },
     {
-      "item": "Phantasma Prime Blueprint",
-      "relic": "Lith A9"
+      "item": "Euphona Prime Barrel",
+      "relic": "Lith M7"
     },
     {
-      "item": "Phantasma Prime Receiver",
-      "relic": "Lith T13"
+      "item": "Euphona Prime Receiver",
+      "relic": "Meso E5"
     },
     {
-      "item": "Phantasma Prime Barrel",
-      "relic": "Neo P8"
-    }
-  ],
-  "Revenant Prime": [
-    {
-      "item": "Revenant Prime Chassis Blueprint",
-      "relic": "Axi C9"
-    },
-    {
-      "item": "Revenant Prime Neuroptics Blueprint",
-      "relic": "Lith T13"
-    },
-    {
-      "item": "Revenant Prime Blueprint",
-      "relic": "Meso R6"
-    },
-    {
-      "item": "Revenant Prime Systems Blueprint",
-      "relic": "Neo P8"
-    }
-  ],
-  "Orthos Prime": [
-    {
-      "item": "Orthos Prime Blade",
-      "relic": "Lith A9"
-    },
-    {
-      "item": "Orthos Prime Blueprint",
-      "relic": "Meso R6"
-    },
-    {
-      "item": "Orthos Prime Handle",
-      "relic": "Neo P8"
+      "item": "Euphona Prime Blueprint",
+      "relic": "Neo B6"
     }
   ]
 }

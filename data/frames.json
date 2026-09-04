@@ -9,6 +9,8 @@
     "Gyre Prime",
     "Valkyr Prime",
     "Yareli Prime",
+    "Banshee Prime",
+    "Mirage Prime",
     "Baruuk Prime",
     "Revenant Prime",
     "Gara Prime",
@@ -17,7 +19,6 @@
     "Wukong Prime",
     "Ash Prime",
     "Atlas Prime",
-    "Banshee Prime",
     "Chroma Prime",
     "Ember Prime",
     "Excalibur Prime",
@@ -35,7 +36,6 @@
     "Loki Prime",
     "Mag Prime",
     "Mesa Prime",
-    "Mirage Prime",
     "Nekros Prime",
     "Nezha Prime",
     "Nidus Prime",
@@ -53,9 +53,9 @@
     "Zephyr Prime"
   ],
   "sentinels": [
+    "Helios Prime",
     "Carrier Prime",
     "Dethcube Prime",
-    "Helios Prime",
     "Nautilus Prime",
     "Wyrm Prime"
   ]
