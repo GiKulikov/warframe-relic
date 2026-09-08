@@ -415,7 +415,8 @@ export async function init() {
         const frameCount = frameParts.size;
 
 
-        const isFrameEntity = framesData.frames?.includes(name) || framesData.sentinels?.includes(name);
+        const isFrameEntity = framesData.frames?.includes(name);
+        const isSentinel = framesData.sentinels?.includes(name);
         const displayName = isFrameEntity
           ? (dict.frame.name_frame[name] ?? name)
           : (dict.weapon.name_weapon[name] ?? name);
@@ -435,9 +436,11 @@ export async function init() {
         if (isFrameEntity) {
           item.style.setProperty('--span', randomInt(30, 35));
         }
+        else if (isSentinel) {
+          item.style.setProperty('--span', randomInt(20, 25));
+        }
         else {
           item.style.setProperty('--span', randomInt(10, 20));
-
         }
 
         const bg = document.createElement('div');

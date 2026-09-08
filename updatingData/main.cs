@@ -59,7 +59,7 @@ if (DateTime.Now > updateVarzia)
 else
 {
     TimeSpan diff = updateVarzia - DateTime.Now;
-    Console.WriteLine("Осталось до варзии: " + diff.Days + " д");
+    Console.WriteLine("Осталось до варзии: " + diff.Hours + " ч");
 
 }
 
