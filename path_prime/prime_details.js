@@ -219,7 +219,8 @@ export async function init() {
     if (displayNamePart.trim().split(/\s+/).length >= 2) {
       displayPart = displayNamePart.replace("Blueprint", "").trim();
     }
-
+    const typelang = document.getElementById('typelang').value;
+    const lang = typelang === 'en' ? '' :'/'+ typelang;
     contForCard.innerHTML = `
     <div class ="NamePart">
       <span >${displayPart}</span>
@@ -238,13 +239,13 @@ export async function init() {
 
       <div class="contBtn">
         <button class="market-btn"
-          onclick="window.open('https://warframe.market/items/${marketSetSlug.replace('&', 'and')}', '_blank')">
+          onclick="window.open('https://warframe.market${lang}/items/${marketSetSlug.replace('&', 'and')}', '_blank')">
           ${dict.general.item.buy_part}
         </button>
 
         <div class="btns">
           <button class="relic-btn"
-            onclick="window.open('https://warframe.market/items/${relicSlug}', '_blank')">
+            onclick="window.open('https://warframe.market${lang}/items/${relicSlug}', '_blank')">
             ${dict.general.item.buy_relic}
           </button>
 

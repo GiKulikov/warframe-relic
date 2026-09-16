@@ -604,7 +604,7 @@ namespace updatingDataRelic
             var obj = JsonNode.Parse(jsonData)!.AsObject();
             var date = obj["date"]!.GetValue<string>();
             var parse = DateTime.Parse(date);
-            var result = parse.AddDays(10);
+            var result = parse.AddDays(20);
             return result;
         }
         public async Task<DateTime> ReadingDateVarzia()

@@ -30,9 +30,9 @@ export async function init() {
 
   const container = document.getElementById('partsContainer');
   const containerForCost = document.getElementById('costContainer');
- 
 
-  
+
+
   function createPartCard(name, data) {
     const card = document.createElement('div');
     card.className = 'partWithCost';
@@ -147,6 +147,8 @@ export async function init() {
     if (displayNamePart.trim().split(/\s+/).length >= 2) {
       displayPart = displayNamePart.replace("Blueprint", "").trim();
     }
+    const typelang = document.getElementById('typelang').value;
+    const lang = typelang === 'en' ? '' : '/' + typelang;
     contForCard.innerHTML = `
     <div class ="NamePart">
       <span >${displayPart}</span>
@@ -164,13 +166,13 @@ export async function init() {
 
       <div class="contBtn">
         <button class="market-btn"
-          onclick="window.open('https://warframe.market/items/${marketSetSlug.replace('&', 'and')}', '_blank')">
+          onclick="window.open('https://warframe.market${lang}/items/${marketSetSlug.replace('&', 'and')}', '_blank')">
           ${dict.general.item.buy_part}
         </button>
 
         <div class="btns">
           <button class="relic-btn"
-            onclick="window.open('https://warframe.market/items/${relicSlug}', '_blank')">
+            onclick="window.open('https://warframe.market${lang}/items/${relicSlug}', '_blank')">
             ${dict.general.item.buy_relic}
           </button>
 
@@ -195,8 +197,8 @@ export async function init() {
     card.querySelector('.relic-btn').addEventListener('mouseleave', () => {
       relicEl.style.color = '';
     });
-    
-    
+
+
 
 
 
@@ -204,9 +206,9 @@ export async function init() {
     contForCard.appendChild(card)
     container.appendChild(contForCard);
   });
-  
+
   var result = [...allPartName].join(';');
-  
+
   var patheApi = itemNameSlug.replace('&', 'and') + ';' + result;
 
   loadAndDisplayItem(patheApi, containerForCost);
