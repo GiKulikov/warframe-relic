@@ -8,18 +8,6 @@
       {
         "item": "Alternox Prime Receiver",
         "relic": "Axi V14"
-      },
-      {
-        "item": "Alternox Prime Blueprint",
-        "relic": "Lith A12"
-      },
-      {
-        "item": "Alternox Prime Barrel",
-        "relic": "Meso K8"
-      },
-      {
-        "item": "Alternox Prime Receiver",
-        "relic": "Neo C9"
       }
     ],
     "Voruna Prime": [
@@ -42,10 +30,6 @@
       {
         "item": "Voruna Prime Neuroptics Blueprint",
         "relic": "Meso D8"
-      },
-      {
-        "item": "Voruna Prime Systems Blueprint",
-        "relic": "Neo V12"
       }
     ],
     "Cedo Prime": [
@@ -56,22 +40,6 @@
       {
         "item": "Cedo Prime Barrel",
         "relic": "Axi D6"
-      },
-      {
-        "item": "Cedo Prime Receiver",
-        "relic": "Lith K12"
-      },
-      {
-        "item": "Cedo Prime Receiver",
-        "relic": "Lith Q3"
-      },
-      {
-        "item": "Cedo Prime Stock",
-        "relic": "Neo C8"
-      },
-      {
-        "item": "Cedo Prime Blueprint",
-        "relic": "Neo C9"
       }
     ],
     "Styanax Prime": [
@@ -86,10 +54,6 @@
       {
         "item": "Styanax Prime Chassis Blueprint",
         "relic": "Meso Y2"
-      },
-      {
-        "item": "Styanax Prime Systems Blueprint",
-        "relic": "Neo Y1"
       }
     ],
     "Vadarya Prime": [
@@ -107,18 +71,6 @@
       },
       {
         "item": "Vadarya Prime Receiver",
-        "relic": "Meso L5"
-      },
-      {
-        "item": "Vadarya Prime Blueprint",
-        "relic": "Meso V15"
-      },
-      {
-        "item": "Vadarya Prime Stock",
-        "relic": "Meso X1"
-      },
-      {
-        "item": "Vadarya Prime Receiver",
         "relic": "Neo C7"
       }
     ],
@@ -128,16 +80,8 @@
         "relic": "Axi A22"
       },
       {
-        "item": "Afentis Prime Handle",
-        "relic": "Lith Q3"
-      },
-      {
         "item": "Afentis Prime Blade",
         "relic": "Meso A12"
-      },
-      {
-        "item": "Afentis Prime Barrel",
-        "relic": "Neo C8"
       }
     ],
     "Kompressa Prime": [
@@ -148,10 +92,6 @@
       {
         "item": "Kompressa Prime Receiver",
         "relic": "Axi V14"
-      },
-      {
-        "item": "Kompressa Prime Barrel",
-        "relic": "Lith K12"
       },
       {
         "item": "Kompressa Prime Blueprint",
@@ -172,20 +112,12 @@
         "relic": "Axi D6"
       },
       {
-        "item": "Dual Zoren Prime Handle",
-        "relic": "Axi S20"
-      },
-      {
         "item": "Dual Zoren Prime Blueprint",
         "relic": "Lith V11"
       },
       {
         "item": "Dual Zoren Prime Handle",
         "relic": "Meso D8"
-      },
-      {
-        "item": "Dual Zoren Prime Blueprint",
-        "relic": "Meso X1"
       },
       {
         "item": "Dual Zoren Prime Handle",
@@ -199,19 +131,7 @@
       },
       {
         "item": "Burston Prime Stock",
-        "relic": "Axi T13"
-      },
-      {
-        "item": "Burston Prime Receiver",
-        "relic": "Lith A12"
-      },
-      {
-        "item": "Burston Prime Stock",
         "relic": "Lith S18"
-      },
-      {
-        "item": "Burston Prime Blueprint",
-        "relic": "Meso K8"
       },
       {
         "item": "Burston Prime Barrel",
@@ -226,24 +146,36 @@
       {
         "item": "Venato Prime Blade",
         "relic": "Meso V13"
+      }
+    ],
+    "Kestrel Prime": [
+      {
+        "item": "Kestrel Prime Blade",
+        "relic": "Lith S18"
+      }
+    ],
+    "Daikyu Prime": [
+      {
+        "item": "Daikyu Prime String",
+        "relic": "Lith S18"
       },
       {
-        "item": "Venato Prime Handle",
-        "relic": "Meso V15"
+        "item": "Daikyu Prime Grip",
+        "relic": "Meso D8"
       },
       {
-        "item": "Venato Prime Blueprint",
-        "relic": "Neo C8"
+        "item": "Daikyu Prime Upper Limb",
+        "relic": "Meso Y2"
+      },
+      {
+        "item": "Daikyu Prime Upper Limb",
+        "relic": "Neo C7"
       }
     ],
     "Orthos Prime": [
       {
         "item": "Orthos Prime Blade",
         "relic": "Axi D6"
-      },
-      {
-        "item": "Orthos Prime Blueprint",
-        "relic": "Axi S20"
       },
       {
         "item": "Orthos Prime Handle",
@@ -265,10 +197,6 @@
       },
       {
         "item": "Lex Prime Barrel",
-        "relic": "Meso K8"
-      },
-      {
-        "item": "Lex Prime Barrel",
         "relic": "Meso N11"
       },
       {
@@ -278,10 +206,6 @@
       {
         "item": "Lex Prime Blueprint",
         "relic": "Neo V9"
-      },
-      {
-        "item": "Lex Prime Receiver",
-        "relic": "Neo Y1"
       }
     ],
     "Lavos Prime": [
@@ -298,14 +222,6 @@
         "relic": "Lith G14"
       },
       {
-        "item": "Lavos Prime Chassis Blueprint",
-        "relic": "Lith T14"
-      },
-      {
-        "item": "Lavos Prime Systems Blueprint",
-        "relic": "Meso L5"
-      },
-      {
         "item": "Lavos Prime Blueprint",
         "relic": "Neo A16"
       }
@@ -316,32 +232,8 @@
         "relic": "Axi D6"
       },
       {
-        "item": "Paris Prime String",
-        "relic": "Axi S20"
-      },
-      {
         "item": "Paris Prime Lower Limb",
         "relic": "Lith G14"
-      },
-      {
-        "item": "Paris Prime String",
-        "relic": "Lith Q3"
-      },
-      {
-        "item": "Paris Prime Lower Limb",
-        "relic": "Meso L5"
-      },
-      {
-        "item": "Paris Prime Grip",
-        "relic": "Meso X1"
-      },
-      {
-        "item": "Paris Prime Upper Limb",
-        "relic": "Neo C9"
-      },
-      {
-        "item": "Paris Prime Blueprint",
-        "relic": "Neo V12"
       }
     ],
     "Perigale Prime": [
@@ -350,30 +242,18 @@
         "relic": "Axi P10"
       },
       {
-        "item": "Perigale Prime Receiver",
-        "relic": "Lith T14"
-      },
-      {
         "item": "Perigale Prime Blueprint",
         "relic": "Meso A12"
       },
       {
         "item": "Perigale Prime Stock",
         "relic": "Neo A16"
-      },
-      {
-        "item": "Perigale Prime Stock",
-        "relic": "Neo T11"
       }
     ],
     "Athodai Prime": [
       {
         "item": "Athodai Prime Receiver",
         "relic": "Axi P10"
-      },
-      {
-        "item": "Athodai Prime Blueprint",
-        "relic": "Meso L5"
       },
       {
         "item": "Athodai Prime Barrel",
@@ -392,24 +272,12 @@
       {
         "item": "Fang Prime Handle",
         "relic": "Lith G14"
-      },
-      {
-        "item": "Fang Prime Handle",
-        "relic": "Lith T14"
-      },
-      {
-        "item": "Fang Prime Blueprint",
-        "relic": "Neo Y1"
       }
     ],
     "Caliban Prime": [
       {
         "item": "Caliban Prime Chassis Blueprint",
         "relic": "Axi P10"
-      },
-      {
-        "item": "Caliban Prime Chassis Blueprint",
-        "relic": "Lith K12"
       },
       {
         "item": "Caliban Prime Blueprint",
@@ -420,64 +288,18 @@
         "relic": "Meso V13"
       },
       {
-        "item": "Caliban Prime Blueprint",
-        "relic": "Meso V15"
-      },
-      {
-        "item": "Caliban Prime Chassis Blueprint",
-        "relic": "Meso V15"
-      },
-      {
         "item": "Caliban Prime Neuroptics Blueprint",
         "relic": "Neo C7"
-      },
-      {
-        "item": "Caliban Prime Systems Blueprint",
-        "relic": "Neo C8"
       }
     ],
-    "Sarofang Prime": [
+    "Gyre Prime": [
       {
-        "item": "Sarofang Prime Blade",
-        "relic": "Axi S20"
+        "item": "Gyre Prime Neuroptics Blueprint",
+        "relic": "Lith G14"
       },
       {
-        "item": "Sarofang Prime Handle",
-        "relic": "Meso A12"
-      },
-      {
-        "item": "Sarofang Prime Blueprint",
-        "relic": "Neo A16"
-      }
-    ],
-    "Xaku Prime": [
-      {
-        "item": "Xaku Prime Systems Blueprint",
-        "relic": "Axi S20"
-      },
-      {
-        "item": "Xaku Prime Neuroptics Blueprint",
-        "relic": "Axi T13"
-      },
-      {
-        "item": "Xaku Prime Systems Blueprint",
-        "relic": "Lith A12"
-      },
-      {
-        "item": "Xaku Prime Neuroptics Blueprint",
-        "relic": "Meso K8"
-      },
-      {
-        "item": "Xaku Prime Blueprint",
-        "relic": "Meso X1"
-      },
-      {
-        "item": "Xaku Prime Chassis Blueprint",
-        "relic": "Neo C9"
-      },
-      {
-        "item": "Xaku Prime Chassis Blueprint",
-        "relic": "Neo V12"
+        "item": "Gyre Prime Systems Blueprint",
+        "relic": "Meso Y2"
       }
     ],
     "Scindo Prime": [
@@ -562,6 +384,706 @@
         "relic": "Lith C7"
       }
     ],
+    "Valkyr Prime": [
+      {
+        "item": "Valkyr Prime Systems Blueprint",
+        "relic": "Axi V10"
+      },
+      {
+        "item": "Valkyr Prime Blueprint",
+        "relic": "Lith C7"
+      },
+      {
+        "item": "Valkyr Prime Neuroptics Blueprint",
+        "relic": "Meso N11"
+      },
+      {
+        "item": "Valkyr Prime Chassis Blueprint",
+        "relic": "Neo V9"
+      }
+    ],
+    "Yareli Prime": [
+      {
+        "item": "Yareli Prime Blueprint",
+        "relic": "Meso D8"
+      },
+      {
+        "item": "Yareli Prime Neuroptics Blueprint",
+        "relic": "Meso Y2"
+      },
+      {
+        "item": "Yareli Prime Chassis Blueprint",
+        "relic": "Neo A16"
+      }
+    ],
+    "Sarofang Prime": [
+      {
+        "item": "Sarofang Prime Handle",
+        "relic": "Meso A12"
+      },
+      {
+        "item": "Sarofang Prime Blueprint",
+        "relic": "Neo A16"
+      }
+    ],
+    "Braton Prime": [
+      {
+        "item": "Braton Prime Stock",
+        "relic": "Lith V11"
+      },
+      {
+        "item": "Braton Prime Blueprint",
+        "relic": "Meso D8"
+      },
+      {
+        "item": "Braton Prime Blueprint",
+        "relic": "Meso V13"
+      },
+      {
+        "item": "Braton Prime Barrel",
+        "relic": "Neo C7"
+      }
+    ],
+    "Bronco Prime": [
+      {
+        "item": "Bronco Prime Barrel",
+        "relic": "Meso A12"
+      },
+      {
+        "item": "Bronco Prime Barrel",
+        "relic": "Meso D8"
+      },
+      {
+        "item": "Bronco Prime Receiver",
+        "relic": "Meso V13"
+      },
+      {
+        "item": "Bronco Prime Receiver",
+        "relic": "Meso Y2"
+      }
+    ]
+  },
+  "added": {
+    "Alternox Prime": [
+      {
+        "item": "Alternox Prime Receiver",
+        "relic": "Axi C12"
+      },
+      {
+        "item": "Alternox Prime Blueprint",
+        "relic": "Lith A13"
+      },
+      {
+        "item": "Alternox Prime Barrel",
+        "relic": "Lith L8"
+      }
+    ],
+    "Voruna Prime": [
+      {
+        "item": "Voruna Prime Systems Blueprint",
+        "relic": "Meso V17"
+      }
+    ],
+    "Cedo Prime": [
+      {
+        "item": "Cedo Prime Stock",
+        "relic": "Axi S21"
+      },
+      {
+        "item": "Cedo Prime Blueprint",
+        "relic": "Lith C15"
+      },
+      {
+        "item": "Cedo Prime Receiver",
+        "relic": "Meso D9"
+      },
+      {
+        "item": "Cedo Prime Barrel",
+        "relic": "Neo C11"
+      }
+    ],
+    "Styanax Prime": [
+      {
+        "item": "Styanax Prime Systems Blueprint",
+        "relic": "Neo C10"
+      },
+      {
+        "item": "Styanax Prime Blueprint",
+        "relic": "Neo V13"
+      }
+    ],
+    "Vadarya Prime": [
+      {
+        "item": "Vadarya Prime Stock",
+        "relic": "Axi C12"
+      },
+      {
+        "item": "Vadarya Prime Receiver",
+        "relic": "Neo C11"
+      },
+      {
+        "item": "Vadarya Prime Blueprint",
+        "relic": "Neo V13"
+      }
+    ],
+    "Afentis Prime": [
+      {
+        "item": "Afentis Prime Handle",
+        "relic": "Meso D9"
+      },
+      {
+        "item": "Afentis Prime Barrel",
+        "relic": "Neo C10"
+      }
+    ],
+    "Kompressa Prime": [
+      {
+        "item": "Kompressa Prime Blueprint",
+        "relic": "Meso C11"
+      },
+      {
+        "item": "Kompressa Prime Barrel",
+        "relic": "Neo K10"
+      }
+    ],
+    "Dual Zoren Prime": [
+      {
+        "item": "Dual Zoren Prime Handle",
+        "relic": "Axi S21"
+      },
+      {
+        "item": "Dual Zoren Prime Blueprint",
+        "relic": "Lith A13"
+      },
+      {
+        "item": "Dual Zoren Prime Blade",
+        "relic": "Meso D9"
+      }
+    ],
+    "Burston Prime": [
+      {
+        "item": "Burston Prime Receiver",
+        "relic": "Lith C15"
+      },
+      {
+        "item": "Burston Prime Blueprint",
+        "relic": "Meso D9"
+      },
+      {
+        "item": "Burston Prime Stock",
+        "relic": "Neo Y2"
+      }
+    ],
+    "Venato Prime": [
+      {
+        "item": "Venato Prime Blueprint",
+        "relic": "Neo K10"
+      },
+      {
+        "item": "Venato Prime Handle",
+        "relic": "Neo Y2"
+      }
+    ],
+    "Citrine Prime": [
+      {
+        "item": "Citrine Prime Neuroptics Blueprint",
+        "relic": "Axi C12"
+      },
+      {
+        "item": "Citrine Prime Systems Blueprint",
+        "relic": "Lith S19"
+      },
+      {
+        "item": "Citrine Prime Blueprint",
+        "relic": "Meso C11"
+      },
+      {
+        "item": "Citrine Prime Chassis Blueprint",
+        "relic": "Neo C11"
+      }
+    ],
+    "Kestrel Prime": [
+      {
+        "item": "Kestrel Prime Blueprint",
+        "relic": "Axi C12"
+      },
+      {
+        "item": "Kestrel Prime Blade",
+        "relic": "Lith L8"
+      },
+      {
+        "item": "Kestrel Prime Grip",
+        "relic": "Meso K9"
+      }
+    ],
+    "Corufell Prime": [
+      {
+        "item": "Corufell Prime Handle",
+        "relic": "Axi C12"
+      },
+      {
+        "item": "Corufell Prime Stock",
+        "relic": "Lith C15"
+      },
+      {
+        "item": "Corufell Prime Blueprint",
+        "relic": "Meso V17"
+      },
+      {
+        "item": "Corufell Prime Receiver",
+        "relic": "Neo C10"
+      }
+    ],
+    "Daikyu Prime": [
+      {
+        "item": "Daikyu Prime Blueprint",
+        "relic": "Axi C12"
+      },
+      {
+        "item": "Daikyu Prime String",
+        "relic": "Lith C15"
+      },
+      {
+        "item": "Daikyu Prime Upper Limb",
+        "relic": "Meso C11"
+      },
+      {
+        "item": "Daikyu Prime Blueprint",
+        "relic": "Neo C11"
+      },
+      {
+        "item": "Daikyu Prime Lower Limb",
+        "relic": "Neo K10"
+      }
+    ],
+    "Orthos Prime": [
+      {
+        "item": "Orthos Prime Handle",
+        "relic": "Lith L8"
+      },
+      {
+        "item": "Orthos Prime Blueprint",
+        "relic": "Lith S19"
+      }
+    ],
+    "Lex Prime": [
+      {
+        "item": "Lex Prime Receiver",
+        "relic": "Neo C11"
+      },
+      {
+        "item": "Lex Prime Blueprint",
+        "relic": "Neo Y2"
+      }
+    ],
+    "Lavos Prime": [
+      {
+        "item": "Lavos Prime Systems Blueprint",
+        "relic": "Lith L8"
+      },
+      {
+        "item": "Lavos Prime Chassis Blueprint",
+        "relic": "Meso C11"
+      },
+      {
+        "item": "Lavos Prime Blueprint",
+        "relic": "Meso V17"
+      },
+      {
+        "item": "Lavos Prime Neuroptics Blueprint",
+        "relic": "Neo V13"
+      }
+    ],
+    "Paris Prime": [
+      {
+        "item": "Paris Prime Lower Limb",
+        "relic": "Lith A13"
+      },
+      {
+        "item": "Paris Prime Blueprint",
+        "relic": "Meso C11"
+      },
+      {
+        "item": "Paris Prime Upper Limb",
+        "relic": "Meso D9"
+      },
+      {
+        "item": "Paris Prime Grip",
+        "relic": "Meso V17"
+      },
+      {
+        "item": "Paris Prime String",
+        "relic": "Neo V13"
+      }
+    ],
+    "Perigale Prime": [
+      {
+        "item": "Perigale Prime Blueprint",
+        "relic": "Lith L8"
+      },
+      {
+        "item": "Perigale Prime Receiver",
+        "relic": "Meso K9"
+      }
+    ],
+    "Athodai Prime": [
+      {
+        "item": "Athodai Prime Blueprint",
+        "relic": "Meso K9"
+      }
+    ],
+    "Fang Prime": [
+      {
+        "item": "Fang Prime Blade",
+        "relic": "Lith A13"
+      },
+      {
+        "item": "Fang Prime Blueprint",
+        "relic": "Meso K9"
+      }
+    ],
+    "Caliban Prime": [
+      {
+        "item": "Caliban Prime Chassis Blueprint",
+        "relic": "Axi S21"
+      },
+      {
+        "item": "Caliban Prime Blueprint",
+        "relic": "Meso K9"
+      },
+      {
+        "item": "Caliban Prime Chassis Blueprint",
+        "relic": "Neo C10"
+      },
+      {
+        "item": "Caliban Prime Systems Blueprint",
+        "relic": "Neo C11"
+      }
+    ],
+    "Steflos Prime": [
+      {
+        "item": "Steflos Prime Barrel",
+        "relic": "Axi S21"
+      },
+      {
+        "item": "Steflos Prime Receiver",
+        "relic": "Lith A13"
+      },
+      {
+        "item": "Steflos Prime Stock",
+        "relic": "Meso D9"
+      },
+      {
+        "item": "Steflos Prime Blueprint",
+        "relic": "Neo Y2"
+      }
+    ],
+    "Gyre Prime": [
+      {
+        "item": "Gyre Prime Blueprint",
+        "relic": "Axi S21"
+      },
+      {
+        "item": "Gyre Prime Chassis Blueprint",
+        "relic": "Lith A13"
+      }
+    ],
+    "Yareli Prime": [
+      {
+        "item": "Yareli Prime Blueprint",
+        "relic": "Lith C15"
+      },
+      {
+        "item": "Yareli Prime Chassis Blueprint",
+        "relic": "Meso K9"
+      },
+      {
+        "item": "Yareli Prime Systems Blueprint",
+        "relic": "Neo Y2"
+      }
+    ],
+    "Akbronco Prime": [
+      {
+        "item": "Akbronco Prime Link",
+        "relic": "Lith L8"
+      },
+      {
+        "item": "Akbronco Prime Blueprint",
+        "relic": "Meso V17"
+      }
+    ],
+    "Sarofang Prime": [
+      {
+        "item": "Sarofang Prime Blade",
+        "relic": "Lith S19"
+      },
+      {
+        "item": "Sarofang Prime Handle",
+        "relic": "Neo V13"
+      }
+    ],
+    "Braton Prime": [
+      {
+        "item": "Braton Prime Barrel",
+        "relic": "Lith S19"
+      },
+      {
+        "item": "Braton Prime Stock",
+        "relic": "Neo C10"
+      }
+    ],
+    "Bronco Prime": [
+      {
+        "item": "Bronco Prime Receiver",
+        "relic": "Lith S19"
+      },
+      {
+        "item": "Bronco Prime Blueprint",
+        "relic": "Neo K10"
+      }
+    ]
+  },
+  "removed": {
+    "Alternox Prime": [
+      {
+        "item": "Alternox Prime Blueprint",
+        "relic": "Lith A12"
+      },
+      {
+        "item": "Alternox Prime Barrel",
+        "relic": "Meso K8"
+      },
+      {
+        "item": "Alternox Prime Receiver",
+        "relic": "Neo C9"
+      }
+    ],
+    "Voruna Prime": [
+      {
+        "item": "Voruna Prime Systems Blueprint",
+        "relic": "Neo V12"
+      }
+    ],
+    "Cedo Prime": [
+      {
+        "item": "Cedo Prime Receiver",
+        "relic": "Lith K12"
+      },
+      {
+        "item": "Cedo Prime Receiver",
+        "relic": "Lith Q3"
+      },
+      {
+        "item": "Cedo Prime Stock",
+        "relic": "Neo C8"
+      },
+      {
+        "item": "Cedo Prime Blueprint",
+        "relic": "Neo C9"
+      }
+    ],
+    "Styanax Prime": [
+      {
+        "item": "Styanax Prime Systems Blueprint",
+        "relic": "Neo Y1"
+      }
+    ],
+    "Vadarya Prime": [
+      {
+        "item": "Vadarya Prime Receiver",
+        "relic": "Meso L5"
+      },
+      {
+        "item": "Vadarya Prime Blueprint",
+        "relic": "Meso V15"
+      },
+      {
+        "item": "Vadarya Prime Stock",
+        "relic": "Meso X1"
+      }
+    ],
+    "Afentis Prime": [
+      {
+        "item": "Afentis Prime Handle",
+        "relic": "Lith Q3"
+      },
+      {
+        "item": "Afentis Prime Barrel",
+        "relic": "Neo C8"
+      }
+    ],
+    "Kompressa Prime": [
+      {
+        "item": "Kompressa Prime Barrel",
+        "relic": "Lith K12"
+      }
+    ],
+    "Dual Zoren Prime": [
+      {
+        "item": "Dual Zoren Prime Handle",
+        "relic": "Axi S20"
+      },
+      {
+        "item": "Dual Zoren Prime Blueprint",
+        "relic": "Meso X1"
+      }
+    ],
+    "Burston Prime": [
+      {
+        "item": "Burston Prime Stock",
+        "relic": "Axi T13"
+      },
+      {
+        "item": "Burston Prime Receiver",
+        "relic": "Lith A12"
+      },
+      {
+        "item": "Burston Prime Blueprint",
+        "relic": "Meso K8"
+      }
+    ],
+    "Venato Prime": [
+      {
+        "item": "Venato Prime Handle",
+        "relic": "Meso V15"
+      },
+      {
+        "item": "Venato Prime Blueprint",
+        "relic": "Neo C8"
+      }
+    ],
+    "Orthos Prime": [
+      {
+        "item": "Orthos Prime Blueprint",
+        "relic": "Axi S20"
+      }
+    ],
+    "Lex Prime": [
+      {
+        "item": "Lex Prime Barrel",
+        "relic": "Meso K8"
+      },
+      {
+        "item": "Lex Prime Receiver",
+        "relic": "Neo Y1"
+      }
+    ],
+    "Lavos Prime": [
+      {
+        "item": "Lavos Prime Chassis Blueprint",
+        "relic": "Lith T14"
+      },
+      {
+        "item": "Lavos Prime Systems Blueprint",
+        "relic": "Meso L5"
+      }
+    ],
+    "Paris Prime": [
+      {
+        "item": "Paris Prime String",
+        "relic": "Axi S20"
+      },
+      {
+        "item": "Paris Prime String",
+        "relic": "Lith Q3"
+      },
+      {
+        "item": "Paris Prime Lower Limb",
+        "relic": "Meso L5"
+      },
+      {
+        "item": "Paris Prime Grip",
+        "relic": "Meso X1"
+      },
+      {
+        "item": "Paris Prime Upper Limb",
+        "relic": "Neo C9"
+      },
+      {
+        "item": "Paris Prime Blueprint",
+        "relic": "Neo V12"
+      }
+    ],
+    "Perigale Prime": [
+      {
+        "item": "Perigale Prime Receiver",
+        "relic": "Lith T14"
+      },
+      {
+        "item": "Perigale Prime Stock",
+        "relic": "Neo T11"
+      }
+    ],
+    "Athodai Prime": [
+      {
+        "item": "Athodai Prime Blueprint",
+        "relic": "Meso L5"
+      }
+    ],
+    "Fang Prime": [
+      {
+        "item": "Fang Prime Handle",
+        "relic": "Lith T14"
+      },
+      {
+        "item": "Fang Prime Blueprint",
+        "relic": "Neo Y1"
+      }
+    ],
+    "Caliban Prime": [
+      {
+        "item": "Caliban Prime Chassis Blueprint",
+        "relic": "Lith K12"
+      },
+      {
+        "item": "Caliban Prime Blueprint",
+        "relic": "Meso V15"
+      },
+      {
+        "item": "Caliban Prime Chassis Blueprint",
+        "relic": "Meso V15"
+      },
+      {
+        "item": "Caliban Prime Systems Blueprint",
+        "relic": "Neo C8"
+      }
+    ],
+    "Sarofang Prime": [
+      {
+        "item": "Sarofang Prime Blade",
+        "relic": "Axi S20"
+      }
+    ],
+    "Xaku Prime": [
+      {
+        "item": "Xaku Prime Systems Blueprint",
+        "relic": "Axi S20"
+      },
+      {
+        "item": "Xaku Prime Neuroptics Blueprint",
+        "relic": "Axi T13"
+      },
+      {
+        "item": "Xaku Prime Systems Blueprint",
+        "relic": "Lith A12"
+      },
+      {
+        "item": "Xaku Prime Neuroptics Blueprint",
+        "relic": "Meso K8"
+      },
+      {
+        "item": "Xaku Prime Blueprint",
+        "relic": "Meso X1"
+      },
+      {
+        "item": "Xaku Prime Chassis Blueprint",
+        "relic": "Neo C9"
+      },
+      {
+        "item": "Xaku Prime Chassis Blueprint",
+        "relic": "Neo V12"
+      }
+    ],
     "Trumna Prime": [
       {
         "item": "Trumna Prime Barrel",
@@ -598,16 +1120,8 @@
         "relic": "Axi T13"
       },
       {
-        "item": "Gyre Prime Neuroptics Blueprint",
-        "relic": "Lith G14"
-      },
-      {
         "item": "Gyre Prime Blueprint",
         "relic": "Lith Q3"
-      },
-      {
-        "item": "Gyre Prime Systems Blueprint",
-        "relic": "Meso Y2"
       }
     ],
     "Quassus Prime": [
@@ -632,48 +1146,14 @@
         "relic": "Neo V12"
       }
     ],
-    "Valkyr Prime": [
-      {
-        "item": "Valkyr Prime Systems Blueprint",
-        "relic": "Axi V10"
-      },
-      {
-        "item": "Valkyr Prime Blueprint",
-        "relic": "Lith C7"
-      },
-      {
-        "item": "Valkyr Prime Neuroptics Blueprint",
-        "relic": "Meso N11"
-      },
-      {
-        "item": "Valkyr Prime Chassis Blueprint",
-        "relic": "Neo V9"
-      }
-    ],
     "Daikyu Prime": [
       {
         "item": "Daikyu Prime Lower Limb",
         "relic": "Lith A12"
       },
       {
-        "item": "Daikyu Prime String",
-        "relic": "Lith S18"
-      },
-      {
         "item": "Daikyu Prime Blueprint",
         "relic": "Lith T14"
-      },
-      {
-        "item": "Daikyu Prime Grip",
-        "relic": "Meso D8"
-      },
-      {
-        "item": "Daikyu Prime Upper Limb",
-        "relic": "Meso Y2"
-      },
-      {
-        "item": "Daikyu Prime Upper Limb",
-        "relic": "Neo C7"
       },
       {
         "item": "Daikyu Prime Blueprint",
@@ -700,24 +1180,8 @@
         "relic": "Lith K12"
       },
       {
-        "item": "Braton Prime Stock",
-        "relic": "Lith V11"
-      },
-      {
-        "item": "Braton Prime Blueprint",
-        "relic": "Meso D8"
-      },
-      {
-        "item": "Braton Prime Blueprint",
-        "relic": "Meso V13"
-      },
-      {
         "item": "Braton Prime Receiver",
         "relic": "Meso X1"
-      },
-      {
-        "item": "Braton Prime Barrel",
-        "relic": "Neo C7"
       },
       {
         "item": "Braton Prime Barrel",
@@ -728,29 +1192,9 @@
       {
         "item": "Bronco Prime Blueprint",
         "relic": "Lith Q3"
-      },
-      {
-        "item": "Bronco Prime Barrel",
-        "relic": "Meso A12"
-      },
-      {
-        "item": "Bronco Prime Barrel",
-        "relic": "Meso D8"
-      },
-      {
-        "item": "Bronco Prime Receiver",
-        "relic": "Meso V13"
-      },
-      {
-        "item": "Bronco Prime Receiver",
-        "relic": "Meso Y2"
       }
     ],
     "Kestrel Prime": [
-      {
-        "item": "Kestrel Prime Blade",
-        "relic": "Lith S18"
-      },
       {
         "item": "Kestrel Prime Grip",
         "relic": "Meso K8"
@@ -762,20 +1206,8 @@
     ],
     "Yareli Prime": [
       {
-        "item": "Yareli Prime Blueprint",
-        "relic": "Meso D8"
-      },
-      {
         "item": "Yareli Prime Chassis Blueprint",
         "relic": "Meso X1"
-      },
-      {
-        "item": "Yareli Prime Neuroptics Blueprint",
-        "relic": "Meso Y2"
-      },
-      {
-        "item": "Yareli Prime Chassis Blueprint",
-        "relic": "Neo A16"
       },
       {
         "item": "Yareli Prime Blueprint",
@@ -790,7 +1222,5 @@
         "relic": "Neo Y1"
       }
     ]
-  },
-  "added": {},
-  "removed": {}
+  }
 }

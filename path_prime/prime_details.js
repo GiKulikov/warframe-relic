@@ -35,12 +35,15 @@ export async function init() {
   const isWarframe = framesData.frames?.includes(frameName)
     || framesData.sentinels?.includes(frameName);
 
-  const removedItems = new Set((rawPrimes.removed[frameName] || []).map(p => p.item));
+  // Удаляем только конкретные пары item + relic
+const removedSet = new Set(
+  (rawPrimes.removed[frameName] || []).map(p => `${p.item}|||${p.relic}`)
+);
 
-  const allParts = [
-    ...(rawPrimes.current[frameName] || []),
-    ...(rawPrimes.added[frameName] || [])
-  ].filter(p => !removedItems.has(p.item));
+const allParts = [
+  ...(rawPrimes.current[frameName] || []),
+  ...(rawPrimes.added[frameName] || [])
+].filter(p => !removedSet.has(`${p.item}|||${p.relic}`));
 
   const getPartType = (item) => item.split(' ').pop();
 
