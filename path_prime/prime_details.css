@@ -1,4 +1,4 @@
-.container{
+.container {
   position: relative;
   display: flex;
   gap: 20px;
@@ -33,6 +33,7 @@
 .back-link:hover {
   color: #c9b3ff;
 }
+
 /*end*/
 
 /*карточки с ценами*/
@@ -41,7 +42,7 @@
   flex-wrap: wrap;
   gap: 20px;
   color: #fff;
-  
+
 }
 
 
@@ -69,14 +70,16 @@
 
 
 }
-.contForPrice{
+
+.contForPrice {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
-  
+
 }
-.ForPrice{
+
+.ForPrice {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -124,13 +127,14 @@
   flex-wrap: wrap;
   gap: 20px;
   color: #ffffffec;
-  
-  
+
+
 }
+
 .contForCard {
   display: flex;
   flex-direction: column;
-  flex: 1 1  400px;
+  flex: 1 1 400px;
   gap: 10px;
   height: 240px;
   position: relative;
@@ -146,7 +150,7 @@
 
 .contForCard:hover .NamePartHidden {
   opacity: 1;
-  transition: opacity 0.8s ease-in,text-shadow 0.6s ease-in;
+  transition: opacity 0.8s ease-in, text-shadow 0.6s ease-in;
 }
 
 
@@ -183,6 +187,7 @@
 button:hover {
   background: rgba(195, 141, 224, 0.141);
 }
+
 .NamePart {
   display: flex;
   justify-content: space-between;
@@ -216,7 +221,7 @@ button:hover {
   font-size: 50px;
   text-align: center;
   margin-bottom: -20px;
-  text-shadow: -5px 0px 1px rgba(255, 255, 255, 0.719);
+  text-shadow: -4px 0px 1px rgba(255, 255, 255, 0.719);
   opacity: 0;
   z-index: 0;
 }
@@ -235,7 +240,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   transition: transform 0.5s ease;
-  
+
 }
 
 
@@ -243,9 +248,20 @@ button:hover {
   display: flex;
   gap: 10px;
 }
+
 /*end*/
 
+/* Только Firefox */
+@-moz-document url-prefix() {
 
+  .NamePartHidden {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+  }
+}
 
 
 @media (max-width: 524px) {
