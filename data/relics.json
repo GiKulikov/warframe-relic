@@ -18,9 +18,7 @@
     "Axi P10",
     "Axi A22",
     "Axi S8",
-    "Axi A21"
-  ],
-  "added": [
+    "Axi A21",
     "Lith L8",
     "Lith A13",
     "Lith C15",
@@ -36,5 +34,6 @@
     "Neo C10",
     "Axi S21",
     "Axi C12"
-  ]
+  ],
+  "added": []
 }
