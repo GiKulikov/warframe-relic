@@ -303,7 +303,7 @@ export async function init() {
           if (primes.current[name] === undefined && primes.removed[name] === undefined) {
             boolNew = true;
 
-          } else if (primes.current[name] !== undefined && primes.added[name] !== undefined || primes.removed[name] !== undefined) {
+          } else if (primes.current[name] !== undefined && primes.added[name] !== undefined) {
             boolupdate = true;
           }
           const isFrameEntity = framesData.frames?.includes(name) || framesData.sentinels?.includes(name);
