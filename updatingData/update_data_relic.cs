@@ -358,17 +358,19 @@ namespace updatingDataRelic
                 foreach (var prop in item.Value.EnumerateArray())
                 {
                     var relic = prop.GetProperty("relic").GetString()!;
-                    lastRelic.Add(relic);
+                    lastRelic.Add(relic+" Relic");
 
                 }
 
 
+
             }
+           
 
             return !newRelic.SetEquals(lastRelic);
         }
 
-        
+
     }
     //сравнивание 
     class JsonDataBuilder
@@ -637,9 +639,9 @@ namespace updatingDataRelic
         {
             var json = await File.ReadAllTextAsync(_varziaJson);
             var node = JsonNode.Parse(json);
-        
+
             node!["status"] = "NotUpdated";
-             await File.WriteAllTextAsync(_varziaJson, JsonSerializer.Serialize(node, options));
+            await File.WriteAllTextAsync(_varziaJson, JsonSerializer.Serialize(node, options));
 
         }
         public async Task RecordRelicJson()
