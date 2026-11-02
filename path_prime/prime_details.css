@@ -215,13 +215,18 @@ button:hover {
 }
 
 .NamePartHidden {
-  display: flex;
-  justify-content: center;
   font-family: 'Major Mono Cyrillic', sans-serif;
   font-size: 50px;
   text-align: center;
   margin-bottom: -20px;
   text-shadow: -4px 0px 1px rgba(255, 255, 255, 0.719);
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 20px;
+
   opacity: 0;
   z-index: 0;
 }
@@ -251,17 +256,7 @@ button:hover {
 
 /*end*/
 
-/* Только Firefox */
-@-moz-document url-prefix() {
 
-  .NamePartHidden {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-
-  }
-}
 
 
 @media (max-width: 524px) {

@@ -66,7 +66,7 @@ function setPage(page) {
 
     case "home/home":
       document.title =
-        "Warframe Relic | " + dict.general.navigation.home;
+        "Warframe Relic"
 
       document.querySelector(
         'meta[name="description"]'
@@ -113,7 +113,7 @@ function setPage(page) {
 
     case "path_prime/primes":
       document.title =
-        "Warframe Relic" + " | " + dict.general.navigation.menu_current_prime_parts;
+        dict.general.navigation.menu_current_prime_parts;
 
       document.querySelector(
         'meta[name="description"]'
@@ -124,7 +124,7 @@ function setPage(page) {
 
     case "path_varzia_relic/varzia_relics":
       document.title =
-        "Warframe Relic" + " | " + dict.general.navigation.menu_current_varzia_relics;
+        dict.general.navigation.menu_current_varzia_relics;
 
       document.querySelector(
         'meta[name="description"]'
@@ -135,7 +135,7 @@ function setPage(page) {
 
     case "path_actual_relics/actual_relics":
       document.title =
-        "Warframe Relic" + " | " + dict.general.navigation.menu_actual_relics;
+       dict.general.navigation.menu_actual_relics;
 
       document.querySelector(
         'meta[name="description"]'

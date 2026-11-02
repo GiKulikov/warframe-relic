@@ -8,7 +8,6 @@
     "type_relic": "All",
     "type_filter": "Type of relic:",
     "cost_parts": "Cost of Parts"
-
   },
   "navigation": {
     "home": "Home",
@@ -37,9 +36,6 @@
     "buy_part": "Buy a part",
     "buy_relic": "Buy a relic",
     "source_relic": "Source of relic",
-
-
-    
     "buy_price": "Buy Price",
     "sell_price": "Sell Price",
     "trade_volume": "Trade Volume",
@@ -52,11 +48,11 @@
     "prime_details": "Parts | {name}"
   },
   "meta": {
-    "home": "Track current Prime parts, relic rotations, and Varzia offerings. Stay updated with the latest Warframe content.",
-    "primes": "Browse the complete catalog of available Warframe Prime parts and discover required components for Prime equipment.",
-    "varzia_relics": "Check current Varzia relic rotations and discover available Prime rewards and vaulted content.",
-    "actual_relics": "View all currently active Warframe relics including Lith, Meso, Neo, and Axi rotations.",
-    "prime_details": "View all {name} Prime parts, required components, and related relic information in Warframe.",
-    "varzia_details": "Explore rewards, Prime parts, and drop information available from {name} relic in Warframe."
+    "home": "Track current Prime parts, relic rotations, and Varzia's offers. Get up-to-date information on Warframe.",
+    "primes": "Browse the full catalog of available Warframe Prime parts and find components for crafting Prime gear.",
+    "varzia_relics": "Check Varzia's current Vaulted relic rotations.",
+    "actual_relics": "Browse all active Warframe relics, including Lith, Meso, Neo, and Axi rotations.",
+    "prime_details": "View all {name} parts and their prices.",
+    "varzia_details": "View all {name} parts currently available from Varzia and their prices."
   }
 }

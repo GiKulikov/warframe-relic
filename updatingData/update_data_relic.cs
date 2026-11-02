@@ -613,12 +613,13 @@ namespace updatingDataRelic
         {
             var jsonData = await File.ReadAllTextAsync(_varziaJson);
             var obj = JsonNode.Parse(jsonData)!.AsObject();
-            var endDate = obj["varziaPeriod"]!["endDate"]!.GetValue<string>();
-            var parseEndDate = DateTime.Parse(endDate);
-
-            return parseEndDate;
-
-
+            var endDate = obj["varziaPeriod"]?["endDate"]?.GetValue<string>();
+            if(endDate != null)
+            {
+                 var parseEndDate = DateTime.Parse(endDate);
+                 return parseEndDate;
+            }
+            return DateTime.Now;
         }
     }
     //запись 

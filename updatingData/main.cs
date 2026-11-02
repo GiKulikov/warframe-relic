@@ -33,7 +33,7 @@ var updateVarzia = await dateService.ReadingDateVarzia();
 
 
 
-if (DateTime.Now > updateVarzia)
+if (DateTime.Now >= updateVarzia)
 {
     Console.WriteLine("Проверка наличия обновлений реликвий варзии");
 
@@ -59,7 +59,7 @@ if (DateTime.Now > updateVarzia)
 else
 {
     TimeSpan diff = updateVarzia - DateTime.Now;
-    Console.WriteLine("Осталось до варзии: " + diff.Hours + " ч");
+    Console.WriteLine("Осталось до варзии: " + diff.Days + " д");
 
 }
 
