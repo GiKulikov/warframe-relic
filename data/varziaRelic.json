@@ -1,140 +1,143 @@
 {
-  "status": "NotUpdated",
-  "varziaPeriod": { },
-  "Aksomati Prime": [
+  "status": "Update",
+  "varziaPeriod": {
+    "startDate": "2026-10-29T18:00:00.000Z",
+    "endDate": "2026-11-26T18:00:00.000Z"
+  },
+  "Nidus Prime": [
     {
-      "item": "Aksomati Prime Link",
-      "relic": "Axi A23"
+      "item": "Nidus Prime Chassis Blueprint",
+      "relic": "Axi N12"
     },
     {
-      "item": "Aksomati Prime Receiver",
-      "relic": "Lith B12"
+      "item": "Nidus Prime Blueprint",
+      "relic": "Lith S17"
     },
     {
-      "item": "Aksomati Prime Blueprint",
-      "relic": "Meso I3"
+      "item": "Nidus Prime Systems Blueprint",
+      "relic": "Neo N19"
     },
     {
-      "item": "Aksomati Prime Barrel",
-      "relic": "Neo P11"
+      "item": "Nidus Prime Neuroptics Blueprint",
+      "relic": "Neo S19"
     }
   ],
-  "Protea Prime": [
+  "Saryn Prime": [
     {
-      "item": "Protea Prime Neuroptics Blueprint",
-      "relic": "Axi A23"
+      "item": "Saryn Prime Blueprint",
+      "relic": "Axi N12"
     },
     {
-      "item": "Protea Prime Systems Blueprint",
-      "relic": "Meso I3"
+      "item": "Saryn Prime Chassis Blueprint",
+      "relic": "Lith S17"
     },
     {
-      "item": "Protea Prime Blueprint",
-      "relic": "Neo O4"
+      "item": "Saryn Prime Systems Blueprint",
+      "relic": "Meso M5"
     },
     {
-      "item": "Protea Prime Chassis Blueprint",
-      "relic": "Neo P11"
+      "item": "Saryn Prime Neuroptics Blueprint",
+      "relic": "Neo S19"
     }
   ],
-  "Burston Prime": [
+  "Strun Prime": [
     {
-      "item": "Burston Prime Barrel",
-      "relic": "Axi A23"
+      "item": "Strun Prime Barrel",
+      "relic": "Axi N12"
     },
     {
-      "item": "Burston Prime Stock",
-      "relic": "Axi A23"
+      "item": "Strun Prime Stock",
+      "relic": "Meso M5"
     },
     {
-      "item": "Burston Prime Blueprint",
-      "relic": "Meso I3"
+      "item": "Strun Prime Blueprint",
+      "relic": "Neo S19"
     },
     {
-      "item": "Burston Prime Stock",
-      "relic": "Meso V16"
-    },
-    {
-      "item": "Burston Prime Receiver",
-      "relic": "Neo P11"
+      "item": "Strun Prime Receiver",
+      "relic": "Neo S19"
     }
   ],
-  "Velox Prime": [
+  "Nikana Prime": [
     {
-      "item": "Velox Prime Receiver",
-      "relic": "Axi A23"
+      "item": "Nikana Prime Blueprint",
+      "relic": "Axi N12"
     },
     {
-      "item": "Velox Prime Blueprint",
-      "relic": "Lith B12"
+      "item": "Nikana Prime Blade",
+      "relic": "Meso S15"
     },
     {
-      "item": "Velox Prime Barrel",
-      "relic": "Meso V16"
+      "item": "Nikana Prime Hilt",
+      "relic": "Neo N19"
     }
   ],
-  "Baza Prime": [
+  "Paris Prime": [
     {
-      "item": "Baza Prime Stock",
-      "relic": "Lith B12"
+      "item": "Paris Prime String",
+      "relic": "Axi N12"
     },
     {
-      "item": "Baza Prime Blueprint",
-      "relic": "Meso I3"
+      "item": "Paris Prime Lower Limb",
+      "relic": "Lith S17"
     },
     {
-      "item": "Baza Prime Receiver",
-      "relic": "Meso V16"
+      "item": "Paris Prime Grip",
+      "relic": "Meso S15"
     },
     {
-      "item": "Baza Prime Barrel",
-      "relic": "Neo O4"
-    }
-  ],
-  "Ivara Prime": [
-    {
-      "item": "Ivara Prime Blueprint",
-      "relic": "Lith B12"
+      "item": "Paris Prime Upper Limb",
+      "relic": "Neo N19"
     },
     {
-      "item": "Ivara Prime Chassis Blueprint",
-      "relic": "Meso I3"
-    },
-    {
-      "item": "Ivara Prime Systems Blueprint",
-      "relic": "Meso V16"
-    },
-    {
-      "item": "Ivara Prime Neuroptics Blueprint",
-      "relic": "Neo O4"
+      "item": "Paris Prime Blueprint",
+      "relic": "Neo S19"
     }
   ],
   "Braton Prime": [
     {
-      "item": "Braton Prime Barrel",
-      "relic": "Lith B12"
+      "item": "Braton Prime Blueprint",
+      "relic": "Lith S17"
     },
     {
-      "item": "Braton Prime Blueprint",
-      "relic": "Neo O4"
+      "item": "Braton Prime Stock",
+      "relic": "Meso M5"
+    },
+    {
+      "item": "Braton Prime Barrel",
+      "relic": "Meso S15"
     },
     {
       "item": "Braton Prime Receiver",
-      "relic": "Neo P11"
+      "relic": "Neo N19"
     }
   ],
-  "Okina Prime": [
+  "Spira Prime": [
     {
-      "item": "Okina Prime Handle",
-      "relic": "Meso V16"
+      "item": "Spira Prime Blueprint",
+      "relic": "Lith S17"
     },
     {
-      "item": "Okina Prime Blueprint",
-      "relic": "Neo O4"
+      "item": "Spira Prime Blade",
+      "relic": "Meso M5"
     },
     {
-      "item": "Okina Prime Blade",
-      "relic": "Neo P11"
+      "item": "Spira Prime Pouch",
+      "relic": "Meso S15"
+    }
+  ],
+  "Magnus Prime": [
+    {
+      "item": "Magnus Prime Barrel",
+      "relic": "Meso M5"
+    },
+    {
+      "item": "Magnus Prime Blueprint",
+      "relic": "Meso S15"
+    },
+    {
+      "item": "Magnus Prime Receiver",
+      "relic": "Neo N19"
     }
   ]
 }
