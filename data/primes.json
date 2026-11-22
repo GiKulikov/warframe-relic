@@ -46,6 +46,10 @@
       {
         "item": "Voruna Prime Systems Blueprint",
         "relic": "Meso V17"
+      },
+      {
+        "item": "Voruna Prime Chassis Blueprint",
+        "relic": "Axi C13"
       }
     ],
     "Cedo Prime": [
@@ -372,6 +376,10 @@
       {
         "item": "Caliban Prime Neuroptics Blueprint",
         "relic": "Neo C7"
+      },
+      {
+        "item": "Caliban Prime Neuroptics Blueprint",
+        "relic": "Axi C13"
       }
     ],
     "Braton Prime": [
@@ -398,6 +406,10 @@
       {
         "item": "Braton Prime Barrel",
         "relic": "Neo C7"
+      },
+      {
+        "item": "Braton Prime Receiver",
+        "relic": "Axi C13"
       }
     ],
     "Sarofang Prime": [
@@ -416,6 +428,10 @@
       {
         "item": "Sarofang Prime Handle",
         "relic": "Neo V13"
+      },
+      {
+        "item": "Sarofang Prime Handle",
+        "relic": "Axi C13"
       }
     ],
     "Bronco Prime": [
@@ -442,6 +458,10 @@
       {
         "item": "Bronco Prime Blueprint",
         "relic": "Neo K10"
+      },
+      {
+        "item": "Bronco Prime Barrel",
+        "relic": "Axi C13"
       }
     ],
     "Orthos Prime": [
@@ -652,6 +672,10 @@
       {
         "item": "Gyre Prime Systems Blueprint",
         "relic": "Meso Y2"
+      },
+      {
+        "item": "Gyre Prime Systems Blueprint",
+        "relic": "Neo K10"
       }
     ],
     "Scindo Prime": [
@@ -791,43 +815,6 @@
       }
     ]
   },
-  "added": {
-    "Voruna Prime": [
-      {
-        "item": "Voruna Prime Chassis Blueprint",
-        "relic": "Axi C13"
-      }
-    ],
-    "Caliban Prime": [
-      {
-        "item": "Caliban Prime Neuroptics Blueprint",
-        "relic": "Axi C13"
-      }
-    ],
-    "Braton Prime": [
-      {
-        "item": "Braton Prime Receiver",
-        "relic": "Axi C13"
-      }
-    ],
-    "Sarofang Prime": [
-      {
-        "item": "Sarofang Prime Handle",
-        "relic": "Axi C13"
-      }
-    ],
-    "Bronco Prime": [
-      {
-        "item": "Bronco Prime Barrel",
-        "relic": "Axi C13"
-      }
-    ],
-    "Gyre Prime": [
-      {
-        "item": "Gyre Prime Systems Blueprint",
-        "relic": "Neo K10"
-      }
-    ]
-  },
+  "added": {},
   "removed": {}
 }
