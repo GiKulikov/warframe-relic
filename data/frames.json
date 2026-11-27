@@ -9,6 +9,8 @@
     "Nyx Prime",
     "Valkyr Prime",
     "Yareli Prime",
+    "Hydroid Prime",
+    "Sevagoth Prime",
     "Nidus Prime",
     "Saryn Prime",
     "Protea Prime",
@@ -33,7 +35,6 @@
     "Grendel Prime",
     "Harrow Prime",
     "Hildryn Prime",
-    "Hydroid Prime",
     "Inaros Prime",
     "Khora Prime",
     "Limbo Prime",
@@ -46,7 +47,6 @@
     "Oberon Prime",
     "Octavia Prime",
     "Rhino Prime",
-    "Sevagoth Prime",
     "Trinity Prime",
     "Vauban Prime",
     "Volt Prime",
@@ -54,10 +54,10 @@
     "Zephyr Prime"
   ],
   "sentinels": [
+    "Nautilus Prime",
     "Helios Prime",
     "Carrier Prime",
     "Dethcube Prime",
-    "Nautilus Prime",
     "Wyrm Prime"
   ]
 }
